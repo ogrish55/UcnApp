@@ -2,9 +2,9 @@
   <div>
     <h1>User:</h1>
     <div v-if="info">
-      <p>Name: {{ info.name }}</p>
+      <p>Name: {{ info.firstName }}</p>
       <p>Email: {{ info.email }}</p>
-      <p>Phone: {{ info.phone }}</p>
+      <p>Phone: {{ info.phoneNumber }}</p>
     </div>
     <button style="width: 150px" type="button" class="btn-primary btn" @click="goBack()"> Back</button>
   </div>
