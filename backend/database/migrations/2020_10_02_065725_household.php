@@ -11,7 +11,7 @@ class Household extends Migration
         Schema::create('household', function (Blueprint $table) {
             $table->string('householdID')->primary();
             $table->integer('userID');
-            $table->foreign('userID')->references('userID')->on('user');
+            $table->foreign('userID')->references('userID')->on('users');
         });
     }
 
