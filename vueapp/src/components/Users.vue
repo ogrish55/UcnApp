@@ -4,12 +4,12 @@
       <div style="background-color: beige" class="big-border">
         <h1 style="padding-bottom: 40px">Users</h1>
         <ul>
-          <li style="margin-top: 1px" class="user-border" v-for="person in info" :key="person.name">
-            Name: {{ person.name }}
+          <li style="margin-top: 1px" class="user-border" v-for="person in info" :key="person.firstName">
+            Name: {{ person.firstName }}
             <br>
             Email: {{ person.email }}
             <br>
-            Phone: {{ person.phone }}
+            Phone: {{ person.phoneNumber }}
             <br>
             <br>
           </li>
@@ -21,11 +21,11 @@
         <h1> Add User </h1>
         <div style="margin: 0 10px 0 10px">
           <div style="margin-bottom: 3px">
-            <input type="text" placeholder="Name.." v-model="name">
+            <input type="text" placeholder="Name.." v-model="firstName">
             <input type="email" placeholder="Email.." v-model="email">
           </div>
           <div>
-            <input type="tel" placeholder="Phone.." v-model="phone">
+            <input type="tel" placeholder="Phone.." v-model="phoneNumber">
             <input type="password" placeholder="Password.." v-model="password">
           </div>
         </div>
@@ -53,9 +53,9 @@ export default {
     return {
       info: null,
       errors: [],
-      name: null,
+      firstName: null,
       email: null,
-      phone: null,
+      phoneNumber: null,
       password: null
     }
   },
@@ -71,15 +71,16 @@ export default {
         })
     },
     checkForm: function (e) {
-      if (this.name && this.phone && this.email && this.password) {
+      if (this.firstName && this.phoneNumber && this.email && this.password) {
         console.log('Validation true')
         axios({
           method: 'post',
           url: 'http://localhost:8000/api/users/',
           data: {
-            name: this.name,
+            firstName: this.firstName,
+            lastName: 'Test',
             email: this.email,
-            phone: this.phone,
+            phoneNumber: this.phoneNumber,
             password: this.password
           }
         })
@@ -94,13 +95,13 @@ export default {
 
       this.errors = []
 
-      if (!this.name) {
+      if (!this.firstName) {
         this.errors.push('Name required.')
       }
       if (!this.email) {
         this.errors.push('Email required.')
       }
-      if (!this.phone) {
+      if (!this.phoneNumber) {
         this.errors.push('Phone required.')
       }
       if (!this.password) {
