@@ -13,8 +13,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-
-        $this->call(UserTableSeeder::class);
-        // User::factory(10)->create();
+        $this->call(HouseholdSeeder::class);
+        $this->call(DeviceSeeder::class);
+        $this->call(MeasurementSeeder::class);
+        $this->call(UserSeeder::class);
     }
 }
