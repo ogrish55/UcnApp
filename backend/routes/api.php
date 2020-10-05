@@ -25,3 +25,5 @@ Route::get('users', 'App\Http\Controllers\UserController@get');
 Route::get('users/{id}', 'App\Http\Controllers\UserController@getSingle');
 Route::delete('users/{id}', 'App\Http\Controllers\UserController@delete');
 Route::put('users/{id}', 'App\Http\Controllers\UserController@update');
+Route::get('measurement/{id}', 'App\Http\Controllers\MeasurementController@measurement');
+
