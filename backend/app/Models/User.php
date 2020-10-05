@@ -12,10 +12,14 @@ class User extends Authenticatable
     use HasFactory, Notifiable;
 
 
+
     public function household()
     {
         return $this->hasOne('App\Models\Household');
     }
+
+
+    protected $primaryKey = 'userID';
 
 
     /**

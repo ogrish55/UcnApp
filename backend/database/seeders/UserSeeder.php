@@ -17,7 +17,7 @@ class UserSeeder extends Seeder
     {
         $faker = Faker::create();
         for($i=1; $i <= 24; $i++){
-            DB::table('user')->insert([
+            DB::table('users')->insert([
                 'userID' => $i,
                 'firstName' => $faker->firstName,
                 'lastName' => $faker->lastName,
