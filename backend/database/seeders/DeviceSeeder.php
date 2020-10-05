@@ -11,7 +11,7 @@ class DeviceSeeder extends CsvSeeder
 
     public function __construct()
     {
-        $this->table = 'device';
+        $this->table = 'devices';
         $this->filename = base_path().'/database/seeds/csvs/device.csv';
     }
 

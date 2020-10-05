@@ -8,7 +8,7 @@ class Household extends Migration
 {
     public function up()
     {
-        Schema::create('household', function (Blueprint $table) {
+        Schema::create('households', function (Blueprint $table) {
             $table->string('householdID')->primary();
             $table->integer('userID');
             $table->foreign('userID')->references('userID')->on('users');
@@ -22,6 +22,6 @@ class Household extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('household');
+        Schema::dropIfExists('households');
     }
 }

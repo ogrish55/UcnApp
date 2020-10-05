@@ -8,9 +8,9 @@ class Measurement extends Migration
 {
     public function up()
     {
-        Schema::create('measurement', function (Blueprint $table) {
+        Schema::create('measurements', function (Blueprint $table) {
             $table->string('deviceID');
-            $table->foreign('deviceID')->references('deviceID')->on('device');
+            $table->foreign('deviceID')->references('deviceID')->on('devices');
             $table->string('meterType');
             $table->string('readingType');
             $table->string('measurement');
@@ -25,6 +25,6 @@ class Measurement extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('measurement');
+        Schema::dropIfExists('measurements');
     }
 }

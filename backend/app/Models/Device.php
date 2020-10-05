@@ -9,7 +9,7 @@ use Illuminate\Notifications\Notifiable;
 class Device extends Model
 {
     public function household(){
-        return $this->belongsTo('App\Models\Device');
+        return $this->belongsTo('App\Models\Household');
     }
 
     public function measurement(){
