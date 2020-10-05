@@ -8,6 +8,10 @@ use Illuminate\Notifications\Notifiable;
 
 class Measurement extends Model
 {
+    public function device(){
+        return $this->belongsTo('App\Models\Device');
+    }
+
     use HasFactory, Notifiable;
 
     /**

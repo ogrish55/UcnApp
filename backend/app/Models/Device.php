@@ -8,6 +8,14 @@ use Illuminate\Notifications\Notifiable;
 
 class Device extends Model
 {
+    public function household(){
+        return $this->belongsTo('App\Models\Device');
+    }
+
+    public function measurement(){
+        return $this->hasMany('App\Models\Measurement');
+    }
+
     use HasFactory, Notifiable;
 
     /**

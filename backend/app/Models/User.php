@@ -11,6 +11,13 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
+
+    public function household()
+    {
+        return $this->hasOne('App\Models\Household');
+    }
+
+
     /**
      * The attributes that are mass assignable.
      *
