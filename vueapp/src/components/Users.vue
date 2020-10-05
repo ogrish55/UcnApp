@@ -4,7 +4,7 @@
       <div style="background-color: beige" class="big-border">
         <h1 style="padding-bottom: 40px">Users</h1>
         <ul>
-          <li style="margin-top: 1px" class="user-border" v-for="person in info" :key="person.firstName">
+          <li style="margin-top: 1px" class="user-border" v-for="person in info" :key="person.email">
             Name: {{ person.firstName }}
             <br>
             Email: {{ person.email }}
@@ -88,7 +88,6 @@ export default {
           .catch(err => {
             console.log(err)
           })
-        //  this.fetchUsers()
       } else {
         console.log('Validation failed')
       }
@@ -111,10 +110,9 @@ export default {
   },
 
   mounted () {
-    axios
-      .get('http://localhost:8000/api/users/')
-      .then(response => (this.info = response.data))
+    this.fetchUsers()
   }
+
 }
 </script>
 <style scoped>
