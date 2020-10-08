@@ -16,12 +16,14 @@
   "dependencies": {
     "axios": "^0.20.0",
     "bootstrap": "^4.5.2",
+    "chart.js": "^2.9.3",
     "jquery": "^3.5.1",
     "popper.js": "^1.16.1",
     "vue": "^2.5.2",
+    "vue-chartjs": "^3.5.1",
     "vue-router": "^3.0.1"
   },
-  "devDependencies": {
+  "devDependencies": {tch
     "autoprefixer": "^7.1.2",
     "babel-core": "^6.22.1",
     "babel-eslint": "^8.2.1",
