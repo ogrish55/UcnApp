@@ -13,15 +13,15 @@ class MeasurementController extends Controller
         SELECT * FROM measurements WHERE deviceID = (
         SELECT deviceID FROM devices
         WHERE householdID = (
-        SELECT householdID FROM Households
+        SELECT householdID FROM households
         WHERE userID = :id
         ) LIMIT 1,1 )', ['id' => $id]);
 
-        dd($results);
+//        dd($results);
 
-//        return response()->json([
-//           $results
-//        ]);
+        return response()->json([
+           $results
+        ]);
     }
 
 }
