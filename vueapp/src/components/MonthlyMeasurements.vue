@@ -1,0 +1,71 @@
+<template>
+  <div class="container" id="chart" v-if="reader">
+    <line-chart :chart-data="datacollection" :options="chartOptions"></line-chart>
+  </div>
+</template>
+
+<script>
+import LineChart from './LineChart'
+import axios from 'axios'
+
+export default {
+  name: 'MonthlyMeasurements',
+  components: {LineChart},
+
+  data () {
+    return {
+      datacollection: null,
+      measurements: [],
+      timeOfReader: [],
+      reader: null,
+      chartOptions: {
+        animation: {
+          duration: 0
+        },
+        hover: {
+          animationDuration: 0
+        },
+        responsiveAnimationDuration: 0
+      }
+    }
+  },
+  mounted () {
+    this.apiCalls()
+  },
+
+  methods: {
+    fillData () {
+      this.datacollection = {
+        labels: this.timeOfReader, // ['13-05-2019', '14-05-2019', '15-05-2019', '16-05-2019', '17-05-2019'], // Time of read
+        datasets: [
+          {
+            label: 'Hot water',
+            backgroundColor: '#f87979',
+            data: this.measurements
+          }
+        ]
+      }
+    },
+    getDataFromReader () {
+      let keys = Object.keys(this.reader)
+      keys.forEach(key => {
+        this.measurements.push(this.reader[key].value)
+        this.timeOfReader.push(this.reader[key].date.date)
+      })
+      this.timeOfReader = this.timeOfReader.map(x => x.substr(0, 10))
+    },
+    apiCalls () {
+      axios
+        .get('http://localhost:8000/api/data/' + this.$route.params.userId + '/monthlyMeasurements')
+        .then(response => (this.reader = response.data[0]))
+        .then(response => (this.getDataFromReader()))
+        .then(this.fillData)
+    }
+  }
+}
+
+</script>
+
+<style scoped>
+
+</style>

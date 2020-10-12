@@ -6,11 +6,15 @@
       <p>Email: {{ info.email }}</p>
       <p>Phone: {{ info.phoneNumber }}</p>
     </div>
-    <div class="container" id="chart" v-if="reader">
-      <line-chart :chart-data="datacollection" :options="chartOptions"></line-chart>
-    </div>
+    <!--    <div class="container" id="chart" v-if="reader">-->
+    <!--      <line-chart :chart-data="datacollection" :options="chartOptions"></line-chart>-->
+    <!--    </div>-->
     <div>
       <button style="width: 150px" type="button" class="btn-primary btn" @click="goBack()"> Back</button>
+      <button @click="submit()" type="button" class="btn-primary btn">Monthly Measurements</button>
+    </div>
+    <div v-if="monthly">
+      <MonthlyMeasurements></MonthlyMeasurements>
     </div>
   </div>
 </template>
@@ -19,13 +23,15 @@
 import axios from 'axios'
 import HelloWorld from './HelloWorld'
 import LineChart from './LineChart'
+import MonthlyMeasurements from './MonthlyMeasurements'
 
 export default {
   name: 'SingleUser',
-  components: {LineChart, HelloWorld},
+  components: {MonthlyMeasurements, LineChart, HelloWorld},
   data () {
     return {
       info: null,
+      monthly: false,
       datacollection: null,
       measurements: [],
       timeOfReader: [],
@@ -73,6 +79,13 @@ export default {
         .then(response => (this.reader = response.data[0]))
         .then(response => (this.getDataFromReader()))
         .then(this.fillData)
+    },
+    submit () {
+      if (this.monthly) {
+        this.monthly = false
+      } else {
+        this.monthly = true
+      }
     }
   }
 }

@@ -4,6 +4,7 @@ import HelloWorld from '@/components/HelloWorld'
 import Users from '@/components/Users'
 import SingleUser from '../components/SingleUser'
 import Pricing from '../components/Pricing'
+import MonthlyMeasurements from '../components/MonthlyMeasurements'
 Vue.use(Router)
 
 export default new Router({
@@ -26,6 +27,11 @@ export default new Router({
     {
       path: '/pricing',
       component: Pricing
+    },
+    {
+      path: '/user/:userId/monthly',
+      name: 'monthly',
+      component: MonthlyMeasurements
     }
   ],
   mode: 'history'

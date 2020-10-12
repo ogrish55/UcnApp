@@ -110,7 +110,9 @@ class DataController extends Controller
              }
         }
 
-        return $monthlyMeasurements;
+        return response()->json([
+            $monthlyMeasurements
+        ]);
     }
 
     /**
