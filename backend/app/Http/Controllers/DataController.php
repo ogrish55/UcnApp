@@ -35,13 +35,13 @@ class DataController extends Controller
     public function GetDataUser(Request $request, $id)
     {
         // SQL query til at få fat på alle målinger for en bruger
-        $result = DB::select('SELECT measurement, value FROM measurement 
+        $result = DB::select('SELECT measurement, value FROM measurements
         WHERE deviceID = (
-            SELECT deviceID FROM device
+            SELECT deviceID FROM devices
             WHERE householdID = (
-                SELECT householdID FROM household
+                SELECT householdID FROM households
                 WHERE userID = ?
-        
+
             )
             LIMIT 1, 1
         )', [$id]);
@@ -86,7 +86,7 @@ class DataController extends Controller
     public function GetMonthlyMeasurements(Request $request, $id)
     {
         $values = $this->GetDataUser($request, $id);
-        
+
         // find frem til sidste dato i måneden og vælg den seneste værdi og smid over i nyt array
         $onePerMonth = [];
 
@@ -132,7 +132,7 @@ class DataController extends Controller
             $newObject = new DataStore;
             $newObject->date = $data->date;
             $newObject->value = $data->value - $startValue; // tager målingen og minusser med sidste måneds måling for at få det faktiske forbrug
-            
+
             $startValue = $data->value; // sætter startValue til at være dette måneds værdi så den kan bruges i næste iteration
 
             $actualConsumption[$i] = $newObject;

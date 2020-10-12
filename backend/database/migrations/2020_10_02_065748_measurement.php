@@ -26,5 +26,6 @@ class Measurement extends Migration
     public function down()
     {
         Schema::dropIfExists('measurements');
+        Schema::dropIfExists('measurement');
     }
 }

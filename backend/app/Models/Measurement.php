@@ -8,7 +8,7 @@ use Illuminate\Notifications\Notifiable;
 
 class Measurement extends Model
 {
-    public $table = 'measurement';
+    public $table = 'measurements';
 
     public function device(){
         return $this->belongsTo('App\Models\Device');
