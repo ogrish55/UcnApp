@@ -11,7 +11,7 @@ class Device extends Model
     public $table = 'device';
 
     public function household(){
-        return $this->belongsTo('App\Models\Device');
+        return $this->belongsTo('App\Models\Household');
     }
 
     public function measurement(){

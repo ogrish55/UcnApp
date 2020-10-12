@@ -9,7 +9,7 @@ class MeasurementSeeder extends CsvSeeder
 {
     public function __construct()
     {
-        $this->table = 'measurement';
+        $this->table = 'measurements';
         $this->filename = base_path().'/database/seeds/csvs/measurement.csv';
     }
 

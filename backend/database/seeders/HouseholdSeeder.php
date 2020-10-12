@@ -9,7 +9,7 @@ class HouseholdSeeder extends CsvSeeder
 {
     public function __construct()
     {
-        $this->table = 'household';
+        $this->table = 'households';
         $this->filename = base_path().'/database/seeds/csvs/household.csv';
     }
 
