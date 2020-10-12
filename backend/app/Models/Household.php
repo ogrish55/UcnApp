@@ -8,6 +8,7 @@ use Illuminate\Notifications\Notifiable;
 
 class Household extends Model
 {
+    public $table = 'household';
 
     public function device()
     {
