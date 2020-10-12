@@ -8,6 +8,8 @@ use Illuminate\Notifications\Notifiable;
 
 class Device extends Model
 {
+    public $table = 'device';
+
     public function household(){
         return $this->belongsTo('App\Models\Device');
     }
