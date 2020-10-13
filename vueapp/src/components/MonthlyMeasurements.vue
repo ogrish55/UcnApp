@@ -19,15 +19,16 @@ export default {
       measurements: [],
       timeOfReader: [],
       reader: null,
-      chartOptions: {
-        animation: {
-          duration: 0
-        },
-        hover: {
-          animationDuration: 0
-        },
-        responsiveAnimationDuration: 0
-      }
+      chartOptions: null
+      // chartOptions: {
+      //   animation: {
+      //     duration: 0
+      //   },
+      //   hover: {
+      //     animationDuration: 0
+      //   },
+      //   responsiveAnimationDuration: 0
+      // }
     }
   },
   mounted () {
