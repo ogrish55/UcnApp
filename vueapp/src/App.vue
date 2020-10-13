@@ -34,7 +34,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  background-color: cyan;
   height: 100vh;
   overflow: auto;
 }

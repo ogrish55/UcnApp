@@ -5,7 +5,7 @@
       <div class="leftArrow">
         <button @click="goPrevious()" type="button" class="btn btn-info"> Previous</button>
       </div>
-      <div v-if="info">
+      <div v-if="info" style="text-align: start">
         <p>Name: {{ info.firstName }}</p>
         <p>Email: {{ info.email }}</p>
         <p>Phone: {{ info.phoneNumber }}</p>
@@ -22,11 +22,13 @@
       <button @click="monthlySubmit()" type="button" class="btn-primary btn">Monthly Measurements</button>
       <button @click="consumptionSubmit()" type="button" class="btn-primary btn">Monthly Consumption</button>
     </div>
-    <div v-if="monthly">
-      <MonthlyMeasurements></MonthlyMeasurements>
-    </div>
-    <div v-if="consumption">
-      <Consumption></Consumption>
+    <div style="display: flex; justify-content: center">
+      <div v-if="monthly" class="displayGraph">
+        <MonthlyMeasurements></MonthlyMeasurements>
+      </div>
+      <div v-if="consumption" class="displayGraph">
+        <Consumption></Consumption>
+      </div>
     </div>
   </div>
 </template>

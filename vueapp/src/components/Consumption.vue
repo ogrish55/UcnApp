@@ -1,5 +1,5 @@
 <template>
-  <div class="container" id="chart" v-if="reader">
+  <div class="chart-container" id="chart" v-if="reader">
     <line-chart :chart-data="datacollection" :options="chartOptions"></line-chart>
   </div>
 </template>
