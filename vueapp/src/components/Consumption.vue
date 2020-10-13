@@ -1,6 +1,6 @@
 <template>
   <div class="chart-container" id="chart" v-if="reader">
-    <line-chart :chart-data="datacollection" :options="chartOptions"></line-chart>
+    <line-chart v-if="ready" :chart-data="datacollection" :options="chartOptions"></line-chart>
   </div>
 </template>
 
@@ -14,6 +14,7 @@ export default {
 
   data () {
     return {
+      ready: false,
       datacollection: null,
       measurements: [],
       timeOfReader: [],
@@ -45,6 +46,7 @@ export default {
           }
         ]
       }
+      this.ready = true
     },
     getDataFromReader () {
       let keys = Object.keys(this.reader)
