@@ -9,7 +9,7 @@ import LineChart from './LineChart'
 import axios from 'axios'
 
 export default {
-  name: 'MonthlyMeasurements',
+  name: 'Consumption',
   components: {LineChart},
 
   data () {
@@ -56,8 +56,8 @@ export default {
     },
     apiCalls () {
       axios
-        .get('http://localhost:8000/api/data/' + this.$route.params.userId + '/monthlyMeasurements')
-        .then(response => (this.reader = response.data))
+        .get('http://localhost:8000/api/data/' + this.$route.params.userId + '/consumption')
+        .then(response => (this.reader = response.data[0]))
         .then(response => (this.getDataFromReader()))
         .then(this.fillData)
     }

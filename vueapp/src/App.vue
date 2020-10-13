@@ -8,12 +8,11 @@
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld'
 import NavigationBar from './components/NavigationBar'
 
 export default {
   name: 'App',
-  components: {NavigationBar, HelloWorld},
+  components: {NavigationBar},
   data () {
     return {
       info: null

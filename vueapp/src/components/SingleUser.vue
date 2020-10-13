@@ -1,37 +1,51 @@
 <template>
   <div>
     <h1>User:</h1>
-    <div v-if="info">
-      <p>Name: {{ info.firstName }}</p>
-      <p>Email: {{ info.email }}</p>
-      <p>Phone: {{ info.phoneNumber }}</p>
+    <div class="container">
+      <div class="leftArrow">
+        <button @click="goPrevious()" type="button" class="btn btn-info"> Previous</button>
+      </div>
+      <div v-if="info">
+        <p>Name: {{ info.firstName }}</p>
+        <p>Email: {{ info.email }}</p>
+        <p>Phone: {{ info.phoneNumber }}</p>
+      </div>
+      <div class="rightArrow">
+        <button @click="goNext()" type="button" class="btn btn-info"> Next</button>
+      </div>
     </div>
     <!--    <div class="container" id="chart" v-if="reader">-->
     <!--      <line-chart :chart-data="datacollection" :options="chartOptions"></line-chart>-->
     <!--    </div>-->
     <div>
       <button style="width: 150px" type="button" class="btn-primary btn" @click="goBack()"> Back</button>
-      <button @click="submit()" type="button" class="btn-primary btn">Monthly Measurements</button>
+      <button @click="monthlySubmit()" type="button" class="btn-primary btn">Monthly Measurements</button>
+      <button @click="consumptionSubmit()" type="button" class="btn-primary btn">Monthly Consumption</button>
     </div>
     <div v-if="monthly">
       <MonthlyMeasurements></MonthlyMeasurements>
+    </div>
+    <div v-if="consumption">
+      <Consumption></Consumption>
     </div>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
-import HelloWorld from './HelloWorld'
+import FrontPage from './FrontPage'
 import LineChart from './LineChart'
 import MonthlyMeasurements from './MonthlyMeasurements'
+import Consumption from './Consumption'
 
 export default {
   name: 'SingleUser',
-  components: {MonthlyMeasurements, LineChart, HelloWorld},
+  components: {MonthlyMeasurements, LineChart, FrontPage, Consumption},
   data () {
     return {
       info: null,
       monthly: false,
+      consumption: false,
       datacollection: null,
       measurements: [],
       timeOfReader: [],
@@ -80,12 +94,38 @@ export default {
         .then(response => (this.getDataFromReader()))
         .then(this.fillData)
     },
-    submit () {
+    monthlySubmit () {
       if (this.monthly) {
         this.monthly = false
       } else {
         this.monthly = true
+        this.consumption = false
       }
+    },
+    consumptionSubmit () {
+      if (this.consumption) {
+        this.consumption = false
+      } else {
+        this.consumption = true
+        this.monthly = false
+      }
+    },
+    goPrevious () {
+      if (this.$route.params.userId > 1) {
+        // this.$router.push({name: 'user', params: this.$route.params.userId--})
+        this.$router.replace({name: 'user', params: this.$route.params.userId--})
+        this.apiCalls()
+        this.hideGraph()
+      }
+    },
+    goNext () {
+      this.$router.replace({name: 'user', params: this.$route.params.userId++})
+      this.apiCalls()
+      this.hideGraph()
+    },
+    hideGraph () {
+      this.consumption = false
+      this.monthly = false
     }
   }
 }
@@ -96,5 +136,20 @@ export default {
 #chart {
   width: 1200px;
   height: 800px;
+}
+
+.container {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.rightArrow {
+  display: flex;
+  align-items: center;
+}
+
+.leftArrow {
+  display: flex;
+  align-items: center;
 }
 </style>

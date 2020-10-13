@@ -10,7 +10,7 @@
 
 <script>
 export default {
-  name: 'HelloWorld',
+  name: 'FrontPage',
   data () {
     return {
       msg: 'FRONTPAGE',

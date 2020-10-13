@@ -109,10 +109,7 @@ class DataController extends Controller
                 }
              }
         }
-
-        return response()->json([
-            $monthlyMeasurements
-        ]);
+        return $monthlyMeasurements;
     }
 
     /**
@@ -128,7 +125,7 @@ class DataController extends Controller
 
         // lav nyt array som tager differencen aka det rigtige forbrug hver måned
         $actualConsumption = [];
-        $startValue = $monthlyMeasurements[0]->value; // gemmer den værdi måleren stod på efter første måling
+        $startValue = $monthlyMeasurements[0]->value; // gemmer den værdi måleren stod på efter første måling ..
 
         foreach($monthlyMeasurements as $i => $data){
             $newObject = new DataStore;
@@ -140,7 +137,9 @@ class DataController extends Controller
             $actualConsumption[$i] = $newObject;
         }
 
-        return $actualConsumption;
+        return response()->json([
+            $actualConsumption
+        ], );
     }
 
      /**
