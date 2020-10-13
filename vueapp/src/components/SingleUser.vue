@@ -6,7 +6,7 @@
         <button @click="goPrevious()" type="button" class="btn btn-info"> Previous</button>
       </div>
       <div v-if="info" style="text-align: start">
-        <p>Name: {{ info.firstName }}</p>
+        <p>Name: {{ info.firstName }} {{info.lastName}}</p>
         <p>Email: {{ info.email }}</p>
         <p>Phone: {{ info.phoneNumber }}</p>
       </div>
