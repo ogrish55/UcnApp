@@ -14,17 +14,30 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware('auth:api')->group(function () {
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
+
+    Route::post('/logout', 'App\Http\Controllers\AuthController@logout');
 });
+
+Route::post('/login', 'App\Http\Controllers\AuthController@login');
+Route::post('/register', 'App\Http\Controllers\AuthController@register');
+
+// Route::middleware('auth:api')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
 
 
 // Route::apiResource('Users', \App\Http\Controllers\API\UserController::class);
+
 Route::post('users', 'App\Http\Controllers\UserController@post');
 Route::get('users', 'App\Http\Controllers\UserController@get');
 Route::get('users/{id}', 'App\Http\Controllers\UserController@getSingle');
 Route::delete('users/{id}', 'App\Http\Controllers\UserController@delete');
 Route::put('users/{id}', 'App\Http\Controllers\UserController@update');
+
 Route::get('data', 'App\Http\Controllers\DataController@GetData');
 Route::get('data/{id}', 'App\Http\Controllers\DataController@GetDataUser');
 Route::get('data/{id}/average', 'App\Http\Controllers\DataController@GetMonthlyAverage');
