@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Faker\Factory as Faker;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -15,18 +16,55 @@ class UserTableSeeder extends Seeder
      */
     public function run()
     {
+        $faker = Faker::create();
         DB::table('users')->insert([
-            'name' => Str::random(10),
-            'email' => Str::random(10).'@gmail.com',
-            'password' => bcrypt('secret'),
-            'phone' => '25283052'
+            'userID' => 1,
+            'firstName' => 'Jonas',
+            'lastName' => 'Haxholm',
+            'address' => $faker->address,
+            'email' => 'JonasMail@gmail.com',
+            'phoneNumber' => $faker->phoneNumber,
+            'password' => $faker->password,
         ]);
 
         DB::table('users')->insert([
-            'name' => 'Kristoffer',
-            'email' => 'MyEmail@gmail.com',
-            'password' => bcrypt('password'),
-            'phone' => '26166995'
+            'userID' => 2,
+            'firstName' => 'Dan',
+            'lastName' => 'Lund Pedersen',
+            'address' => $faker->address,
+            'email' => 'DanLund@gmail.com',
+            'phoneNumber' => $faker->phoneNumber,
+            'password' => $faker->password,
+        ]);
+
+        DB::table('users')->insert([
+            'userID' => 3,
+            'firstName' => 'Edin',
+            'lastName' => 'Med Sandwich',
+            'address' => $faker->address,
+            'email' => 'Idin@gmail.com',
+            'phoneNumber' => $faker->phoneNumber,
+            'password' => $faker->password,
+        ]);
+
+        DB::table('users')->insert([
+            'userID' => 4,
+            'firstName' => 'Kristoffer',
+            'lastName' => 'Kristensen',
+            'address' => $faker->address,
+            'email' => 'Krisser@gmail.com',
+            'phoneNumber' => $faker->phoneNumber,
+            'password' => $faker->password,
+        ]);
+
+        DB::table('users')->insert([
+            'userID' => 5,
+            'firstName' => 'Aksel',
+            'lastName' => 'Søborg',
+            'address' => $faker->address,
+            'email' => 'Asøborg@gmail.com',
+            'phoneNumber' => $faker->phoneNumber,
+            'password' => $faker->password,
         ]);
     }
 }

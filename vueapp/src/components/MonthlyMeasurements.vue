@@ -1,6 +1,6 @@
 <template>
-  <div class="container" id="chart" v-if="reader">
-    <line-chart :chart-data="datacollection" :options="chartOptions"></line-chart>
+  <div class="chart-container" id="chart" v-if="reader">
+    <line-chart v-if="ready" :chart-data="datacollection" :options="chartOptions"></line-chart>
   </div>
 </template>
 
@@ -14,19 +14,21 @@ export default {
 
   data () {
     return {
+      ready: false,
       datacollection: null,
       measurements: [],
       timeOfReader: [],
       reader: null,
-      chartOptions: {
-        animation: {
-          duration: 0
-        },
-        hover: {
-          animationDuration: 0
-        },
-        responsiveAnimationDuration: 0
-      }
+      chartOptions: null
+      // chartOptions: {
+      //   animation: {
+      //     duration: 0
+      //   },
+      //   hover: {
+      //     animationDuration: 0
+      //   },
+      //   responsiveAnimationDuration: 0
+      // }
     }
   },
   mounted () {
@@ -45,6 +47,7 @@ export default {
           }
         ]
       }
+      this.ready = true
     },
     getDataFromReader () {
       let keys = Object.keys(this.reader)
