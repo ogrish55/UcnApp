@@ -4,6 +4,7 @@ import FrontPage from '../components/FrontPage'
 import Users from '@/components/Users'
 import SingleUser from '../components/SingleUser'
 import Pricing from '../components/Pricing'
+import Login from '../components/Login'
 import MonthlyMeasurements from '../components/MonthlyMeasurements'
 Vue.use(Router)
 
@@ -23,6 +24,10 @@ export default new Router({
     {
       path: '/users/',
       component: Users
+    },
+    {
+      path: '/login/',
+      component: Login
     },
     {
       path: '/pricing',
