@@ -15,16 +15,17 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        // $faker = Faker::create();
-        // for($i=6; $i <= 24; $i++){
-        //     DB::table('users')->insert([
-        //         'userID' => $i,
-        //         'firstName' => $faker->firstName,
-        //         'lastName' => $faker->lastName,
-        //         'address' => $faker->address,
-        //         'email' => $faker->email,
-        //         'phoneNumber' => $faker->phoneNumber,
-        //     ]);
-        // }
+        $faker = Faker::create();
+        for($i=6; $i <= 24; $i++){
+            DB::table('users')->insert([
+                'userID' => $i,
+                'firstName' => $faker->firstName,
+                'lastName' => $faker->lastName,
+                'address' => $faker->address,
+                'email' => $faker->email,
+                'phoneNumber' => $faker->phoneNumber,
+                'password' => $faker->password,
+            ]);
+        }
     }
 }
