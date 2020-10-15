@@ -59,7 +59,7 @@ export default {
     },
     apiCalls () {
       axios
-        .get('http://localhost:8000/api/data/' + this.$route.params.userId + '/consumption')
+        .get('http://backend.test/api/data/' + this.$route.params.userId + '/consumption')
         .then(response => (this.reader = response.data[0]))
         .then(response => (this.getDataFromReader()))
         .then(this.fillData)

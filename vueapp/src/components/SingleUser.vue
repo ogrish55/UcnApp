@@ -88,10 +88,10 @@ export default {
     },
     apiCalls () {
       axios
-        .get('http://localhost:8000/api/users/' + this.$route.params.userId)
+        .get('http://backend.test/api/users/' + this.$route.params.userId)
         .then(response => (this.info = response.data))
       axios
-        .get('http://localhost:8000/api/measurement/' + this.$route.params.userId)
+        .get('http://backend.test/api/measurement/' + this.$route.params.userId)
         .then(response => (this.reader = response.data[0]))
         .then(response => (this.getDataFromReader()))
         .then(this.fillData)
