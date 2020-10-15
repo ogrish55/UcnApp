@@ -1,15 +1,12 @@
-import Vue from 'vue'
-import Router from 'vue-router'
 import FrontPage from '../components/FrontPage'
 import Users from '@/components/Users'
 import SingleUser from '../components/SingleUser'
 import Pricing from '../components/Pricing'
-import Login from '../components/Login'
+import Login from '../components/auth/Login'
+import Logout from '../components/auth/Logout'
 import MonthlyMeasurements from '../components/MonthlyMeasurements'
-Vue.use(Router)
 
-export default new Router({
-  routes: [
+  const routes = [
     {
       path: '/',
       name: 'FrontPage',
@@ -19,15 +16,27 @@ export default new Router({
       path: '/user/:userId',
       name: 'user',
       component: SingleUser,
-      props: true
+      props: true,
+      meta: {
+        requiresAuth: true,
+      }
     },
     {
       path: '/users/',
       component: Users
     },
     {
-      path: '/login/',
-      component: Login
+      path: '/login',
+      name: 'login',
+      component: Login,
+      meta: {
+        requiresVisitor: true,
+      }
+    },
+    {
+      path: '/logout',
+      name: 'logout',
+      component: Logout
     },
     {
       path: '/pricing',
@@ -38,6 +47,6 @@ export default new Router({
       name: 'monthly',
       component: MonthlyMeasurements
     }
-  ],
-  mode: 'history'
-})
+  ]
+
+  export default routes

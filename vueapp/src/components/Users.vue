@@ -65,7 +65,7 @@ export default {
     },
     fetchUsers () {
       axios
-        .get('http://localhost:8000/api/users')
+        .get('http://backend.test/api/users')
         .then(response => {
           this.info = response.data
         })
@@ -75,7 +75,7 @@ export default {
         console.log('Validation true')
         axios({
           method: 'post',
-          url: 'http://localhost:8000/api/users/',
+          url: 'http://backend.test/api/users/',
           data: {
             firstName: this.firstName,
             lastName: 'Test',
