@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Faker\Factory as Faker;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 class UserTableSeeder extends Seeder
@@ -24,7 +25,7 @@ class UserTableSeeder extends Seeder
             'address' => $faker->address,
             'email' => 'JonasMail@gmail.com',
             'phoneNumber' => $faker->phoneNumber,
-            'password' => $faker->password,
+            'password' => Hash::make('password'),
         ]);
 
         DB::table('users')->insert([
@@ -34,7 +35,7 @@ class UserTableSeeder extends Seeder
             'address' => $faker->address,
             'email' => 'DanLund@gmail.com',
             'phoneNumber' => $faker->phoneNumber,
-            'password' => $faker->password,
+            'password' => Hash::make('password'),
         ]);
 
         DB::table('users')->insert([
@@ -44,7 +45,7 @@ class UserTableSeeder extends Seeder
             'address' => $faker->address,
             'email' => 'Idin@gmail.com',
             'phoneNumber' => $faker->phoneNumber,
-            'password' => $faker->password,
+            'password' => Hash::make('password'),
         ]);
 
         DB::table('users')->insert([
@@ -54,7 +55,7 @@ class UserTableSeeder extends Seeder
             'address' => $faker->address,
             'email' => 'Krisser@gmail.com',
             'phoneNumber' => $faker->phoneNumber,
-            'password' => $faker->password,
+            'password' => Hash::make('password'),
         ]);
 
         DB::table('users')->insert([
@@ -64,7 +65,7 @@ class UserTableSeeder extends Seeder
             'address' => $faker->address,
             'email' => 'Asøborg@gmail.com',
             'phoneNumber' => $faker->phoneNumber,
-            'password' => $faker->password,
+            'password' => Hash::make('password'),
         ]);
     }
 }

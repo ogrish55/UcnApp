@@ -2,9 +2,11 @@
 
 namespace Database\Seeders;
 
+use http\Client\Request;
 use Illuminate\Database\Seeder;
 use Faker\Factory as Faker;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
 {
@@ -24,7 +26,7 @@ class UserSeeder extends Seeder
                 'address' => $faker->address,
                 'email' => $faker->email,
                 'phoneNumber' => $faker->phoneNumber,
-                'password' => $faker->password,
+                'password' => Hash::make('password')
             ]);
         }
     }
