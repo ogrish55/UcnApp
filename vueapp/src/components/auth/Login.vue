@@ -14,7 +14,8 @@
         </div>
         <div class="form-group">
           <div id="label"><label id="label" class="offset-sm-2">Adgangskode</label></div>
-          <input type="password" class="form-control col-8 offset-md-2" id="inputPassword" placeholder="Indtast adgangskode" v-model="password">
+          <input type="password" class="form-control col-8 offset-md-2" id="inputPassword"
+                 placeholder="Indtast adgangskode" v-model="password">
         </div>
         <button type="submit" class="btn btn-success col-4">Log ind</button>
       </form>
@@ -38,7 +39,7 @@ export default {
         password: this.password
       })
         .then(response => {
-          this.$router.push({ name: 'user' })
+          this.$router.push({name: 'user'})
         })
     }
   }

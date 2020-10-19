@@ -5,7 +5,7 @@ import App from './App'
 import routes from './router/routes'
 import 'bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import { store } from './store/store'
+import {store} from './store/store'
 import VueRouter from 'vue-router'
 
 Vue.config.productionTip = false
@@ -20,7 +20,7 @@ router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
     if (!store.getters.loggedIn) {
       next({
-        name: 'login',
+        name: 'login'
       })
     } else {
       next()
@@ -28,7 +28,7 @@ router.beforeEach((to, from, next) => {
   } else if (to.matched.some(record => record.meta.requiresVisitor)) {
     if (store.getters.loggedIn) {
       next({
-        name: 'user',
+        name: 'user'
       })
     } else {
       next()
@@ -43,6 +43,6 @@ new Vue({
   el: '#app',
   router: router,
   store: store,
-  components: { App },
+  components: {App},
   template: '<App/>'
 })

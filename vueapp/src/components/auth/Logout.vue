@@ -1,16 +1,16 @@
 <template>
-    <div>
+  <div>
 
-    </div>
+  </div>
 </template>
 
 <script>
 export default {
-    created () {
-        this.$store.dispatch('destroyToken')
-        .then(response => {
-            this.$router.push({ name: 'FrontPage' })
-        })
-    }
+  created () {
+    this.$store.dispatch('destroyToken')
+      .then(response => {
+        this.$router.push({name: 'FrontPage'})
+      })
+  }
 }
 </script>
