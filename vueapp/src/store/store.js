@@ -81,7 +81,7 @@ export const store = new Vuex.Store({
         context.commit('storeToken', token)
         await context.dispatch('getUser')
       } catch (error) {
-        console.log(error)
+        throw error
       }
     },
     async getUser (context) {

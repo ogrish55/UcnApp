@@ -34,13 +34,16 @@ export default {
   },
   methods: {
     login () {
-      this.$store.dispatch('retrieveToken', {
-        username: this.username,
-        password: this.password
-      })
-        .then(response => {
+      try {
+        this.$store.dispatch('retrieveToken', {
+          username: this.username,
+          password: this.password
+        }).then(response => {
           this.$router.push({name: 'user'})
         })
+      } catch (error) {
+        console.log(error)
+      }
     }
   }
 }
