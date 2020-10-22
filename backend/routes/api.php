@@ -43,5 +43,15 @@ Route::get('data/{id}', 'App\Http\Controllers\DataController@GetDataUser');
 Route::get('data/{id}/average', 'App\Http\Controllers\DataController@GetMonthlyAverage');
 Route::get('data/{id}/consumption', 'App\Http\Controllers\DataController@GetMonthlyConsumption');
 Route::get('data/{id}/monthlyMeasurements', 'App\Http\Controllers\DataController@GetMonthlyMeasurements');
+
+// Route::get('data/{id}/usageToday', 'App\Http\Controllers\DataController@GetUsageToday');
+Route::get('data/{id}/currentMonthUsage/hot', 'App\Http\Controllers\DataController@GetLatestMonthHot');
+Route::get('data/{id}/currentMonthUsage/cold', 'App\Http\Controllers\DataController@GetLatestMonthCold');
+Route::get('data/{id}/currentMonthUsage/total', 'App\Http\Controllers\DataController@GetLatestMonthTotal');
+Route::get('data/{id}/currentYearUsage/hot', 'App\Http\Controllers\DataController@GetLatestYearHot');
+Route::get('data/{id}/currentYearUsage/cold', 'App\Http\Controllers\DataController@GetLatestYearCold');
+Route::get('data/{id}/currentYearUsage/total', 'App\Http\Controllers\DataController@GetLatestYearTotal');
+
+
 Route::get('measurement/{id}', 'App\Http\Controllers\MeasurementController@measurement');
 

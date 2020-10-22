@@ -165,6 +165,428 @@ class DataController extends Controller
         return $average;
     }
 
+
+    // IKKE FÆRDIG
+    
+    // /**
+    //  * Get the actual usage for the latests date
+    //  *
+    //  * @param  \Illuminate\Http\Request  $request
+    //  * @param  int  $id
+    //  * @return \Illuminate\Http\Response
+    //  */
+    // public function GetUsageToday(Request $request, $id)
+    // {
+    //     // få fat på den nyeste måling for i dag
+    //     // få fat på seneste måling fra dagen før
+    //     // træk tallene fra hinanden for at få dagens faktiske forbrug
+        
+    //     // $result = $this->GetDataUser($request, $id);
+
+    //     // evt. gør det ved alle dage i en måned så man kan se hvilke dage man har brugt hvor meget
+
+    //     // SQL query til at få fat på alle målinger for en bruger
+    //     $result = DB::select('SELECT measurement, value FROM measurements
+    //     WHERE deviceID = (
+    //         SELECT deviceID FROM devices
+    //         WHERE householdID = (
+    //             SELECT householdID FROM households
+    //             WHERE userID = ?
+
+    //         )
+    //         LIMIT 1, 1
+    //     )', [$id]);
+
+    //     // konverter resultatet til objekter og smid i et nyt array
+    //     $values = [];
+        
+    //     foreach($result as $i => $m){
+    //         //værdien
+    //         // få fat i value string
+    //         $valueString = $m->value;
+
+    //         // fjern sidste 3 karakterer
+    //         $string = substr($valueString, 0, strlen($valueString) - 3);
+
+    //         // konverter til int
+    //         $value = (double)$string;
+
+    //         //datoen
+    //         $dateString = $m->measurement;
+    //         $dateString = substr($dateString, 0, 10);
+
+    //         // opret objekt
+    //         $data = new DataStore;
+    //         $data->date = new DateTime($dateString);
+    //         // $date = date_format($date 'Y-m-d H:i:s');
+    //         $data->value = $value;
+
+    //         // tilføj objekt til array
+    //         $values[$i] = $data;
+    //     }
+
+
+    //     return "penis balls";
+    //     // return $result;
+    // }
+
+
+    // ideer til andre 
+    // samlet månedlig forbrug
+    // denne måneds varm forbrug
+    // denne måneds kold forbrug 
+
+    /**
+     * Get the actual usage for the latests month in hot water
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function GetLatestMonthHot(Request $request, $id)
+    {
+        // alle varme målinger for en person
+        $result = DB::select('SELECT measurement, value FROM measurements
+        WHERE deviceID = (
+            SELECT deviceID FROM devices
+            WHERE householdID = (
+                SELECT householdID FROM households
+                WHERE userID = ?
+            )
+            LIMIT 1, 1
+        )', [$id]);
+
+
+        // konverter til objekter
+        $values = [];
+                
+        foreach($result as $i => $m){
+            //værdien
+            // få fat i value string
+            $valueString = $m->value;
+
+            // fjern sidste 3 karakterer
+            $string = substr($valueString, 0, strlen($valueString) - 3);
+
+            // konverter til int
+            $value = (double)$string;
+
+            //datoen
+            $dateString = $m->measurement;
+            $dateString = substr($dateString, 0, 10);
+
+            // opret objekt
+            $data = new DataStore;
+            $data->date = new DateTime($dateString);
+            // $date = date_format($date 'Y-m-d H:i:s');
+            $data->value = $value;
+
+            // tilføj objekt til array
+            $values[$i] = $data;
+        }
+
+        $lengthOfArray = count($values) - 1;
+        
+        $newArray = [];
+        $newArray[0] = array_pop($values); // nyeste entry i database
+        // værdi for seneste måling
+        $latestMeasurementValue = $newArray[0]->value;
+
+        // find seneste værdi for måneden før
+        // først find måneden før gg hvordan?!
+        $thisMonth = date_format($newArray[0]->date, 'Y-m'); // output bliver "2020-01" fx
+        // $newArray[1] = $thisMonth;
+
+        // while loop - start baglæns og led indtil en data ikke passer med thisMonth - værdien fra den måling er sidste måneds forbrug
+        // $penispenis = [];
+        $i = $lengthOfArray - 1;
+        $found = false;
+        $lastMonthValue = 0.0;
+
+        while(!$found){
+            if(date_format($values[$i]->date, 'Y-m') != $thisMonth){
+                $lastMonthValue = $values[$i]->value;
+                $found = true;
+            }
+            $i--;
+        }
+
+        // udregn forbrug
+        $actualUsageThisMonth = $latestMeasurementValue - $lastMonthValue;
+
+
+        return $actualUsageThisMonth;
+    }
+
+     /**
+     * Get the actual usage for the latests month in cold water
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function GetLatestMonthCold(Request $request, $id)
+    {
+        // alle varme målinger for en person
+        $result = DB::select('SELECT measurement, value FROM measurements
+        WHERE deviceID = (
+            SELECT deviceID FROM devices
+            WHERE householdID = (
+                SELECT householdID FROM households
+                WHERE userID = ?
+            )
+            LIMIT 1
+        )', [$id]);
+
+
+        // konverter til objekter
+        $values = [];
+                
+        foreach($result as $i => $m){
+            //værdien
+            // få fat i value string
+            $valueString = $m->value;
+
+            // fjern sidste 3 karakterer
+            $string = substr($valueString, 0, strlen($valueString) - 3);
+
+            // konverter til int
+            $value = (double)$string;
+
+            //datoen
+            $dateString = $m->measurement;
+            $dateString = substr($dateString, 0, 10);
+
+            // opret objekt
+            $data = new DataStore;
+            $data->date = new DateTime($dateString);
+            // $date = date_format($date 'Y-m-d H:i:s');
+            $data->value = $value;
+
+            // tilføj objekt til array
+            $values[$i] = $data;
+        }
+
+        $lengthOfArray = count($values) - 1;
+        
+        $newArray = [];
+        $newArray[0] = array_pop($values); // nyeste entry i database
+        // værdi for seneste måling
+        $latestMeasurementValue = $newArray[0]->value;
+
+        // find seneste værdi for måneden før
+        // først find måneden før gg hvordan?!
+        $thisMonth = date_format($newArray[0]->date, 'Y-m'); // output bliver "2020-01" fx
+        // $newArray[1] = $thisMonth;
+
+        // while loop - start baglæns og led indtil en data ikke passer med thisMonth - værdien fra den måling er sidste måneds forbrug
+        // $penispenis = [];
+        $i = $lengthOfArray - 1;
+        $found = false;
+        $lastMonthValue = 0.0;
+
+        while(!$found){
+            if(date_format($values[$i]->date, 'Y-m') != $thisMonth){
+                $lastMonthValue = $values[$i]->value;
+                $found = true;
+            }
+            $i--;
+        }
+
+        // udregn forbrug
+        $actualUsageThisMonth = $latestMeasurementValue - $lastMonthValue;
+
+
+        return $actualUsageThisMonth;
+    }
+
+     /**
+     * Get the actual usage for the latests month in total (hot + cold water) 
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function GetLatestMonthTotal(Request $request, $id)
+    {
+        $hotWater = $this->GetLatestMonthHot($request, $id);
+        $coldWater = $this->GetLatestMonthCold($request, $id);
+
+        return $hotWater + $coldWater;
+    }
+
+     /**
+     * Get the actual usage for the latests year in hot water
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function GetLatestYearHot(Request $request, $id)
+    {
+        // alle varme målinger for en person
+        $result = DB::select('SELECT measurement, value FROM measurements
+        WHERE deviceID = (
+            SELECT deviceID FROM devices
+            WHERE householdID = (
+                SELECT householdID FROM households
+                WHERE userID = ?
+            )
+            LIMIT 1, 1
+        )', [$id]);
+
+
+        // konverter til objekter
+        $values = [];
+                
+        foreach($result as $i => $m){
+            //værdien
+            // få fat i value string
+            $valueString = $m->value;
+
+            // fjern sidste 3 karakterer
+            $string = substr($valueString, 0, strlen($valueString) - 3);
+
+            // konverter til int
+            $value = (double)$string;
+
+            //datoen
+            $dateString = $m->measurement;
+            $dateString = substr($dateString, 0, 10);
+
+            // opret objekt
+            $data = new DataStore;
+            $data->date = new DateTime($dateString);
+            // $date = date_format($date 'Y-m-d H:i:s');
+            $data->value = $value;
+
+            // tilføj objekt til array
+            $values[$i] = $data;
+        }
+        
+        $newArray = [];
+        $newArray[0] = array_pop($values); // nyeste entry i database
+        // // værdi for seneste måling
+        $latestMeasurementValue = $newArray[0]->value;
+
+        // find nuværende år
+        $thisYear = date_format(array_pop($values)->date, 'Y'); // output bliver "2020" fx
+      
+
+        // // while loop - start baglæns og led indtil en data ikke passer med thisMonth - værdien fra den måling er sidste måneds forbrug
+        $i = count($values) - 2;
+        $found = false;
+        $lastYearValue = 0.0;
+
+        while(!$found){
+            if(date_format($values[$i]->date, 'Y') != $thisYear){
+                $lastYearValue = $values[$i]->value;
+                $found = true;
+            }
+            $i--;
+        }
+
+        // // udregn forbrug
+        $actualUsageThisYear = $latestMeasurementValue - $lastYearValue;
+
+
+        return $actualUsageThisYear;
+    }
+
+    /**
+     * Get the actual usage for the latests year in cold water
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function GetLatestYearCold(Request $request, $id)
+    {
+        // alle varme målinger for en person
+        $result = DB::select('SELECT measurement, value FROM measurements
+        WHERE deviceID = (
+            SELECT deviceID FROM devices
+            WHERE householdID = (
+                SELECT householdID FROM households
+                WHERE userID = ?
+            )
+            LIMIT 1
+        )', [$id]);
+
+
+        // konverter til objekter
+        $values = [];
+                
+        foreach($result as $i => $m){
+            //værdien
+            // få fat i value string
+            $valueString = $m->value;
+
+            // fjern sidste 3 karakterer
+            $string = substr($valueString, 0, strlen($valueString) - 3);
+
+            // konverter til int
+            $value = (double)$string;
+
+            //datoen
+            $dateString = $m->measurement;
+            $dateString = substr($dateString, 0, 10);
+
+            // opret objekt
+            $data = new DataStore;
+            $data->date = new DateTime($dateString);
+            // $date = date_format($date 'Y-m-d H:i:s');
+            $data->value = $value;
+
+            // tilføj objekt til array
+            $values[$i] = $data;
+        }
+        
+        $newArray = [];
+        $newArray[0] = array_pop($values); // nyeste entry i database
+        // // værdi for seneste måling
+        $latestMeasurementValue = $newArray[0]->value;
+
+        // find nuværende år
+        $thisYear = date_format(array_pop($values)->date, 'Y'); // output bliver "2020" fx
+      
+
+        // // while loop - start baglæns og led indtil en data ikke passer med thisMonth - værdien fra den måling er sidste måneds forbrug
+        $i = count($values) - 2;
+        $found = false;
+        $lastYearValue = 0.0;
+
+        while(!$found){
+            if(date_format($values[$i]->date, 'Y') != $thisYear){
+                $lastYearValue = $values[$i]->value;
+                $found = true;
+            }
+            $i--;
+        }
+
+        // // udregn forbrug
+        $actualUsageThisYear = $latestMeasurementValue - $lastYearValue;
+
+
+        return $actualUsageThisYear;
+    }
+
+    /**
+     * Get the actual usage for the latest year in total (hot + cold water) 
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function GetLatestYearTotal(Request $request, $id)
+    {
+        $hotWater = $this->GetLatestYearHot($request, $id);
+        $coldWater = $this->GetLatestYearCold($request, $id);
+
+        return $hotWater + $coldWater;
+    }
+
+
 }
 
 class DataStore {
