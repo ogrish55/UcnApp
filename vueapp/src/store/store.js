@@ -7,7 +7,13 @@ axios.defaults.baseURL = 'http://backend.test/api'
 
 export const store = new Vuex.Store({
   state: {
-    token: localStorage.getItem('access_token') || null
+    token: localStorage.getItem('access_token') || null,
+    user: {
+      firstName: '',
+      lastName: '',
+      email: '',
+      phoneNumber: ''
+    }
   },
   getters: {
     loggedIn (state) {
@@ -20,6 +26,15 @@ export const store = new Vuex.Store({
     },
     destroyToken (state) {
       state.token = null
+    },
+    retrieveUser(state, user) {
+      state.user.firstName = user.firstName,
+      state.user.lastName = user.lastName,
+      state.user.email = user.email,
+      state.user.phoneNumber = user.phoneNumber
+    },
+    clearUserDetails(state) {
+      state.user = null
     }
   },
   actions: {
@@ -60,8 +75,7 @@ export const store = new Vuex.Store({
     },
     retrieveToken (context, credentials) {
       return new Promise((resolve, reject) => {
-        axios
-          .post('/login', {
+        axios.post('/login', {
             username: credentials.username,
             password: credentials.password
           })
@@ -77,6 +91,20 @@ export const store = new Vuex.Store({
             reject(error)
           })
       })
+    },
+    retrieveUser(context) {
+      axios.defaults.headers.common['Authorization'] = 'Bearer ' + context.state.token
+
+      axios.get('/AuthUserDetails')
+        .then(response => {
+          context.commit('retrieveUser', response.data)
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+    clearUserDetails(context) {
+      context.commit('clearUserDetails')
     }
   }
 })

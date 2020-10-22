@@ -18,6 +18,11 @@ class UserController extends Controller
         //
     }
 
+    public function AuthenticatedUserDetails()
+    {
+        return auth('api')->user();
+    }
+
     /**
      * Store a newly created resource in storage.
      *

@@ -5,11 +5,18 @@
       <div class="leftArrow">
         <button @click="goPrevious()" type="button" class="btn btn-info"> Previous</button>
       </div>
-      <div v-if="info" style="text-align: start">
-        <p>Name: {{ info.firstName }} {{info.lastName}}</p>
+      <!-- <div v-if="info" style="text-align: start">
+        <p>Name: {{ name }} {{info.lastName}}</p>
         <p>Email: {{ info.email }}</p>
         <p>Phone: {{ info.phoneNumber }}</p>
+      </div> -->
+      
+      <div>
+        <p>Name: {{ userDetails.firstName }} {{ userDetails.lastName }}</p>
+        <p>Email: {{ userDetails.email }}</p>
+        <p>Phone: {{ userDetails.phoneNumber }}</p>
       </div>
+
       <div class="rightArrow">
         <button @click="goNext()" type="button" class="btn btn-info"> Next</button>
       </div>
@@ -40,6 +47,8 @@ import LineChart from './LineChart'
 import MonthlyMeasurements from './MonthlyMeasurements'
 import Consumption from './Consumption'
 
+import { mapState } from 'vuex'
+
 export default {
   name: 'SingleUser',
   components: {MonthlyMeasurements, LineChart, FrontPage, Consumption},
@@ -62,6 +71,14 @@ export default {
         responsiveAnimationDuration: 0
       }
     }
+  },
+  created() {
+    this.$store.dispatch('retrieveUser')
+  },
+  computed: {
+    ...mapState({
+      userDetails: 'user'
+    })
   },
   mounted () {
     this.apiCalls()

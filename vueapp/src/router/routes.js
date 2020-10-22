@@ -13,7 +13,8 @@ const routes = [
     component: FrontPage
   },
   {
-    path: '/user/:userId',
+    // path: '/user/:userId',
+    path: '/userdetails',
     name: 'user',
     component: SingleUser,
     props: true,
