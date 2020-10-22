@@ -76,6 +76,8 @@ class DataController extends Controller
         return $values; // returner array af objekter
     }
 
+
+
      /**
      * Get the monthly measurements for a user
      *
@@ -138,8 +140,7 @@ class DataController extends Controller
         }
 
         return response()->json([
-            $actualConsumption
-        ], );
+            $actualConsumption]);
     }
 
      /**
