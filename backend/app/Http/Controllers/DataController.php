@@ -85,8 +85,9 @@ class DataController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function GetMonthlyMeasurements(Request $request, $id)
+    public function GetMonthlyMeasurements(Request $request)
     {
+        $id = $request->user()->userID;
         $values = $this->GetDataUser($request, $id);
 
         // find frem til sidste dato i måneden og vælg den seneste værdi og smid over i nyt array
@@ -121,8 +122,9 @@ class DataController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function GetMonthlyConsumption(Request $request, $id)
+    public function GetMonthlyConsumption(Request $request)
     {
+        $id = $request->user()->userID;
         $monthlyMeasurements = $this->GetMonthlyMeasurements($request, $id);
 
         // lav nyt array som tager differencen aka det rigtige forbrug hver måned
@@ -168,7 +170,7 @@ class DataController extends Controller
 
 
     // IKKE FÆRDIG
-    
+
     // /**
     //  * Get the actual usage for the latests date
     //  *
@@ -181,7 +183,7 @@ class DataController extends Controller
     //     // få fat på den nyeste måling for i dag
     //     // få fat på seneste måling fra dagen før
     //     // træk tallene fra hinanden for at få dagens faktiske forbrug
-        
+
     //     // $result = $this->GetDataUser($request, $id);
 
     //     // evt. gør det ved alle dage i en måned så man kan se hvilke dage man har brugt hvor meget
@@ -200,7 +202,7 @@ class DataController extends Controller
 
     //     // konverter resultatet til objekter og smid i et nyt array
     //     $values = [];
-        
+
     //     foreach($result as $i => $m){
     //         //værdien
     //         // få fat i value string
@@ -232,10 +234,10 @@ class DataController extends Controller
     // }
 
 
-    // ideer til andre 
+    // ideer til andre
     // samlet månedlig forbrug
     // denne måneds varm forbrug
-    // denne måneds kold forbrug 
+    // denne måneds kold forbrug
 
     /**
      * Get the actual usage for the latests month in hot water
@@ -260,7 +262,7 @@ class DataController extends Controller
 
         // konverter til objekter
         $values = [];
-                
+
         foreach($result as $i => $m){
             //værdien
             // få fat i value string
@@ -287,7 +289,7 @@ class DataController extends Controller
         }
 
         $lengthOfArray = count($values) - 1;
-        
+
         $newArray = [];
         $newArray[0] = array_pop($values); // nyeste entry i database
         // værdi for seneste måling
@@ -342,7 +344,7 @@ class DataController extends Controller
 
         // konverter til objekter
         $values = [];
-                
+
         foreach($result as $i => $m){
             //værdien
             // få fat i value string
@@ -369,7 +371,7 @@ class DataController extends Controller
         }
 
         $lengthOfArray = count($values) - 1;
-        
+
         $newArray = [];
         $newArray[0] = array_pop($values); // nyeste entry i database
         // værdi for seneste måling
@@ -402,7 +404,7 @@ class DataController extends Controller
     }
 
      /**
-     * Get the actual usage for the latests month in total (hot + cold water) 
+     * Get the actual usage for the latests month in total (hot + cold water)
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -439,7 +441,7 @@ class DataController extends Controller
 
         // konverter til objekter
         $values = [];
-                
+
         foreach($result as $i => $m){
             //værdien
             // få fat i value string
@@ -464,7 +466,7 @@ class DataController extends Controller
             // tilføj objekt til array
             $values[$i] = $data;
         }
-        
+
         $newArray = [];
         $newArray[0] = array_pop($values); // nyeste entry i database
         // // værdi for seneste måling
@@ -472,7 +474,7 @@ class DataController extends Controller
 
         // find nuværende år
         $thisYear = date_format(array_pop($values)->date, 'Y'); // output bliver "2020" fx
-      
+
 
         // // while loop - start baglæns og led indtil en data ikke passer med thisMonth - værdien fra den måling er sidste måneds forbrug
         $i = count($values) - 2;
@@ -517,7 +519,7 @@ class DataController extends Controller
 
         // konverter til objekter
         $values = [];
-                
+
         foreach($result as $i => $m){
             //værdien
             // få fat i value string
@@ -542,7 +544,7 @@ class DataController extends Controller
             // tilføj objekt til array
             $values[$i] = $data;
         }
-        
+
         $newArray = [];
         $newArray[0] = array_pop($values); // nyeste entry i database
         // // værdi for seneste måling
@@ -550,7 +552,7 @@ class DataController extends Controller
 
         // find nuværende år
         $thisYear = date_format(array_pop($values)->date, 'Y'); // output bliver "2020" fx
-      
+
 
         // // while loop - start baglæns og led indtil en data ikke passer med thisMonth - værdien fra den måling er sidste måneds forbrug
         $i = count($values) - 2;
@@ -573,7 +575,7 @@ class DataController extends Controller
     }
 
     /**
-     * Get the actual usage for the latest year in total (hot + cold water) 
+     * Get the actual usage for the latest year in total (hot + cold water)
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id

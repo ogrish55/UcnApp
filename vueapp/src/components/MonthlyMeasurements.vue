@@ -50,7 +50,7 @@ export default {
     },
     apiCalls () {
       axios
-        .get('http://backend.test/api/data/' + this.$store.getters.getUser.userID + '/monthlyMeasurements')
+        .get('http://backend.test/api/data/monthlyMeasurements')
         .then(response => (this.reader = response.data))
         .then(response => (this.getDataFromReader()))
         .then(this.fillData)

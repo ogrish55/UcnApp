@@ -2,7 +2,7 @@
   <div>
     <h1>User:</h1>
     <div class="container">
-      <div v-if="info" style="text-align: start">
+      <div style="text-align: start">
         <p>Name: {{ info.firstName }} {{info.lastName}}</p>
         <p>Email: {{ info.email }}</p>
         <p>Phone: {{ info.phoneNumber }}</p>
@@ -28,20 +28,24 @@
 import FrontPage from './FrontPage'
 import MonthlyMeasurements from './MonthlyMeasurements'
 import Consumption from './Consumption'
+import {mapState} from "vuex";
 
 export default {
   name: 'SingleUser',
   components: {MonthlyMeasurements, FrontPage, Consumption},
   data () {
     return {
-      info: null,
       monthly: false,
       consumption: false
     }
   },
-  mounted () {
-    console.log(this.$store.getters.getUser)
-    this.info = this.$store.getters.getUser
+  created () {
+    this.$store.dispatch('retrieveUser')
+  },
+  computed: {
+    ...mapState({
+      info: 'user'
+    })
   },
   methods: {
     goBack () {

@@ -1,25 +1,23 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import createPersistedState from 'vuex-persistedstate'
 import axios from 'axios'
 
 Vue.use(Vuex)
 axios.defaults.baseURL = 'http://backend.test/api'
 
 export const store = new Vuex.Store({
-  plugins: [createPersistedState({
-    storage: window.sessionStorage
-  })],
   state: {
     token: localStorage.getItem('access_token') || null,
-    user: null
+    user: {
+      firstName: '',
+      lastName: '',
+      email: '',
+      phoneNumber: ''
+    }
   },
   getters: {
     loggedIn (state) {
       return state.token !== null
-    },
-    getUser (state) {
-      return state.user
     }
   },
   mutations: {
@@ -28,10 +26,12 @@ export const store = new Vuex.Store({
     },
     destroyToken (state) {
       state.token = null
-      state.user = null
     },
     storeUser (state, user) {
-      state.user = user
+      state.user = user;
+    },
+    clearUserDetails (state) {
+      state.user = null
     }
   },
   actions: {
@@ -79,22 +79,22 @@ export const store = new Vuex.Store({
         const token = response.data.access_token
         localStorage.setItem('access_token', token)
         context.commit('storeToken', token)
-        await context.dispatch('getUser')
       } catch (error) {
         throw error
       }
     },
-    async getUser (context) {
+    retrieveUser(context) {
       axios.defaults.headers.common['Authorization'] = 'Bearer ' + context.state.token
-      if (context.getters.loggedIn) {
-        try {
-          const response = await axios.get('/user')
-          const user = response.data
-          context.commit('storeUser', user)
-        } catch (error) {
+      axios.get('/user')
+        .then(response => {
+          context.commit('storeUser', response.data)
+        })
+        .catch(error => {
           console.log(error)
-        }
-      }
+        })
+    },
+    clearUserDetails(context){
+      context.commit('clearUserDetails')
     }
   }
 })

@@ -20,6 +20,9 @@ Route::middleware('auth:api')->group(function () {
     });
 
     Route::post('/logout', 'App\Http\Controllers\AuthController@logout');
+    Route::get('data/monthlyMeasurements', 'App\Http\Controllers\DataController@GetMonthlyMeasurements');
+    Route::get('data/consumption', 'App\Http\Controllers\DataController@GetMonthlyConsumption');
+
 });
 
 Route::post('/login', 'App\Http\Controllers\AuthController@login');
@@ -38,11 +41,9 @@ Route::get('users/{id}', 'App\Http\Controllers\UserController@getSingle');
 Route::delete('users/{id}', 'App\Http\Controllers\UserController@delete');
 Route::put('users/{id}', 'App\Http\Controllers\UserController@update');
 
-Route::get('data', 'App\Http\Controllers\DataController@GetData');
-Route::get('data/{id}', 'App\Http\Controllers\DataController@GetDataUser');
+Route::get('data', 'App\Http\Controllers\DataController@GetDataUser');
 Route::get('data/{id}/average', 'App\Http\Controllers\DataController@GetMonthlyAverage');
-Route::get('data/{id}/consumption', 'App\Http\Controllers\DataController@GetMonthlyConsumption');
-Route::get('data/{id}/monthlyMeasurements', 'App\Http\Controllers\DataController@GetMonthlyMeasurements');
+
 
 // Route::get('data/{id}/usageToday', 'App\Http\Controllers\DataController@GetUsageToday');
 Route::get('data/{id}/currentMonthUsage/hot', 'App\Http\Controllers\DataController@GetLatestMonthHot');
