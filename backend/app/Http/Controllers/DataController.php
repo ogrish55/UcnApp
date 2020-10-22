@@ -587,6 +587,26 @@ class DataController extends Controller
         return $hotWater + $coldWater;
     }
 
+    /**
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function GetMonthNumber(Request $request, $id)
+    {
+        $result = $this->GetDataUser($request, $id);
+
+        $latestMeasurement = array_pop($result);
+
+        $date = date_format($latestMeasurement->date, 'm');
+        
+        // konverter til tal
+        $monthNumber = (int)$date;
+
+        return $monthNumber;
+    }
+
 
 }
 
