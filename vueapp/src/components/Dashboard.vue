@@ -62,7 +62,7 @@
                     <div class="row no-gutters align-items-center">
                       <div class="col mr-2">
                         <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Forbrug i m3</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">10,000 m3</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ usageInM3 }} m3</div>
                       </div>
                       <div class="col-auto">
                         <i class="fas fa-home fa-2x text-gray-300"></i>
@@ -79,7 +79,9 @@
                     <div class="row no-gutters align-items-center">
                       <div class="col mr-2">
                         <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Forbrug i DKK</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">10,000 DKK</div>
+                        <div v-bind="calculateUsageInDkk" class="h5 mb-0 font-weight-bold text-gray-800">
+                          {{ this.usageInDkk }} DKK
+                        </div>
                       </div>
                       <div class="col-auto">
                         <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -89,14 +91,14 @@
                 </div>
               </div>
 
-              <!-- Forbrug i DKK -->
+              <!-- Betalt aconto -->
               <div class="col-xl-3 col-md-6 mb-4">
                 <div class="card border-left-success shadow h-100 py-2">
                   <div class="card-body">
                     <div class="row no-gutters align-items-center">
                       <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">...</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
+                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Betalt aconto</div>
+                        <div v-bind="calculateAconto" class="h5 mb-0 font-weight-bold text-gray-800">{{aconto}} DKK</div>
                       </div>
                       <div class="col-auto">
                         <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -106,14 +108,14 @@
                 </div>
               </div>
 
-              <!-- Forbrug i DKK -->
+              <!-- Difference i DKK -->
               <div class="col-xl-3 col-md-6 mb-4">
                 <div class="card border-left-success shadow h-100 py-2">
                   <div class="card-body">
                     <div class="row no-gutters align-items-center">
                       <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">...</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
+                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Difference i DKK </div>
+                        <div v-bind="calculateDiff" class="h5 mb-0 font-weight-bold text-gray-800">{{difference}} DKK</div>
                       </div>
                       <div class="col-auto">
                         <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -123,6 +125,7 @@
                 </div>
               </div>
             </div>
+
 
             <!-- Content Row -->
 
@@ -141,16 +144,17 @@
                       </a>
                       <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                            aria-labelledby="dropdownMenuLink">
-                        <a class="dropdown-item" onclick="setNewValue()">Varmt vand</a>
+                        <a class="dropdown-item"  v-on:click="fillWithHot">Varmt vand</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Koldt vand</a>
+                        <a class="dropdown-item" v-on:click="fillWithCold">Koldt vand</a>
                       </div>
                     </div>
                   </div>
                   <!-- Card Body -->
                   <div class="card-body">
                     <div class="chart-area">
-                      <line-chart :width="300" :height="70" v-if="ready" :chart-data="datacollection" :options="chartOptions"></line-chart>
+                      <line-chart :width="300" :height="70" v-if="ready" :chart-data="datacollection"
+                                  :options="chartOptions"></line-chart>
                     </div>
                   </div>
                 </div>
@@ -394,7 +398,24 @@ export default {
       measurements: [],
       timeOfReader: [],
       reader: null,
-      chartOptions: null
+      chartOptions: null,
+      usageInDkk: null,
+      usageInM3: null,
+      aconto: null,
+      difference: null,
+      monthNumber: null
+    }
+  },
+  computed: {
+    calculateUsageInDkk () {
+      this.usageInDkk = (Math.round(this.usageInM3 * 54.84).toFixed(2))
+    },
+    calculateAconto (){
+      this.aconto = (Math.round(this.monthNumber * 400).toFixed(2))
+
+    },
+    calculateDiff(){
+      this.difference = (Math.round(this.aconto - this.usageInDkk).toFixed(2))
     }
   },
   mounted () {
@@ -402,7 +423,7 @@ export default {
   },
 
   methods: {
-    fillWithWarm () {
+    fillWithHot () {
       this.datacollection = {
         labels: this.timeOfReader, // ['13-05-2019', '14-05-2019', '15-05-2019', '16-05-2019', '17-05-2019'], // Time of read
         datasets: [
@@ -415,8 +436,18 @@ export default {
       }
       this.ready = true
     },
-    fillWithCold (){
-
+    fillWithCold () {
+      this.datacollection = {
+        labels: this.timeOfReader, // ['13-05-2019', '14-05-2019', '15-05-2019', '16-05-2019', '17-05-2019'], // Time of read
+        datasets: [
+          {
+            label: 'Koldt vand',
+            backgroundColor: '#0a5493',
+            data: this.measurements
+          }
+        ]
+      }
+      this.ready = true
     },
     getDataFromReader () {
       let keys = Object.keys(this.reader)
@@ -427,15 +458,25 @@ export default {
       this.timeOfReader = this.timeOfReader.map(x => x.substr(0, 10))
     },
     apiCalls () {
-      axios
-        .get('http://backend.test/api/data/' + this.$store.getters.getUser.userID + '/consumption')
-        .then(response => (this.reader = response.data[0]))
-        .then(response => (this.getDataFromReader()))
-        .then(this.fillWithWarm)
+      // axios
+      //   .get('http://backend.test/api/data/' + this.$store.getters.getUser.userID + '/consumption')
+      //   .then(response => (this.reader = response.data[0]))
+      //   .then(response => (this.getDataFromReader()))
+      //   .then(this.fillWithCold),
+        axios
+          .get('http://backend.test/api/data/' + this.$store.getters.getUser.userID + '/consumption')
+          .then(response => (this.reader = response.data[0]))
+          .then(response => (this.getDataFromReader()))
+          .then(this.fillWithHot),
+        axios
+          .get('http://backend.test/api/data/' + this.$store.getters.getUser.userID + '/currentYearUsage/total')
+          .then(response => (this.usageInM3 = response.data)),
+        axios
+          .get('http://backend.test/api/data/' + this.$store.getters.getUser.userID + '/currentYearUsage/total/monthNumber')
+          .then(response => (this.monthNumber = response.data))
     }
   }
 }
-
 
 
 </script>
