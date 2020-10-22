@@ -55,30 +55,47 @@
             <!-- Content Row -->
             <div class="row" id="cardrow">
 
-              <!-- Earnings (Monthly) Card Example -->
+              <!-- Forbrug i M3 -->
               <div class="col-xl-3 col-md-6 mb-4">
                 <div class="card border-left-primary shadow h-100 py-2">
                   <div class="card-body">
                     <div class="row no-gutters align-items-center">
                       <div class="col mr-2">
                         <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Forbrug i m3</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">10,000 m3</div>
                       </div>
                       <div class="col-auto">
-                        <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                        <i class="fas fa-home fa-2x text-gray-300"></i>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <!-- Earnings (Monthly) Card Example -->
+              <!-- Forbrug i DKK -->
               <div class="col-xl-3 col-md-6 mb-4">
                 <div class="card border-left-success shadow h-100 py-2">
                   <div class="card-body">
                     <div class="row no-gutters align-items-center">
                       <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Earnings (Annual)</div>
+                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Forbrug i DKK</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">10,000 DKK</div>
+                      </div>
+                      <div class="col-auto">
+                        <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Forbrug i DKK -->
+              <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-success shadow h-100 py-2">
+                  <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                      <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">...</div>
                         <div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
                       </div>
                       <div class="col-auto">
@@ -89,44 +106,17 @@
                 </div>
               </div>
 
-              <!-- Earnings (Monthly) Card Example -->
+              <!-- Forbrug i DKK -->
               <div class="col-xl-3 col-md-6 mb-4">
-                <div class="card border-left-info shadow h-100 py-2">
+                <div class="card border-left-success shadow h-100 py-2">
                   <div class="card-body">
                     <div class="row no-gutters align-items-center">
                       <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Tasks</div>
-                        <div class="row no-gutters align-items-center">
-                          <div class="col-auto">
-                            <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
-                          </div>
-                          <div class="col">
-                            <div class="progress progress-sm mr-2">
-                              <div class="progress-bar bg-info" role="progressbar" style="width: 50%" aria-valuenow="50"
-                                   aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                          </div>
-                        </div>
+                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">...</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
                       </div>
                       <div class="col-auto">
-                        <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Pending Requests Card Example -->
-              <div class="col-xl-3 col-md-6 mb-4">
-                <div class="card border-left-warning shadow h-100 py-2">
-                  <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                      <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Pending Requests</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
-                      </div>
-                      <div class="col-auto">
-                        <i class="fas fa-comments fa-2x text-gray-300"></i>
+                        <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
                       </div>
                     </div>
                   </div>
@@ -151,18 +141,16 @@
                       </a>
                       <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                            aria-labelledby="dropdownMenuLink">
-                        <div class="dropdown-header">Dropdown Header:</div>
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
+                        <a class="dropdown-item" onclick="setNewValue()">Varmt vand</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Something else here</a>
+                        <a class="dropdown-item" href="#">Koldt vand</a>
                       </div>
                     </div>
                   </div>
                   <!-- Card Body -->
                   <div class="card-body">
                     <div class="chart-area">
-                      <canvas id="myAreaChart"></canvas>
+                      <line-chart :width="300" :height="70" v-if="ready" :chart-data="datacollection" :options="chartOptions"></line-chart>
                     </div>
                   </div>
                 </div>
@@ -380,30 +368,7 @@
     </div>
     <!-- End of Page Wrapper -->
 
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-      <i class="fas fa-angle-up"></i>
-    </a>
 
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-         aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">×</span>
-            </button>
-          </div>
-          <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-          <div class="modal-footer">
-            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-            <a class="btn btn-primary" href="login.html">Logout</a>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -414,11 +379,65 @@ import '../assets/vendor/jquery-easing/jquery.easing.min.js'
 import '../assets/js/sb-admin-2.min.js'
 import '../assets/vendor/chart.js/Chart.min.js'
 import '../assets/vendor/chart.js/Chart.min.js'
+import LineChart from './LineChart'
+import axios from 'axios'
 // import '../assets/js/demo/chart-pie-demo.js';
 
 export default {
-  name: 'Dashboard'
+  name: 'Dashboard',
+  components: {LineChart},
+
+  data () {
+    return {
+      ready: false,
+      datacollection: null,
+      measurements: [],
+      timeOfReader: [],
+      reader: null,
+      chartOptions: null
+    }
+  },
+  mounted () {
+    this.apiCalls()
+  },
+
+  methods: {
+    fillWithWarm () {
+      this.datacollection = {
+        labels: this.timeOfReader, // ['13-05-2019', '14-05-2019', '15-05-2019', '16-05-2019', '17-05-2019'], // Time of read
+        datasets: [
+          {
+            label: 'Varmt vand',
+            backgroundColor: '#f87979',
+            data: this.measurements
+          }
+        ]
+      }
+      this.ready = true
+    },
+    fillWithCold (){
+
+    },
+    getDataFromReader () {
+      let keys = Object.keys(this.reader)
+      keys.forEach(key => {
+        this.measurements.push(this.reader[key].value)
+        this.timeOfReader.push(this.reader[key].date.date)
+      })
+      this.timeOfReader = this.timeOfReader.map(x => x.substr(0, 10))
+    },
+    apiCalls () {
+      axios
+        .get('http://backend.test/api/data/' + this.$store.getters.getUser.userID + '/consumption')
+        .then(response => (this.reader = response.data[0]))
+        .then(response => (this.getDataFromReader()))
+        .then(this.fillWithWarm)
+    }
+  }
 }
+
+
+
 </script>
 
 <style scoped>
@@ -427,7 +446,7 @@ export default {
 
 #wrapper {
   position: relative;
-  bottom: 30px;
+  bottom: 34px;
 }
 
 #cardrow {
