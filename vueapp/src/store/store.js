@@ -28,7 +28,11 @@ export const store = new Vuex.Store({
       state.token = null
     },
     storeUser (state, user) {
-      state.user = user;
+      state.user.firstName = user.firstName
+      state.user.lastName = user.lastName
+      state.user.email = user.email
+      state.user.phoneNumber = user.phoneNumber
+
     },
     clearUserDetails (state) {
       state.user = null
