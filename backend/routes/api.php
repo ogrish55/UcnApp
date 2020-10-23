@@ -52,7 +52,7 @@ Route::get('data/{id}/currentMonthUsage/total', 'App\Http\Controllers\DataContro
 Route::get('data/{id}/currentYearUsage/hot', 'App\Http\Controllers\DataController@GetLatestYearHot');
 Route::get('data/{id}/currentYearUsage/cold', 'App\Http\Controllers\DataController@GetLatestYearCold');
 Route::get('data/{id}/currentYearUsage/total', 'App\Http\Controllers\DataController@GetLatestYearTotal');
-
+Route::get('data/{id}/currentYearUsage/total/monthNumber', 'App\Http\Controllers\DataController@GetMonthNumber');
 
 Route::get('measurement/{id}', 'App\Http\Controllers\MeasurementController@measurement');
 
