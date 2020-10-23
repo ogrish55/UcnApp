@@ -468,20 +468,20 @@ export default {
     },
     apiCalls () {
       axios
-        .get('http://backend.test/api/data/' + this.$store.getters.getUser.userID + '/consumption/cold')
+        .get('http://backend.test/api/data/consumption/cold')
         .then(response => (this.coldReader = response.data[0]))
         .then(response => (this.getColdDataFromReader()))
         .then(this.fillWithCold),
         axios
-          .get('http://backend.test/api/data/' + this.$store.getters.getUser.userID + '/consumption/hot')
+          .get('http://backend.test/api/data/consumption/hot')
           .then(response => (this.reader = response.data[0]))
           .then(response => (this.getDataFromReader()))
           .then(this.fillWithHot),
         axios
-          .get('http://backend.test/api/data/' + this.$store.getters.getUser.userID + '/currentYearUsage/total')
+          .get('http://backend.test/api/data/currentYearUsage/total')
           .then(response => (this.usageInM3 = response.data)),
         axios
-          .get('http://backend.test/api/data/' + this.$store.getters.getUser.userID + '/currentYearUsage/total/monthNumber')
+          .get('http://backend.test/api/data/currentYearUsage/total/monthNumber')
           .then(response => (this.monthNumber = response.data))
     }
   }
