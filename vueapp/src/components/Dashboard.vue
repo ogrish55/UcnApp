@@ -144,9 +144,9 @@
                       </a>
                       <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                            aria-labelledby="dropdownMenuLink">
-                        <a class="dropdown-item"  v-on:click="fillWithHot">Varmt vand</a>
+                        <a class="dropdown-item"  v-on:click="fillWithHot"><strong>Varmt vand</strong></a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" v-on:click="fillWithCold">Koldt vand</a>
+                        <a class="dropdown-item" v-on:click="fillWithCold"><strong>Koldt vand</strong></a>
                       </div>
                     </div>
                   </div>
@@ -386,18 +386,21 @@ import '../assets/vendor/chart.js/Chart.min.js'
 import LineChart from './LineChart'
 import axios from 'axios'
 // import '../assets/js/demo/chart-pie-demo.js';
-
 export default {
   name: 'Dashboard',
   components: {LineChart},
-
   data () {
     return {
       ready: false,
+      coldReady: false,
       datacollection: null,
+      coldDatacollection: null,
       measurements: [],
+      coldMeasurements: [],
       timeOfReader: [],
+      coldTimeOfReader: [],
       reader: null,
+      coldReader: null,
       chartOptions: null,
       usageInDkk: null,
       usageInM3: null,
@@ -412,7 +415,6 @@ export default {
     },
     calculateAconto (){
       this.aconto = (Math.round(this.monthNumber * 400).toFixed(2))
-
     },
     calculateDiff(){
       this.difference = (Math.round(this.aconto - this.usageInDkk).toFixed(2))
@@ -421,7 +423,6 @@ export default {
   mounted () {
     this.apiCalls()
   },
-
   methods: {
     fillWithHot () {
       this.datacollection = {
@@ -438,16 +439,16 @@ export default {
     },
     fillWithCold () {
       this.datacollection = {
-        labels: this.timeOfReader, // ['13-05-2019', '14-05-2019', '15-05-2019', '16-05-2019', '17-05-2019'], // Time of read
+        labels: this.coldTimeOfReader, // ['13-05-2019', '14-05-2019', '15-05-2019', '16-05-2019', '17-05-2019'], // Time of read
         datasets: [
           {
             label: 'Koldt vand',
             backgroundColor: '#0a5493',
-            data: this.measurements
+            data: this.coldMeasurements
           }
         ]
       }
-      this.ready = true
+      this.coldReady = true
     },
     getDataFromReader () {
       let keys = Object.keys(this.reader)
@@ -457,14 +458,22 @@ export default {
       })
       this.timeOfReader = this.timeOfReader.map(x => x.substr(0, 10))
     },
+    getColdDataFromReader () {
+      let keys = Object.keys(this.coldReader)
+      keys.forEach(key => {
+        this.coldMeasurements.push(this.coldReader[key].value)
+        this.coldTimeOfReader.push(this.coldReader[key].date.date)
+      })
+      this.coldTimeOfReader = this.coldTimeOfReader.map(x => x.substr(0, 10))
+    },
     apiCalls () {
-      // axios
-      //   .get('http://backend.test/api/data/' + this.$store.getters.getUser.userID + '/consumption')
-      //   .then(response => (this.reader = response.data[0]))
-      //   .then(response => (this.getDataFromReader()))
-      //   .then(this.fillWithCold),
+      axios
+        .get('http://backend.test/api/data/' + this.$store.getters.getUser.userID + '/consumption/cold')
+        .then(response => (this.coldReader = response.data[0]))
+        .then(response => (this.getColdDataFromReader()))
+        .then(this.fillWithCold),
         axios
-          .get('http://backend.test/api/data/' + this.$store.getters.getUser.userID + '/consumption')
+          .get('http://backend.test/api/data/' + this.$store.getters.getUser.userID + '/consumption/hot')
           .then(response => (this.reader = response.data[0]))
           .then(response => (this.getDataFromReader()))
           .then(this.fillWithHot),
@@ -478,20 +487,16 @@ export default {
   }
 }
 
-
 </script>
 
 <style scoped>
 @import '../assets/styles/sb-admin-2.min.css';
 @import '../assets/styles/all.min.css';
-
 #wrapper {
   position: relative;
   bottom: 34px;
 }
-
 #cardrow {
   margin-top: 15px;
 }
-
 </style>
