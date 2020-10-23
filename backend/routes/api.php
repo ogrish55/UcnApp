@@ -20,8 +20,11 @@ Route::middleware('auth:api')->group(function () {
     });
 
     Route::post('/logout', 'App\Http\Controllers\AuthController@logout');
-    Route::get('data/monthlyMeasurements', 'App\Http\Controllers\DataController@GetMonthlyMeasurements');
-    Route::get('data/consumption', 'App\Http\Controllers\DataController@GetMonthlyConsumption');
+    Route::get('data/monthlyMeasurements/{type}', 'App\Http\Controllers\DataController@GetMonthlyMeasurements');
+    Route::get('data/consumption/{type}', 'App\Http\Controllers\DataController@GetMonthlyConsumption');
+    Route::get('data/consumption/{type}', 'App\Http\Controllers\DataController@GetMonthlyConsumption');
+    Route::get('data/currentYearUsage/total/monthNumber', 'App\Http\Controllers\DataController@GetMonthNumber');
+    Route::get('data/currentYearUsage/total', 'App\Http\Controllers\DataController@GetLatestYearTotal');
 
 });
 
@@ -51,8 +54,6 @@ Route::get('data/{id}/currentMonthUsage/cold', 'App\Http\Controllers\DataControl
 Route::get('data/{id}/currentMonthUsage/total', 'App\Http\Controllers\DataController@GetLatestMonthTotal');
 Route::get('data/{id}/currentYearUsage/hot', 'App\Http\Controllers\DataController@GetLatestYearHot');
 Route::get('data/{id}/currentYearUsage/cold', 'App\Http\Controllers\DataController@GetLatestYearCold');
-Route::get('data/{id}/currentYearUsage/total', 'App\Http\Controllers\DataController@GetLatestYearTotal');
-Route::get('data/{id}/currentYearUsage/total/monthNumber', 'App\Http\Controllers\DataController@GetMonthNumber');
 
 Route::get('measurement/{id}', 'App\Http\Controllers\MeasurementController@measurement');
 

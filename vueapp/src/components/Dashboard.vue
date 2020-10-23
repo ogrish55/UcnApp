@@ -423,6 +423,9 @@ export default {
   mounted () {
     this.apiCalls()
   },
+  created () {
+    axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('access_token')
+  },
   methods: {
     fillWithHot () {
       this.datacollection = {

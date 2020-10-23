@@ -50,7 +50,7 @@ export default {
     },
     apiCalls () {
       axios
-        .get('http://backend.test/api/data/monthlyMeasurements')
+        .get('http://backend.test/api/data/monthlyMeasurements/hot')
         .then(response => (this.reader = response.data))
         .then(response => (this.getDataFromReader()))
         .then(this.fillData)

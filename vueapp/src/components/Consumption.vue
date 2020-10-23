@@ -50,7 +50,7 @@ export default {
     },
     apiCalls () {
       axios
-        .get('http://backend.test/api/data/consumption')
+        .get('http://backend.test/api/data/consumption/hot')
         .then(response => (this.reader = response.data[0]))
         .then(response => (this.getDataFromReader()))
         .then(this.fillData)

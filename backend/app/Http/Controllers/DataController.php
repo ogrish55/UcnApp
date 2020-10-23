@@ -106,9 +106,16 @@ class DataController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function GetMonthlyMeasurements(Request $request, $id, $type)
+    public function GetMonthlyMeasurements(Request $request, $type)
     {
-        $values = $this->GetDataUser($request, $id, $type);
+        $id = $request->user()->userID;
+        $values = null;
+
+        if ($type == 'cold') {
+            $values = $this->GetAllData($request, $id);
+        } else if ($type == 'hot') {
+            $values = $this->GetDataUser($request, $id, $type);
+        }
 
         // find frem til sidste dato i måneden og vælg den seneste værdi og smid over i nyt array
         $onePerMonth = [];
@@ -142,9 +149,9 @@ class DataController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function GetMonthlyConsumption(Request $request, $id, $type)
+    public function GetMonthlyConsumption(Request $request, $type)
     {
-        $monthlyMeasurements = $this->GetMonthlyMeasurements($request, $id, $type);
+        $monthlyMeasurements = $this->GetMonthlyMeasurements($request, $type);
 
         // lav nyt array som tager differencen aka det rigtige forbrug hver måned
         $actualConsumption = [];
@@ -599,8 +606,9 @@ class DataController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function GetLatestYearTotal(Request $request, $id)
+    public function GetLatestYearTotal(Request $request)
     {
+        $id =  $request->User()->userID;
         $hotWater = $this->GetLatestYearHot($request, $id);
         $coldWater = $this->GetLatestYearCold($request, $id);
 
@@ -613,8 +621,9 @@ class DataController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function GetMonthNumber(Request $request, $id)
+    public function GetMonthNumber(Request $request)
     {
+        $id = $request->User()->userID;
         $result = $this->GetAllData($request, $id);
 
         $latestMeasurement = array_pop($result);
