@@ -160,7 +160,6 @@
                 </div>
               </div>
 
-
               <!-- TEST CHART -->
               <div class="col-xl-8 col-lg-7">
                 <div class="card shadow mb-4">
@@ -501,7 +500,7 @@ export default {
     },
     getDataFromReader () {
       let keys = Object.keys(this.reader)
-      keys.forEach(key => {
+      keys.forEach(key => { 
         this.measurements.push(this.reader[key].value)
         // this.timeOfReader.push(this.reader[key].date.date)
         let dateString = this.reader[key].date.date
