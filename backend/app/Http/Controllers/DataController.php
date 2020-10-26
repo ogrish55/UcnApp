@@ -2,104 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Database\GetDataDB;
 use Illuminate\Http\Request;
-use App\Models\Household;
-use App\Models\Device;
-use App\Models\Measurement;
-use App\Models\User;
-use DateTime;
-use GrahamCampbell\ResultType\Result;
-use Hamcrest\Arrays\IsArray;
-use Illuminate\Support\Facades\DB;
-use SebastianBergmann\Environment\Console;
 
 class DataController extends Controller
 {
-    /**
-     * Display the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function GetData(Request $request)
+    public $GetDataDB;
+
+    public function __construct()
     {
-        $data = Device::all();
-        return response()->json($data);
-    }
-
-    public function GetAllData(Request $request)
-    {
-        $id = $request->User()->userID;
-
-        // SQL query til at få fat på alle målinger for en bruger
-        $result = DB::select('SELECT measurement, value, meterType FROM measurements
-    WHERE deviceID IN (
-        SELECT deviceID FROM devices
-        WHERE householdID = (
-            SELECT householdID FROM households
-            WHERE userID = ?
-        )
-    )', [$id]);
-
-        return $this->ConvertToObjects($result);
-    }
-
-    public function ConvertToObjects($result)
-    {
-        // konverter resultatet til objekter og smid i et nyt array
-        $values = [];
-
-        foreach ($result as $i => $m) {
-            //værdien
-            // få fat i value string
-            $valueString = $m->value;
-
-            // fjern sidste 3 karakterer
-            $string = substr($valueString, 0, strlen($valueString) - 3);
-
-            // få fat i type
-            $typeString = $m->meterType;
-
-            // konverter til int
-            $value = (double)$string;
-
-            //datoen
-            $dateString = $m->measurement;
-            $dateString = substr($dateString, 0, 10);
-
-            // opret objekt
-            $data = new DataStore;
-            $data->date = new DateTime($dateString);
-            $data->value = $value;
-            $data->type = $typeString;
-
-            // tilføj objekt til array
-            $values[$i] = $data;
-        }
-
-        return $values; // returner array af objekter
-    }
-
-    /**
-     * @param \Illuminate\Http\Request $request
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function GetDataUser(Request $request, $type)
-    {
-        $id = $request->User()->userID;
-
-        // SQL query til at få fat på alle målinger for xen bruger
-        $result = DB::select('SELECT measurement, value, meterType FROM measurements
-    WHERE meterType = ? AND deviceID IN (
-        SELECT deviceID FROM devices
-        WHERE householdID = (
-            SELECT householdID FROM households
-            WHERE userID = ?
-        )
-    )', [$type . ' water', $id]);
-
-        return $this->ConvertToObjects($result);
+        $this->GetDataDB = new GetDataDB();
     }
 
 
@@ -115,9 +27,9 @@ class DataController extends Controller
         $values = null;
 
         if ($type == 'all') {
-            $values = $this->GetAllData($request);
+            $values = $this->GetDataDB->GetAllData($request);
         } else if ($type == 'hot' || $type == 'cold') {
-            $values = $this->GetDataUser($request, $type);
+            $values = $this->GetDataDB->GetDataUser($request, $type);
         }
 
         // find frem til sidste dato i måneden og vælg den seneste værdi og smid over i nyt array
@@ -141,8 +53,6 @@ class DataController extends Controller
                 }
             }
         }
-        return $monthlyMeasurements;
-
         return $monthlyMeasurements;
     }
 
@@ -282,7 +192,7 @@ class DataController extends Controller
     public function GetLatestMonth(Request $request, $type)
     {
         // Får enten alle varmt eller koldt vands målinger for en bruger
-        $result = $this->GetDataUser($request, $type);
+        $result = $this->GetDataDB->GetDataUser($request, $type);
 
         // Får fat i seneste måling
         $latestMeasurement = $this->GetLastItem($result);
@@ -338,7 +248,7 @@ class DataController extends Controller
     public function GetLatestYear(Request $request, $type)
     {
         // Får enten alle varmt eller koldt vands målinger for en bruger
-        $result = $this->GetDataUser($request, $type);
+        $result = $this->GetDataDB->GetDataUser($request, $type);
 
         // Får fat i seneste måling
         $latestMeasurement = $this->GetLastItem($result);
@@ -384,7 +294,7 @@ class DataController extends Controller
     public function GetMonthNumber(Request $request)
     {
         // Henter målinger for både koldt og varmt vand
-        $result = $this->GetAllData($request);
+        $result = $this->GetDataDB->GetAllData($request);
 
         // Får fat i den sidste måling
         $latestMeasurement = array_pop($result);
