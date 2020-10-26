@@ -10,6 +10,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin')
 
 const env = process.env.NODE_ENV === 'testing'
   ? require('../config/test.env')
@@ -119,7 +120,32 @@ const webpackConfig = merge(baseWebpackConfig, {
         to: config.build.assetsSubDirectory,
         ignore: ['.*']
       }
-    ])
+    ]),
+    // service worker caching
+    new SWPrecacheWebpackPlugin({
+      cacheId: 'vueapp',
+      filename: 'service-worker.js',
+      staticFileGlobs: ['dist/**/*.{js,html,css}'],
+      minify: true,
+      stripPrefix: 'dist/',
+      runtimeCaching: [
+        {
+          // urlPattern: /^http:\/\/backend\.test\api\login/,
+          urlPattern: 'http://backend.test/api/login',
+          handler: 'cacheFirst'
+        },
+        {
+          // urlPattern: /^http:\/\/backend\.test\api\logout/,
+          urlPattern: 'http://backend.test/api/logout',
+          handler: 'cacheFirst'
+        },
+        {
+          // urlPattern: /^http:\/\/backend\.test\api\user/,
+          urlPattern: 'http://backend.test/api/user',
+          handler: 'cacheFirst'
+        }
+      ]
+    })
   ]
 })
 
