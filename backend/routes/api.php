@@ -21,10 +21,13 @@ Route::middleware('auth:api')->group(function () {
 
     Route::post('/logout', 'App\Http\Controllers\AuthController@logout');
     Route::get('data/monthlyMeasurements/{type}', 'App\Http\Controllers\DataController@GetMonthlyMeasurements');
-    Route::get('data/consumption/{type}', 'App\Http\Controllers\DataController@GetMonthlyConsumption');
-    Route::get('data/consumption/{type}', 'App\Http\Controllers\DataController@GetMonthlyConsumption');
+    Route::get('data/consumption/{type}/{returnType}', 'App\Http\Controllers\DataController@GetMonthlyConsumption');
     Route::get('data/currentYearUsage/total/monthNumber', 'App\Http\Controllers\DataController@GetMonthNumber');
-    Route::get('data/currentYearUsage/total', 'App\Http\Controllers\DataController@GetLatestYearTotal');
+    Route::get('data/currentYearUsage/total/', 'App\Http\Controllers\DataController@GetLatestYearTotal');
+    Route::get('data/currentYearUsage/{type}', 'App\Http\Controllers\DataController@GetLatestYear');
+    Route::get('data/currentMonthUsage/total', 'App\Http\Controllers\DataController@GetLatestMonthTotal');
+    Route::get('data/currentMonthUsage/{type}', 'App\Http\Controllers\DataController@GetLatestMonth');
+    Route::get('data/average/{returnType}', 'App\Http\Controllers\DataController@GetMonthlyAverage');
 
 });
 
@@ -44,16 +47,10 @@ Route::get('users/{id}', 'App\Http\Controllers\UserController@getSingle');
 Route::delete('users/{id}', 'App\Http\Controllers\UserController@delete');
 Route::put('users/{id}', 'App\Http\Controllers\UserController@update');
 
-Route::get('data', 'App\Http\Controllers\DataController@GetDataUser');
-Route::get('data/{id}/average', 'App\Http\Controllers\DataController@GetMonthlyAverage');
+Route::get('data/{type}', 'App\Http\Controllers\DataController@GetDataUser');
 
 
 // Route::get('data/{id}/usageToday', 'App\Http\Controllers\DataController@GetUsageToday');
-Route::get('data/{id}/currentMonthUsage/hot', 'App\Http\Controllers\DataController@GetLatestMonthHot');
-Route::get('data/{id}/currentMonthUsage/cold', 'App\Http\Controllers\DataController@GetLatestMonthCold');
-Route::get('data/{id}/currentMonthUsage/total', 'App\Http\Controllers\DataController@GetLatestMonthTotal');
-Route::get('data/{id}/currentYearUsage/hot', 'App\Http\Controllers\DataController@GetLatestYearHot');
-Route::get('data/{id}/currentYearUsage/cold', 'App\Http\Controllers\DataController@GetLatestYearCold');
 
 Route::get('measurement/{id}', 'App\Http\Controllers\MeasurementController@measurement');
 
