@@ -471,12 +471,12 @@ export default {
     },
     apiCalls () {
       axios
-        .get('http://backend.test/api/data/consumption/cold')
+        .get('http://backend.test/api/data/consumption/cold/json')
         .then(response => (this.coldReader = response.data[0]))
         .then(response => (this.getColdDataFromReader()))
         .then(this.fillWithCold),
         axios
-          .get('http://backend.test/api/data/consumption/hot')
+          .get('http://backend.test/api/data/consumption/hot/json')
           .then(response => (this.reader = response.data[0]))
           .then(response => (this.getDataFromReader()))
           .then(this.fillWithHot),
