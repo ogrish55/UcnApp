@@ -5,6 +5,7 @@ import Pricing from '../components/Pricing'
 import Login from '../components/auth/Login'
 import Logout from '../components/auth/Logout'
 import MonthlyMeasurements from '../components/MonthlyMeasurements'
+import Dashboard from '../components/Dashboard'
 
 const routes = [
   {
@@ -13,7 +14,7 @@ const routes = [
     component: FrontPage
   },
   {
-    path: '/user/:userId',
+    path: '/user',
     name: 'user',
     component: SingleUser,
     props: true,
@@ -31,6 +32,15 @@ const routes = [
     component: Login,
     meta: {
       requiresVisitor: true
+    }
+  },
+  {
+    path: '/dashboard',
+    name: 'dashboard',
+    component: Dashboard,
+    props: true,
+    meta: {
+      requiresAuth: true
     }
   },
   {

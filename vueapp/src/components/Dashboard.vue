@@ -160,7 +160,6 @@
                 </div>
               </div>
 
-
               <!-- TEST CHART -->
               <div class="col-xl-8 col-lg-7">
                 <div class="card shadow mb-4">

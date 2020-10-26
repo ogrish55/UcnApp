@@ -7,7 +7,13 @@ axios.defaults.baseURL = 'http://backend.test/api'
 
 export const store = new Vuex.Store({
   state: {
-    token: localStorage.getItem('access_token') || null
+    token: localStorage.getItem('access_token') || null,
+    user: {
+      firstName: '',
+      lastName: '',
+      email: '',
+      phoneNumber: ''
+    }
   },
   getters: {
     loggedIn (state) {
@@ -15,11 +21,21 @@ export const store = new Vuex.Store({
     }
   },
   mutations: {
-    retrieveToken (state, token) {
+    storeToken (state, token) {
       state.token = token
     },
     destroyToken (state) {
       state.token = null
+    },
+    storeUser (state, user) {
+      state.user.firstName = user.firstName
+      state.user.lastName = user.lastName
+      state.user.email = user.email
+      state.user.phoneNumber = user.phoneNumber
+
+    },
+    clearUserDetails (state) {
+      state.user = null
     }
   },
   actions: {
@@ -58,25 +74,31 @@ export const store = new Vuex.Store({
         })
       }
     },
-    retrieveToken (context, credentials) {
-      return new Promise((resolve, reject) => {
-        axios
-          .post('/login', {
-            username: credentials.username,
-            password: credentials.password
-          })
-          .then(response => {
-            const token = response.data.access_token
-
-            localStorage.setItem('access_token', token)
-            context.commit('retrieveToken', token)
-            resolve(response)
-          })
-          .catch(error => {
-            console.log(error)
-            reject(error)
-          })
-      })
+    async retrieveToken (context, credentials) {
+      try {
+        const response = await axios.post('/login', {
+          username: credentials.username,
+          password: credentials.password
+        })
+        const token = response.data.access_token
+        localStorage.setItem('access_token', token)
+        context.commit('storeToken', token)
+      } catch (error) {
+        throw error
+      }
+    },
+    retrieveUser(context) {
+      axios.defaults.headers.common['Authorization'] = 'Bearer ' + context.state.token
+      axios.get('/user')
+        .then(response => {
+          context.commit('storeUser', response.data)
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+    clearUserDetails(context){
+      context.commit('clearUserDetails')
     }
   }
 })

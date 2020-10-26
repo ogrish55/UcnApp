@@ -20,15 +20,6 @@ export default {
       timeOfReader: [],
       reader: null,
       chartOptions: null
-      // chartOptions: {
-      //   animation: {
-      //     duration: 0
-      //   },
-      //   hover: {
-      //     animationDuration: 0
-      //   },
-      //   responsiveAnimationDuration: 0
-      // }
     }
   },
   mounted () {
@@ -59,7 +50,7 @@ export default {
     },
     apiCalls () {
       axios
-        .get('http://backend.test/api/data/' + this.$route.params.userId + '/monthlyMeasurements')
+        .get('http://backend.test/api/data/monthlyMeasurements/hot')
         .then(response => (this.reader = response.data))
         .then(response => (this.getDataFromReader()))
         .then(this.fillData)
