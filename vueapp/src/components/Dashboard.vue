@@ -160,6 +160,35 @@
                 </div>
               </div>
 
+              <!-- TEST CHART -->
+              <div class="col-xl-8 col-lg-7">
+                <div class="card shadow mb-4">
+                  <!-- Card Header - Dropdown -->
+                  <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Vandforbrug</h6>
+                    <div class="dropdown no-arrow">
+                      <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
+                         aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                      </a>
+                      <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                           aria-labelledby="dropdownMenuLink">
+                        <a class="dropdown-item"  v-on:click="fillWithHot"><strong>Varmt vand</strong></a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" v-on:click="fillWithCold"><strong>Koldt vand</strong></a>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Card Body -->
+                  <div class="card-body">
+                    <div class="chart-area">
+                      <line-chart :width="300" :height="70" v-if="ready" :chart-data="datacollection"
+                                  :options="chartOptions"></line-chart>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
               <!-- Pie Chart -->
               <div class="col-xl-4 col-lg-5">
                 <div class="card shadow mb-4">
@@ -388,7 +417,9 @@ import axios from 'axios'
 // import '../assets/js/demo/chart-pie-demo.js';
 export default {
   name: 'Dashboard',
-  components: {LineChart},
+  components: {
+    LineChart
+    },
   data () {
     return {
       ready: false,
@@ -406,18 +437,32 @@ export default {
       usageInM3: null,
       aconto: null,
       difference: null,
-      monthNumber: null
+      monthNumber: null,
+      monthNames: [
+        "Januar",
+        "Februar",
+        "Marts",
+        "April",
+        "Maj",
+        "Juni",
+        "Juli",
+        "August",
+        "September",
+        "Oktober",
+        "November",
+        "December"
+      ]
     }
   },
   computed: {
     calculateUsageInDkk () {
-      this.usageInDkk = (Math.round(this.usageInM3 * 54.84).toFixed(2))
+      this.usageInDkk = (this.usageInM3 * 54.84).toFixed(2)
     },
     calculateAconto (){
-      this.aconto = (Math.round(this.monthNumber * 400).toFixed(2))
+      this.aconto = (this.monthNumber * 400).toFixed(2)
     },
     calculateDiff(){
-      this.difference = (Math.round(this.aconto - this.usageInDkk).toFixed(2))
+      this.difference = (this.aconto - this.usageInDkk).toFixed(2)
     }
   },
   mounted () {
@@ -455,28 +500,40 @@ export default {
     },
     getDataFromReader () {
       let keys = Object.keys(this.reader)
-      keys.forEach(key => {
+      keys.forEach(key => { 
         this.measurements.push(this.reader[key].value)
-        this.timeOfReader.push(this.reader[key].date.date)
+        // this.timeOfReader.push(this.reader[key].date.date)
+        let dateString = this.reader[key].date.date
+        let dateTime = new Date(dateString)
+        let year = dateTime.getFullYear() // "2019"
+        year = year.toString().slice(-2) // "19"
+
+        this.timeOfReader.push(this.monthNames[dateTime.getMonth()] + " '" + year)
       })
-      this.timeOfReader = this.timeOfReader.map(x => x.substr(0, 10))
+      // this.timeOfReader = this.timeOfReader.map(x => x.substr(0, 10))
     },
     getColdDataFromReader () {
       let keys = Object.keys(this.coldReader)
       keys.forEach(key => {
         this.coldMeasurements.push(this.coldReader[key].value)
-        this.coldTimeOfReader.push(this.coldReader[key].date.date)
+        let dateString = this.coldReader[key].date.date
+        let dateTime = new Date(dateString) // konverter til date objekt
+        let year = dateTime.getFullYear() // "2019"
+        year = year.toString().slice(-2) // "19"
+
+        this.coldTimeOfReader.push(this.monthNames[dateTime.getMonth()] + " '" + year)
+        // this.coldTimeOfReader.push(this.monthNames[dateTime.getMonth()])
       })
-      this.coldTimeOfReader = this.coldTimeOfReader.map(x => x.substr(0, 10))
+      // this.coldTimeOfReader = this.coldTimeOfReader.map(x => x.substr(0, 10))
     },
     apiCalls () {
       axios
-        .get('http://backend.test/api/data/consumption/cold/json')
+        .get('http://backend.test/api/data/consumption/cold')
         .then(response => (this.coldReader = response.data[0]))
         .then(response => (this.getColdDataFromReader()))
         .then(this.fillWithCold),
         axios
-          .get('http://backend.test/api/data/consumption/hot/json')
+          .get('http://backend.test/api/data/consumption/hot')
           .then(response => (this.reader = response.data[0]))
           .then(response => (this.getDataFromReader()))
           .then(this.fillWithHot),
