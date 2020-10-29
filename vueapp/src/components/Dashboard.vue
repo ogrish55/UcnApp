@@ -61,8 +61,8 @@
                   <div class="card-body">
                     <div class="row no-gutters align-items-center">
                       <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Forbrug i m3</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ usageInM3 }} m3</div>
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Forbrug i m<sup>3</sup></div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ usageInM3 }} M<sup>3</sup></div>
                       </div>
                       <div class="col-auto">
                         <i class="fas fa-home fa-2x text-gray-300"></i>
@@ -185,8 +185,8 @@
                   <!-- Card Body -->
                   <div class="card-body">
                     <div class="chart-area">
-                      <line-chart :width="300" :height="70" v-if="ready" :chart-data="datacollection"
-                                  :options="chartOptions"></line-chart>
+                      <bar-chart :width="300" :height="70" v-if="ready" :chart-data="datacollection"
+                                  :options="chartOptions"></bar-chart>
                     </div>
                   </div>
                 </div>
@@ -393,6 +393,7 @@ import '../assets/js/sb-admin-2.min.js'
 import '../assets/vendor/chart.js/Chart.min.js'
 import '../assets/vendor/chart.js/Chart.min.js'
 import LineChart from './LineChart'
+import BarChart from './BarChart'
 import axios from 'axios'
 // import '../assets/js/demo/chart-pie-demo.js';
 export default {
@@ -413,7 +414,28 @@ export default {
       coldTimeOfReader: [],
       reader: null,
       coldReader: null,
-      chartOptions: null,
+      chartOptions: {
+        scales: {
+            yAxes: [{
+              ticks: {
+                beginAtZero: true
+              },
+              gridLines: {
+                display: true
+              }
+            }],
+            xAxes: [ {
+              gridLines: {
+                display: false
+              }
+            }]
+          },
+          legend: {
+            display: true
+          },
+          responsive: true,
+          maintainAspectRatio: true
+      },
       usageInDkk: null,
       usageInM3: null,
       aconto: null,
@@ -460,7 +482,11 @@ export default {
           {
             label: 'Varmt vand',
             backgroundColor: '#f87979',
-            data: this.measurements
+            data: this.measurements,
+            fill: false,
+            borderWidth: 1,
+            borderColor: '#f87979',
+            backgroundColor: '#f87979'
           }
         ]
       }
@@ -473,7 +499,11 @@ export default {
           {
             label: 'Koldt vand',
             backgroundColor: '#0a5493',
-            data: this.coldMeasurements
+            data: this.coldMeasurements,
+            fill: false,
+            borderWidth: 1,
+            borderColor: '#0a5493',
+            backgroundColor: '#0a5493'
           }
         ]
       }
@@ -491,7 +521,8 @@ export default {
 
         this.timeOfReader.push(this.monthNames[dateTime.getMonth()] + ' \'' + year)
       })
-      // this.timeOfReader = this.timeOfReader.map(x => x.substr(0, 10))
+      this.measurements.shift(); // fjerner første element af array da data altid vil være 0
+      this.timeOfReader.shift(); // fjerner tilsvarende label
     },
     getColdDataFromReader () {
       let keys = Object.keys(this.coldReader)
@@ -502,10 +533,10 @@ export default {
         let year = dateTime.getFullYear() // "2019"
         year = year.toString().slice(-2) // "19"
 
-        this.coldTimeOfReader.push(this.monthNames[dateTime.getMonth()] + ' \'' + year)
-        // this.coldTimeOfReader.push(this.monthNames[dateTime.getMonth()])
+        this.coldTimeOfReader.push(this.monthNames[dateTime.getMonth()] + " '" + year)
       })
-      // this.coldTimeOfReader = this.coldTimeOfReader.map(x => x.substr(0, 10))
+      this.coldMeasurements.shift(); // fjerner første element af array da data altid vil være 0
+      this.coldTimeOfReader.shift(); // fjerner tilsvarende label
     },
     apiCalls () {
       axios
