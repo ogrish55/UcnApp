@@ -186,7 +186,7 @@
                   <div class="card-body">
                     <div class="chart-area">
                       <bar-chart :width="300" :height="70" v-if="ready" :chart-data="datacollection"
-                                  :options="chartOptions"></bar-chart>
+                                 :options="chartOptions"></bar-chart>
                     </div>
                   </div>
                 </div>
@@ -246,7 +246,7 @@
                     <h6 class="m-0 font-weight-bold text-primary">Forbrug i DKK (månedligt)</h6>
                   </div>
                   <div class="card-body">
-                  <bar-chart></bar-chart>
+                    <bar-chart-in-dkk></bar-chart-in-dkk>
                   </div>
                 </div>
 
@@ -386,6 +386,7 @@
 
 <script>
 import BarChart from './BarChart'
+import BarChartInDkk from './BarChartInDkk'
 import '../assets/vendor/jquery/jquery.min'
 // import '../assets/vendor/bootstrap/js/bootstrap.bundle.min.js';
 import '../assets/vendor/jquery-easing/jquery.easing.min.js'
@@ -393,14 +394,14 @@ import '../assets/js/sb-admin-2.min.js'
 import '../assets/vendor/chart.js/Chart.min.js'
 import '../assets/vendor/chart.js/Chart.min.js'
 import LineChart from './LineChart'
-import BarChart from './BarChart'
 import axios from 'axios'
 // import '../assets/js/demo/chart-pie-demo.js';
 export default {
   name: 'Dashboard',
   components: {
     LineChart,
-    BarChart
+    BarChart,
+    BarChartInDkk
   },
   data () {
     return {
@@ -416,25 +417,25 @@ export default {
       coldReader: null,
       chartOptions: {
         scales: {
-            yAxes: [{
-              ticks: {
-                beginAtZero: true
-              },
-              gridLines: {
-                display: true
-              }
-            }],
-            xAxes: [ {
-              gridLines: {
-                display: false
-              }
-            }]
-          },
-          legend: {
-            display: true
-          },
-          responsive: true,
-          maintainAspectRatio: true
+          yAxes: [{
+            ticks: {
+              beginAtZero: true
+            },
+            gridLines: {
+              display: true
+            }
+          }],
+          xAxes: [ {
+            gridLines: {
+              display: false
+            }
+          }]
+        },
+        legend: {
+          display: true
+        },
+        responsive: true,
+        maintainAspectRatio: true
       },
       usageInDkk: null,
       usageInM3: null,
@@ -518,7 +519,6 @@ export default {
         let dateTime = new Date(dateString)
         let year = dateTime.getFullYear() // "2019"
         year = year.toString().slice(-2) // "19"
-
         this.timeOfReader.push(this.monthNames[dateTime.getMonth()] + ' \'' + year)
       })
       this.measurements.shift(); // fjerner første element af array da data altid vil være 0
@@ -532,7 +532,6 @@ export default {
         let dateTime = new Date(dateString) // konverter til date objekt
         let year = dateTime.getFullYear() // "2019"
         year = year.toString().slice(-2) // "19"
-
         this.coldTimeOfReader.push(this.monthNames[dateTime.getMonth()] + " '" + year)
       })
       this.coldMeasurements.shift(); // fjerner første element af array da data altid vil være 0
@@ -558,18 +557,15 @@ export default {
     }
   }
 }
-
 </script>
 
 <style scoped>
 @import '../assets/styles/sb-admin-2.min.css';
 @import '../assets/styles/all.min.css';
-
 #wrapper {
   position: relative;
   bottom: 34px;
 }
-
 #cardrow {
   margin-top: 15px;
 }

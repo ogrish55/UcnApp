@@ -1,7 +1,6 @@
 <script>
 import {Bar} from 'vue-chartjs/es/BaseCharts.js'
 import axios from 'axios'
-
 export default {
   extends: Bar,
   name: 'BarChart',
@@ -65,7 +64,6 @@ export default {
           pointBorderColor: '#2554FF',
           data: this.data
         }]
-
       }
       this.renderChart(this.chartData, this.options)
     },
@@ -76,10 +74,8 @@ export default {
         let dateTime = new Date(dateString) // konverter til date objekt
         let year = dateTime.getFullYear() // "2019"
         year = year.toString().slice(-2) // "19"
-
         this.labels.push(this.monthNames[dateTime.getMonth()] + ' \'' + year)
         // this.coldTimeOfReader.push(this.monthNames[dateTime.getMonth()])
-
         this.data.push(parseFloat(this.reader[key].price))
       })
     },
@@ -97,5 +93,4 @@ export default {
 
 
 <style scoped>
-
 </style>
