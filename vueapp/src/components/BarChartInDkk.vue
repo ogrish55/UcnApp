@@ -78,6 +78,8 @@ export default {
         // this.coldTimeOfReader.push(this.monthNames[dateTime.getMonth()])
         this.data.push(parseFloat(this.reader[key].price))
       })
+      this.labels.shift()
+      this.data.shift()
     },
     apiCalls () {
       axios
