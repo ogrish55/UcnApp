@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Database\DataStore;
 use App\Http\Database\GetDataDB;
 use Illuminate\Http\Request;
 
@@ -26,6 +27,7 @@ class DataController extends Controller
     {
         $values = null;
 
+
         if ($type == 'all') {
             $values = $this->GetDataDB->GetAllData($request);
         } else if ($type == 'hot' || $type == 'cold') {
@@ -40,10 +42,9 @@ class DataController extends Controller
         }
 
         // fjern alle duplikater så der kun eksisterer de datoer der er nødvendige
-        $onePerMonthStriped = array_unique($onePerMonth);;
+        $onePerMonthStriped = array_unique($onePerMonth);
 
         $monthlyMeasurements = [];
-
         foreach ($onePerMonthStriped as $i => $o) { // for hver dato
             foreach ($values as $v) { // for hver datasæt
                 // hvis datoen passer overens tilføjes dataen til arrayet
@@ -53,6 +54,8 @@ class DataController extends Controller
                 }
             }
         }
+
+
         return $monthlyMeasurements;
     }
 
@@ -306,12 +309,28 @@ class DataController extends Controller
         return $date;
     }
 
+    public function MonthlyUsageInDkk(Request $request)
+    {
+        $monthlyMeasurements = $this->GetMonthlyConsumption($request, $type = 'all', $returnType= 'list');
+        $regionStore = $this->GetDataDB->GetPricePrCubic($request);
+        $UsageInDkkList = [];
 
+
+        foreach ($monthlyMeasurements as $m) {
+            $usageInDkk = new UsageInDkk();
+            $usageInDkk->price = substr($m->value * $regionStore->pricePrCubic, 0, -2);
+            $usageInDkk->date = $m->date;
+
+            array_push($UsageInDkkList, $usageInDkk);
+        }
+        return response()->json([
+            $UsageInDkkList]);
+    }
 }
 
-class DataStore
+class UsageInDkk
 {
+    public $price;
     public $date;
-    public $value;
-    public $type;
 }
+

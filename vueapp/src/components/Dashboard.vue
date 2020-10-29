@@ -98,7 +98,8 @@
                     <div class="row no-gutters align-items-center">
                       <div class="col mr-2">
                         <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Betalt aconto</div>
-                        <div v-bind="calculateAconto" class="h5 mb-0 font-weight-bold text-gray-800">{{aconto}} DKK</div>
+                        <div v-bind="calculateAconto" class="h5 mb-0 font-weight-bold text-gray-800">{{ aconto }} DKK
+                        </div>
                       </div>
                       <div class="col-auto">
                         <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -114,8 +115,10 @@
                   <div class="card-body">
                     <div class="row no-gutters align-items-center">
                       <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Difference i DKK </div>
-                        <div v-bind="calculateDiff" class="h5 mb-0 font-weight-bold text-gray-800">{{difference}} DKK</div>
+                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Difference i DKK</div>
+                        <div v-bind="calculateDiff" class="h5 mb-0 font-weight-bold text-gray-800">{{ difference }}
+                          DKK
+                        </div>
                       </div>
                       <div class="col-auto">
                         <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -144,7 +147,7 @@
                       </a>
                       <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                            aria-labelledby="dropdownMenuLink">
-                        <a class="dropdown-item"  v-on:click="fillWithHot"><strong>Varmt vand</strong></a>
+                        <a class="dropdown-item" v-on:click="fillWithHot"><strong>Varmt vand</strong></a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" v-on:click="fillWithCold"><strong>Koldt vand</strong></a>
                       </div>
@@ -173,7 +176,7 @@
                       </a>
                       <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                            aria-labelledby="dropdownMenuLink">
-                        <a class="dropdown-item"  v-on:click="fillWithHot"><strong>Varmt vand</strong></a>
+                        <a class="dropdown-item" v-on:click="fillWithHot"><strong>Varmt vand</strong></a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" v-on:click="fillWithCold"><strong>Koldt vand</strong></a>
                       </div>
@@ -240,34 +243,10 @@
                 <!-- Project Card Example -->
                 <div class="card shadow mb-4">
                   <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Projects</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">Forbrug i DKK (månedligt)</h6>
                   </div>
                   <div class="card-body">
-                    <h4 class="small font-weight-bold">Server Migration <span class="float-right">20%</span></h4>
-                    <div class="progress mb-4">
-                      <div class="progress-bar bg-danger" role="progressbar" style="width: 20%" aria-valuenow="20"
-                           aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                    <h4 class="small font-weight-bold">Sales Tracking <span class="float-right">40%</span></h4>
-                    <div class="progress mb-4">
-                      <div class="progress-bar bg-warning" role="progressbar" style="width: 40%" aria-valuenow="40"
-                           aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                    <h4 class="small font-weight-bold">Customer Database <span class="float-right">60%</span></h4>
-                    <div class="progress mb-4">
-                      <div class="progress-bar" role="progressbar" style="width: 60%" aria-valuenow="60"
-                           aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                    <h4 class="small font-weight-bold">Payout Details <span class="float-right">80%</span></h4>
-                    <div class="progress mb-4">
-                      <div class="progress-bar bg-info" role="progressbar" style="width: 80%" aria-valuenow="80"
-                           aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                    <h4 class="small font-weight-bold">Account Setup <span class="float-right">Complete!</span></h4>
-                    <div class="progress">
-                      <div class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="100"
-                           aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
+                  <bar-chart></bar-chart>
                   </div>
                 </div>
 
@@ -406,6 +385,7 @@
 </template>
 
 <script>
+import BarChart from './BarChart'
 import '../assets/vendor/jquery/jquery.min'
 // import '../assets/vendor/bootstrap/js/bootstrap.bundle.min.js';
 import '../assets/vendor/jquery-easing/jquery.easing.min.js'
@@ -418,8 +398,9 @@ import axios from 'axios'
 export default {
   name: 'Dashboard',
   components: {
-    LineChart
-    },
+    LineChart,
+    BarChart
+  },
   data () {
     return {
       ready: false,
@@ -439,18 +420,18 @@ export default {
       difference: null,
       monthNumber: null,
       monthNames: [
-        "Januar",
-        "Februar",
-        "Marts",
-        "April",
-        "Maj",
-        "Juni",
-        "Juli",
-        "August",
-        "September",
-        "Oktober",
-        "November",
-        "December"
+        'Januar',
+        'Februar',
+        'Marts',
+        'April',
+        'Maj',
+        'Juni',
+        'Juli',
+        'August',
+        'September',
+        'Oktober',
+        'November',
+        'December'
       ]
     }
   },
@@ -458,10 +439,10 @@ export default {
     calculateUsageInDkk () {
       this.usageInDkk = (this.usageInM3 * 54.84).toFixed(2)
     },
-    calculateAconto (){
+    calculateAconto () {
       this.aconto = (this.monthNumber * 400).toFixed(2)
     },
-    calculateDiff(){
+    calculateDiff () {
       this.difference = (this.aconto - this.usageInDkk).toFixed(2)
     }
   },
@@ -500,7 +481,7 @@ export default {
     },
     getDataFromReader () {
       let keys = Object.keys(this.reader)
-      keys.forEach(key => { 
+      keys.forEach(key => {
         this.measurements.push(this.reader[key].value)
         // this.timeOfReader.push(this.reader[key].date.date)
         let dateString = this.reader[key].date.date
@@ -508,7 +489,7 @@ export default {
         let year = dateTime.getFullYear() // "2019"
         year = year.toString().slice(-2) // "19"
 
-        this.timeOfReader.push(this.monthNames[dateTime.getMonth()] + " '" + year)
+        this.timeOfReader.push(this.monthNames[dateTime.getMonth()] + ' \'' + year)
       })
       // this.timeOfReader = this.timeOfReader.map(x => x.substr(0, 10))
     },
@@ -521,7 +502,7 @@ export default {
         let year = dateTime.getFullYear() // "2019"
         year = year.toString().slice(-2) // "19"
 
-        this.coldTimeOfReader.push(this.monthNames[dateTime.getMonth()] + " '" + year)
+        this.coldTimeOfReader.push(this.monthNames[dateTime.getMonth()] + ' \'' + year)
         // this.coldTimeOfReader.push(this.monthNames[dateTime.getMonth()])
       })
       // this.coldTimeOfReader = this.coldTimeOfReader.map(x => x.substr(0, 10))
@@ -552,10 +533,12 @@ export default {
 <style scoped>
 @import '../assets/styles/sb-admin-2.min.css';
 @import '../assets/styles/all.min.css';
+
 #wrapper {
   position: relative;
   bottom: 34px;
 }
+
 #cardrow {
   margin-top: 15px;
 }

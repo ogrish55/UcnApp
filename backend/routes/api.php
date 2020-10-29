@@ -27,7 +27,8 @@ Route::middleware('auth:api')->group(function () {
     Route::get('data/currentYearUsage/{type}', 'App\Http\Controllers\DataController@GetLatestYear');
     Route::get('data/currentMonthUsage/total', 'App\Http\Controllers\DataController@GetLatestMonthTotal');
     Route::get('data/currentMonthUsage/{type}', 'App\Http\Controllers\DataController@GetLatestMonth');
-    Route::get('data/average/{returnType}', 'App\Http\Controllers\DataController@GetMonthlyAverage');
+    Route::get('data/average/{type}', 'App\Http\Controllers\DataController@GetMonthlyAverage');
+    Route::get('data/monthlyUsageInDkk/', 'App\Http\Controllers\DataController@MonthlyUsageInDkk');
 
 });
 

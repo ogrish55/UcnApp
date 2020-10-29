@@ -4,7 +4,6 @@
 namespace App\Http\Database;
 
 
-use App\Http\Controllers\DataStore;
 use App\Models\Device;
 use DateTime;
 use Illuminate\Http\Request;
@@ -86,7 +85,7 @@ class GetDataDB
     {
         $id = $request->User()->userID;
 
-        // SQL query til at få fat på alle målinger for xen bruger
+        // SQL query til at få fat på alle målinger for en bruger
         $result = DB::select('SELECT measurement, value, meterType FROM measurements
     WHERE meterType = ? AND deviceID IN (
         SELECT deviceID FROM devices
@@ -98,4 +97,45 @@ class GetDataDB
 
         return $this->ConvertToObjects($result);
     }
+
+    public function GetPricePrCubic(Request $request)
+    {
+        // Får fat i regionID fra en bruger
+        $regionID = $request->User()->regionID;
+
+        // Indhenter region oplysninger ud fra regionID
+        $result = DB::select('SELECT regionID, region, pricePrCubic FROM regions WHERE regionID = ?', [$regionID]);
+
+        // Kalder ConvertToRegionObjects funktionen, der returner et regionStore objekt
+        $regionStore = $this->ConvertToRegionObject($result);
+
+        return $regionStore;
+    }
+
+    public function ConvertToRegionObject($result)
+    {
+        $regionStore = new RegionStore();
+
+        foreach ($result as $i => $r) {
+            $regionStore->regionID = $r->regionID;
+            $regionStore->region = $r->region;
+            $regionStore->pricePrCubic = $r->pricePrCubic;
+        }
+
+        return $regionStore;
+    }
+}
+
+class DataStore
+{
+    public $date;
+    public $value;
+    public $type;
+}
+
+class RegionStore
+{
+    public $regionID;
+    public $region;
+    public $pricePrCubic;
 }
