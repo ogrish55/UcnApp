@@ -26,7 +26,8 @@ class UserSeeder extends Seeder
                 'address' => $faker->address,
                 'email' => $faker->email,
                 'phoneNumber' => $faker->phoneNumber,
-                'password' => Hash::make('password')
+                'password' => Hash::make('password'),
+                'regionID' => '2'
             ]);
         }
     }

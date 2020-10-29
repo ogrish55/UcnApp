@@ -26,6 +26,7 @@ class UserTableSeeder extends Seeder
             'email' => 'JonasMail@gmail.com',
             'phoneNumber' => $faker->phoneNumber,
             'password' => Hash::make('password'),
+            'regionID' => '1'
         ]);
 
         DB::table('users')->insert([
@@ -36,6 +37,7 @@ class UserTableSeeder extends Seeder
             'email' => 'DanLund@gmail.com',
             'phoneNumber' => $faker->phoneNumber,
             'password' => Hash::make('password'),
+            'regionID' => '1'
         ]);
 
         DB::table('users')->insert([
@@ -46,6 +48,7 @@ class UserTableSeeder extends Seeder
             'email' => 'Idin@gmail.com',
             'phoneNumber' => $faker->phoneNumber,
             'password' => Hash::make('password'),
+            'regionID' => '1'
         ]);
 
         DB::table('users')->insert([
@@ -56,6 +59,7 @@ class UserTableSeeder extends Seeder
             'email' => 'Krisser@gmail.com',
             'phoneNumber' => $faker->phoneNumber,
             'password' => Hash::make('password'),
+            'regionID' => '1'
         ]);
 
         DB::table('users')->insert([
@@ -66,6 +70,7 @@ class UserTableSeeder extends Seeder
             'email' => 'Asøborg@gmail.com',
             'phoneNumber' => $faker->phoneNumber,
             'password' => Hash::make('password'),
+            'regionID' => '1'
         ]);
     }
 }
