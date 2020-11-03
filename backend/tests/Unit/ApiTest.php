@@ -7,6 +7,10 @@ use Tests\TestCase;
 class ApiTest extends TestCase
 {
 
+    /**
+     * Run the tests using php artisan test
+     */
+
     public function testGetHotConsumption(){
         // Get monthly hot water consumption as a list, using http request.
         $hotConsumptionList = $this->get('api/data/consumption/hot/list', ['Authorization' => 'Bearer ' . $this->getAccessToken()]);
@@ -130,8 +134,29 @@ class ApiTest extends TestCase
         $this->assertEquals('1', $response->userID);
     }
 
+    public function testGetDataWithoutAuthorization () {
+        // Get data without adding access_token in header.
+        // The request needs to have Accept application/json in header.
+        $response = $this->get('api/data/average/cold', ['Accept' => 'application/json']);
+
+        // Assert that the response is 401 / Unauthorized.
+        $response->assertUnauthorized();
+    }
+
+    public function testGetUserWithoutAuthorization () {
+        // Get user without adding access_token in header.
+        // The request needs to have Accept application/json in header.
+        $response = $this->get('api/user', ['Accept' => 'application/json']);
+
+        // Assert that the response is 401 / Unauthorized.
+        $response->assertUnauthorized();
+    }
+
     private function getAccessToken() {
+        // Do a post request with username and password included in request data. Decode the response and assign the content to $response variable.
         $response = json_decode($this->post('/api/login', ['username'=>'JonasMail@gmail.com', 'password'=>'password'])->content());
+
+        // Return the access_token
         return $response->access_token;
     }
 }
