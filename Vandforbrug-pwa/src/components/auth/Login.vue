@@ -39,7 +39,7 @@ export default {
           username: this.username,
           password: this.password
         }).then(response => {
-          this.$router.push({name: 'user'})
+          this.$router.push({name: 'dashboard'})
         })
       } catch (error) {
         console.log(error)

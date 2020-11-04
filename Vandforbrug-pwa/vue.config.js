@@ -11,13 +11,13 @@ module.exports = {
                 cacheName: 'api-cache'
             }
             },
-            {
-                urlPattern: new RegExp('^http://backend.test/api/user'),
-                handler: 'CacheFirst',
-                options: {
-                    cacheName: 'api-cache'
-                }
-            },
+            // {
+            //     urlPattern: new RegExp('^http://backend.test/api/user'),
+            //     handler: 'CacheFirst',
+            //     options: {
+            //         cacheName: 'api-cache'
+            //     }
+            // },
             {
                 urlPattern: new RegExp('^http://backend.test/api/logout'),
                 handler: 'CacheFirst',
