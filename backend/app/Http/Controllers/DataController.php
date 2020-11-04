@@ -98,12 +98,11 @@ class DataController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function GetMonthlyAverage(Request $request)
+    public function GetMonthlyAverage(Request $request, $type)
     {
         $returnType = 'list';
-        $type = 'all';
         $actualConsumption = $this->GetMonthlyConsumption($request, $type, $returnType);
-
+        
         // find gennemsnit af forbrug
         $average = 0.0;
 
@@ -115,76 +114,6 @@ class DataController extends Controller
 
         return $average;
     }
-
-
-    // IKKE FÆRDIG
-
-    // /**
-    //  * Get the actual usage for the latests date
-    //  *
-    //  * @param  \Illuminate\Http\Request  $request
-    //  * @param  int  $id
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function GetUsageToday(Request $request, $id)
-    // {
-    //     // få fat på den nyeste måling for i dag
-    //     // få fat på seneste måling fra dagen før
-    //     // træk tallene fra hinanden for at få dagens faktiske forbrug
-
-    //     // $result = $this->GetDataUser($request, $id);
-
-    //     // evt. gør det ved alle dage i en måned så man kan se hvilke dage man har brugt hvor meget
-
-    //     // SQL query til at få fat på alle målinger for en bruger
-    //     $result = DB::select('SELECT measurement, value FROM measurements
-    //     WHERE deviceID = (
-    //         SELECT deviceID FROM devices
-    //         WHERE householdID = (
-    //             SELECT householdID FROM households
-    //             WHERE userID = ?
-    //         )
-    //         LIMIT 1, 1
-    //     )', [$id]);
-
-    //     // konverter resultatet til objekter og smid i et nyt array
-    //     $values = [];
-
-    //     foreach($result as $i => $m){
-    //         //værdien
-    //         // få fat i value string
-    //         $valueString = $m->value;
-
-    //         // fjern sidste 3 karakterer
-    //         $string = substr($valueString, 0, strlen($valueString) - 3);
-
-    //         // konverter til int
-    //         $value = (double)$string;
-
-    //         //datoen
-    //         $dateString = $m->measurement;
-    //         $dateString = substr($dateString, 0, 10);
-
-    //         // opret objekt
-    //         $data = new DataStore;
-    //         $data->date = new DateTime($dateString);
-    //         // $date = date_format($date 'Y-m-d H:i:s');
-    //         $data->value = $value;
-
-    //         // tilføj objekt til array
-    //         $values[$i] = $data;
-    //     }
-
-
-    //     return "penis balls";
-    //     // return $result;
-    // }
-
-
-    // ideer til andre
-    // samlet månedlig forbrug
-    // denne måneds varm forbrug
-    // denne måneds kold forbrug
 
 
     /**

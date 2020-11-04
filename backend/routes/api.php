@@ -22,6 +22,7 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/logout', 'App\Http\Controllers\AuthController@logout');
     Route::get('data/monthlyMeasurements/{type}', 'App\Http\Controllers\DataController@GetMonthlyMeasurements');
     Route::get('data/consumption/{type}/{returnType}', 'App\Http\Controllers\DataController@GetMonthlyConsumption');
+    Route::get('data/consumption/combined/', 'App\Http\Controllers\DataController@GetMonthlyConsumptionCombined');
     Route::get('data/currentYearUsage/total/monthNumber', 'App\Http\Controllers\DataController@GetMonthNumber');
     Route::get('data/currentYearUsage/total/', 'App\Http\Controllers\DataController@GetLatestYearTotal');
     Route::get('data/currentYearUsage/{type}', 'App\Http\Controllers\DataController@GetLatestYear');
