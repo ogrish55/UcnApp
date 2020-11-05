@@ -102,7 +102,7 @@ class DataController extends Controller
     {
         $returnType = 'list';
         $actualConsumption = $this->GetMonthlyConsumption($request, $type, $returnType);
-        
+
         // find gennemsnit af forbrug
         $average = 0.0;
 
@@ -127,8 +127,7 @@ class DataController extends Controller
         $result = $this->GetDataDB->GetDataUser($request, $type);
 
         // Får fat i seneste måling
-        $latestMeasurement = $this->GetLastItem($result);
-
+        $latestMeasurement = array_pop($result);
         $i = count($result) - 1;
         $lastMonthsMeasurement = null;
         $found = false;
@@ -164,15 +163,6 @@ class DataController extends Controller
     }
 
     /**
-     * @param $result
-     * @return mixed
-     */
-    public function GetLastItem($result)
-    {
-        return array_pop($result);
-    }
-
-    /**
      * @param Request $request
      * @param $type
      * @return mixed
@@ -183,7 +173,7 @@ class DataController extends Controller
         $result = $this->GetDataDB->GetDataUser($request, $type);
 
         // Får fat i seneste måling
-        $latestMeasurement = $this->GetLastItem($result);
+        $latestMeasurement = array_pop($result);
 
         $i = count($result) - 1;
         $lastYearsMeasurement = null;
