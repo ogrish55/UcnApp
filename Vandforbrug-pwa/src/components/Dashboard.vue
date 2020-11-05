@@ -163,35 +163,6 @@
                 </div>
               </div>
 
-<!--              &lt;!&ndash; TEST CHART &ndash;&gt;-->
-<!--              <div class="col-xl-8 col-lg-7">-->
-<!--                <div class="card shadow mb-4">-->
-<!--                  &lt;!&ndash; Card Header - Dropdown &ndash;&gt;-->
-<!--                  <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">-->
-<!--                    <h6 class="m-0 font-weight-bold text-primary">Vandforbrug</h6>-->
-<!--                    <div class="dropdown no-arrow">-->
-<!--                      <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"-->
-<!--                         aria-haspopup="true" aria-expanded="false">-->
-<!--                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>-->
-<!--                      </a>-->
-<!--                      <div class="dropdown-menu dropdown-menu-right shadow animated&#45;&#45;fade-in"-->
-<!--                           aria-labelledby="dropdownMenuLink">-->
-<!--                        <a class="dropdown-item" v-on:click="fillWithHot"><strong>Varmt vand</strong></a>-->
-<!--                        <div class="dropdown-divider"></div>-->
-<!--                        <a class="dropdown-item" v-on:click="fillWithCold"><strong>Koldt vand</strong></a>-->
-<!--                      </div>-->
-<!--                    </div>-->
-<!--                  </div>-->
-<!--                  &lt;!&ndash; Card Body &ndash;&gt;-->
-<!--                  <div class="card-body">-->
-<!--                    <div class="chart-area">-->
-<!--                      <bar-chart :width="300" :height="70" v-if="ready" :chart-data="datacollection"-->
-<!--                                 :options="chartOptions"></bar-chart>-->
-<!--                    </div>-->
-<!--                  </div>-->
-<!--                </div>-->
-<!--              </div>-->
-
               <!-- Pie Chart -->
               <div class="col-xl-4 col-lg-5">
                 <div class="card shadow mb-4">
@@ -250,74 +221,6 @@
                   </div>
                 </div>
 
-                <!-- Color System -->
-                <div class="row">
-                  <div class="col-lg-6 mb-4">
-                    <div class="card bg-primary text-white shadow">
-                      <div class="card-body">
-                        Primary
-                        <div class="text-white-50 small">#4e73df</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-lg-6 mb-4">
-                    <div class="card bg-success text-white shadow">
-                      <div class="card-body">
-                        Success
-                        <div class="text-white-50 small">#1cc88a</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-lg-6 mb-4">
-                    <div class="card bg-info text-white shadow">
-                      <div class="card-body">
-                        Info
-                        <div class="text-white-50 small">#36b9cc</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-lg-6 mb-4">
-                    <div class="card bg-warning text-white shadow">
-                      <div class="card-body">
-                        Warning
-                        <div class="text-white-50 small">#f6c23e</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-lg-6 mb-4">
-                    <div class="card bg-danger text-white shadow">
-                      <div class="card-body">
-                        Danger
-                        <div class="text-white-50 small">#e74a3b</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-lg-6 mb-4">
-                    <div class="card bg-secondary text-white shadow">
-                      <div class="card-body">
-                        Secondary
-                        <div class="text-white-50 small">#858796</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-lg-6 mb-4">
-                    <div class="card bg-light text-black shadow">
-                      <div class="card-body">
-                        Light
-                        <div class="text-black-50 small">#f8f9fc</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-lg-6 mb-4">
-                    <div class="card bg-dark text-white shadow">
-                      <div class="card-body">
-                        Dark
-                        <div class="text-white-50 small">#5a5c69</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
               </div>
 
               <div class="col-lg-6 mb-4">
@@ -368,7 +271,7 @@
         <footer class="sticky-footer bg-white">
           <div class="container my-auto">
             <div class="copyright text-center my-auto">
-              <span>Copyright &copy; Your Website 2020</span>
+              <span>Copyright &copy; UCN gruppe 1 2020 Let's Gooo</span>
             </div>
           </div>
         </footer>
