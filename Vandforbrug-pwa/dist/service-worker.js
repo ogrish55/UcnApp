@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.f3cb32ad81c24c0211c7fecf2fbbaf65.js"
+  "/precache-manifest.0172317294bde8ecd008992236385afb.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "testafpwa"});
@@ -38,3 +38,4 @@ workbox.routing.registerRoute(/^http:\/\/backend.test\/api\/data\/consumption\/c
 workbox.routing.registerRoute(/^http:\/\/backend.test\/api\/data\/consumption\/hot\/json/, new workbox.strategies.CacheFirst({ "cacheName":"api-cache", plugins: [] }), 'GET');
 workbox.routing.registerRoute(/^http:\/\/backend.test\/api\/data\/currentYearUsage\/total/, new workbox.strategies.CacheFirst({ "cacheName":"api-cache", plugins: [] }), 'GET');
 workbox.routing.registerRoute(/^http:\/\/backend.test\/api\/data\/currentYearUsage\/total\/monthNumber/, new workbox.strategies.CacheFirst({ "cacheName":"api-cache", plugins: [] }), 'GET');
+workbox.routing.registerRoute(/^http:\/\/backend.test\/api\/data\/monthlyUsageInDkk/, new workbox.strategies.CacheFirst({ "cacheName":"api-cache", plugins: [] }), 'GET');
