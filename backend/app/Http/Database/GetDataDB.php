@@ -11,23 +11,6 @@ use Illuminate\Support\Facades\DB;
 
 class GetDataDB
 {
-    public function GetAllMeasurements(Request $request)
-    {
-        $id = $request->User()->userID;
-
-        // SQL query til at få fat på alle målinger for en bruger
-        $result = DB::select('SELECT measurement, value, meterType FROM measurements
-    WHERE deviceID IN (
-        SELECT deviceID FROM devices
-        WHERE householdID = (
-            SELECT householdID FROM households
-            WHERE userID = ?
-        )
-    )', [$id]);
-
-        return $this->ConvertToObjects($result);
-    }
-
     public function ConvertToObjects($result)
     {
         // Oprettelse af tomt array, der skal holde de konverterede objekter.
@@ -53,17 +36,31 @@ class GetDataDB
     public function GetMeasurementsBasedOnType(Request $request, $type)
     {
         $id = $request->User()->userID;
-        // SQL query til at få fat på alle målinger for en bruger
-        $result = DB::select('SELECT measurement, value, meterType FROM measurements
-    WHERE meterType = ? AND deviceID IN (
-        SELECT deviceID FROM devices
-        WHERE householdID = (
-            SELECT householdID FROM households
-            WHERE userID = ?
-        )
-    )', [$type . ' water', $id]);
 
-        return $this->ConvertToObjects($result);
+        // if $type is null or 'all'
+        if ($type == 'all' || $type == null) {
+            $result = DB::select('SELECT measurement, value, meterType FROM measurements
+                WHERE deviceID IN (
+                    SELECT deviceID FROM devices
+                        WHERE householdID = (
+                            SELECT householdID FROM households
+                                WHERE userID = ?))',
+                                    [$id]);
+            return $this->ConvertToObjects($result);
+
+        }
+
+        // if $type is 'hot' or 'cold'
+        else {
+            $result = DB::select('SELECT measurement, value, meterType FROM measurements
+                WHERE meterType = ? AND deviceID IN (
+                    SELECT deviceID FROM devices
+                        WHERE householdID = (
+                            SELECT householdID FROM households
+                                WHERE userID = ?))',
+                                    [$type . ' water', $id]);
+            return $this->ConvertToObjects($result);
+        }
     }
 
     public function GetPricePrCubic(Request $request)

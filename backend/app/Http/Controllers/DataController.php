@@ -25,13 +25,7 @@ class DataController extends Controller
      */
     public function GetMonthlyMeasurements(Request $request, $type)
     {
-        $values = null;
-
-        if ($type == 'all') {
-            $values = $this->GetDataDB->GetAllMeasurements($request);
-        } else if ($type == 'hot' || $type == 'cold') {
-            $values = $this->GetDataDB->GetMeasurementsBasedOnType($request, $type);
-        }
+        $values = $this->GetDataDB->GetMeasurementsBasedOnType($request, $type);
 
         // find frem til sidste dato i måneden og vælg den seneste værdi og smid over i nyt array
         $onePerMonth = [];
@@ -215,7 +209,7 @@ class DataController extends Controller
     public function GetMonthNumber(Request $request)
     {
         // Henter målinger for både koldt og varmt vand
-        $result = $this->GetDataDB->GetAllMeasurements($request);
+        $result = $this->GetDataDB->GetMeasurementsBasedOnType($request, null);
 
         // Får fat i den sidste måling
         $latestMeasurement = array_pop($result);
