@@ -3,8 +3,6 @@
 
 namespace App\Http\Database;
 
-
-use App\Models\Device;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -18,12 +16,8 @@ class GetDataDB
 
         // Iterer igennem hver objekt i $result kollektionen.
         foreach ($result as $m) {
-            $data = new DataStore;                          // Opret tomt DataStore object.
-            $data->date = new DateTime($m->measurement);    // Konverter tidspunkt for måling til et DateTime objekt.
-            $data->value = (double)$m->value;               // Konverter måle værdien til en double.
-            $data->type = $m->meterType;                    // Angiv type af måling. (Kold eller varm)
-
-            $objectCollection[] = $data;                    // tilføj objektet til arrayet
+            $data = new DataStore(new DateTime($m->measurement), (double)$m->value, $m->meterType); // Opret DataStore objekt med Dato, måling, og målingsType.
+            $objectCollection[] = $data;                                                            // tilføj objektet til arrayet
         }
         return $objectCollection;
     }
@@ -96,6 +90,14 @@ class DataStore
     public $date;
     public $value;
     public $type;
+
+    public function __construct($date, $value, $type)
+    {
+        $this->type = $type;
+        $this->date = $date;
+        $this->value = $value;
+    }
+
 }
 
 class RegionStore
