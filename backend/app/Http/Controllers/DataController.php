@@ -27,11 +27,10 @@ class DataController extends Controller
     {
         $values = null;
 
-
         if ($type == 'all') {
-            $values = $this->GetDataDB->GetAllData($request);
+            $values = $this->GetDataDB->GetAllMeasurements($request);
         } else if ($type == 'hot' || $type == 'cold') {
-            $values = $this->GetDataDB->GetDataUser($request, $type);
+            $values = $this->GetDataDB->GetMeasurementsBasedOnType($request, $type);
         }
 
         // find frem til sidste dato i måneden og vælg den seneste værdi og smid over i nyt array
@@ -124,7 +123,7 @@ class DataController extends Controller
     public function GetLatestMonth(Request $request, $type)
     {
         // Får enten alle varmt eller koldt vands målinger for en bruger
-        $result = $this->GetDataDB->GetDataUser($request, $type);
+        $result = $this->GetDataDB->GetMeasurementsBasedOnType($request, $type);
 
         // Får fat i seneste måling
         $latestMeasurement = array_pop($result);
@@ -170,7 +169,7 @@ class DataController extends Controller
     public function GetLatestYear(Request $request, $type)
     {
         // Får enten alle varmt eller koldt vands målinger for en bruger
-        $result = $this->GetDataDB->GetDataUser($request, $type);
+        $result = $this->GetDataDB->GetMeasurementsBasedOnType($request, $type);
 
         // Får fat i seneste måling
         $latestMeasurement = array_pop($result);
@@ -216,7 +215,7 @@ class DataController extends Controller
     public function GetMonthNumber(Request $request)
     {
         // Henter målinger for både koldt og varmt vand
-        $result = $this->GetDataDB->GetAllData($request);
+        $result = $this->GetDataDB->GetAllMeasurements($request);
 
         // Får fat i den sidste måling
         $latestMeasurement = array_pop($result);

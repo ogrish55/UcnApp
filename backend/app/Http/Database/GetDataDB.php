@@ -7,24 +7,11 @@ namespace App\Http\Database;
 use App\Models\Device;
 use DateTime;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 
 class GetDataDB
 {
-    /**
-     * Display the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function GetData(Request $request)
-    {
-        $data = Device::all();
-        return response()->json($data);
-    }
-
-    public function GetAllData(Request $request)
+    public function GetAllMeasurements(Request $request)
     {
         $id = $request->User()->userID;
 
@@ -60,13 +47,12 @@ class GetDataDB
 
     /**
      * @param \Illuminate\Http\Request $request
-     * @param int $id
-     * @return \Illuminate\Http\Response
+     * @param $type
+     * @return array
      */
-    public function GetDataUser(Request $request, $type)
+    public function GetMeasurementsBasedOnType(Request $request, $type)
     {
         $id = $request->User()->userID;
-
         // SQL query til at få fat på alle målinger for en bruger
         $result = DB::select('SELECT measurement, value, meterType FROM measurements
     WHERE meterType = ? AND deviceID IN (
