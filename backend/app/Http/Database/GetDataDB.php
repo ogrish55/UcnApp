@@ -7,6 +7,7 @@ namespace App\Http\Database;
 use App\Models\Device;
 use DateTime;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 
 class GetDataDB
@@ -42,38 +43,19 @@ class GetDataDB
 
     public function ConvertToObjects($result)
     {
-        // konverter resultatet til objekter og smid i et nyt array
-        $values = [];
+        // Oprettelse af tomt array, der skal holde de konverterede objekter.
+        $objectCollection = [];
 
-        foreach ($result as $i => $m) {
-            //værdien
-            // få fat i value string
-            $valueString = $m->value;
+        // Iterer igennem hver objekt i $result kollektionen.
+        foreach ($result as $m) {
+            $data = new DataStore;                          // Opret tomt DataStore object.
+            $data->date = new DateTime($m->measurement);    // Konverter tidspunkt for måling til et DateTime objekt.
+            $data->value = (double)$m->value;               // Konverter måle værdien til en double.
+            $data->type = $m->meterType;                    // Angiv type af måling. (Kold eller varm)
 
-            // fjern sidste 3 karakterer
-            $string = substr($valueString, 0, strlen($valueString) - 3);
-
-            // få fat i type
-            $typeString = $m->meterType;
-
-            // konverter til int
-            $value = (double)$string;
-
-            //datoen
-            $dateString = $m->measurement;
-            $dateString = substr($dateString, 0, 10);
-
-            // opret objekt
-            $data = new DataStore;
-            $data->date = new DateTime($dateString);
-            $data->value = $value;
-            $data->type = $typeString;
-
-            // tilføj objekt til array
-            $values[$i] = $data;
+            $objectCollection[] = $data;                    // tilføj objektet til arrayet
         }
-
-        return $values; // returner array af objekter
+        return $objectCollection;
     }
 
     /**
