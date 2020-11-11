@@ -41,7 +41,6 @@ class GetDataDB
                                 WHERE userID = ?))',
                                     [$id]);
             return $this->ConvertToObjects($result);
-
         }
 
         // if $type is 'hot' or 'cold'
