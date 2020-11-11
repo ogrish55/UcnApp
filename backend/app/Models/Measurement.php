@@ -10,10 +10,6 @@ class Measurement extends Model
 {
     public $table = 'measurements';
 
-    public function device(){
-        return $this->belongsTo('App\Models\Device');
-    }
-
     use HasFactory, Notifiable;
 
     /**
