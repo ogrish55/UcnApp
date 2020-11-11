@@ -37,24 +37,3 @@ Route::middleware('auth:api')->group(function () {
 
 Route::post('/login', 'App\Http\Controllers\AuthController@login');
 Route::post('/register', 'App\Http\Controllers\AuthController@register');
-
-// Route::middleware('auth:api')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
-
-
-// Route::apiResource('Users', \App\Http\Controllers\API\UserController::class);
-
-Route::post('users', 'App\Http\Controllers\UserController@post');
-Route::get('users', 'App\Http\Controllers\UserController@get');
-Route::get('users/{id}', 'App\Http\Controllers\UserController@getSingle');
-Route::delete('users/{id}', 'App\Http\Controllers\UserController@delete');
-Route::put('users/{id}', 'App\Http\Controllers\UserController@update');
-
-Route::get('data/{type}', 'App\Http\Controllers\DataController@GetDataUser');
-
-
-// Route::get('data/{id}/usageToday', 'App\Http\Controllers\DataController@GetUsageToday');
-
-Route::get('measurement/{id}', 'App\Http\Controllers\MeasurementController@measurement');
-

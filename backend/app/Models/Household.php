@@ -8,26 +8,14 @@ use Illuminate\Notifications\Notifiable;
 
 class Household extends Model
 {
-    public $table = 'household';
+    public $table = 'households';
+    public $incrementing = false;
+    public $primaryKey = 'householdID';
 
     public function device()
     {
-        return $this->hasMany('App\Models\Device');
-    }
-
-    public function user(){
-        return $this->belongsTo('App\Models\User');
+        return $this->hasMany('App\Models\Device', 'householdID');
     }
 
     use HasFactory, Notifiable;
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = [
-        'householdId',
-        'userId',
-    ];
 }
