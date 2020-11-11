@@ -142,7 +142,7 @@
                     <h6 class="m-0 font-weight-bold text-primary">Vandforbrug</h6>
                     <div class="dropdown no-arrow">
                       <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
-                         aria-haspopup="true" aria-expanded="false">
+                         aria-haspopup="true" aria-expanded="false"> Vandtype
                         <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
                       </a>
                       <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
@@ -150,6 +150,17 @@
                         <a class="dropdown-item" v-on:click="fillWithHot"><strong>Varmt vand</strong></a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" v-on:click="fillWithCold"><strong>Koldt vand</strong></a>
+                      </div>
+                    </div>
+                    <div class="dropdown">
+                      <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Vælg måned
+                      </button>
+                      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" v-on:click="fillWithHot">Alle</a>
+                        <a class="dropdown-item" v-for="month in coldTimeOfReader" :key="month" v-on:click="fillTest(month)">
+                          {{month}}
+                        </a>
                       </div>
                     </div>
                   </div>
@@ -168,7 +179,7 @@
                 <div class="card shadow mb-4">
                   <!-- Card Header - Dropdown -->
                   <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">Revenue Sources</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">Dyk ned i dit forbrug</h6>
                     <div class="dropdown no-arrow">
                       <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
                          aria-haspopup="true" aria-expanded="false">
@@ -223,43 +234,16 @@
 
               </div>
 
-              <div class="col-lg-6 mb-4">
-
-                <!-- Illustrations -->
-                <div class="card shadow mb-4">
-                  <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Illustrations</h6>
-                  </div>
-                  <div class="card-body">
-                    <div class="text-center">
-                      <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;"
-                           src="img/undraw_posting_photo.svg" alt="">
-                    </div>
-                    <p>Add some quality, svg illustrations to your project courtesy of <a target="_blank" rel="nofollow"
-                                                                                          href="https://undraw.co/">unDraw</a>,
-                      a constantly updated collection of beautiful svg images that you can use completely free and
-                      without attribution!</p>
-                    <a target="_blank" rel="nofollow" href="https://undraw.co/">Browse Illustrations on unDraw
-                      &rarr;</a>
-                  </div>
-                </div>
-
-                <!-- Approach -->
-                <div class="card shadow mb-4">
-                  <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Development Approach</h6>
-                  </div>
-                  <div class="card-body">
-                    <p>SB Admin 2 makes extensive use of Bootstrap 4 utility classes in order to reduce CSS bloat and
-                      poor page performance. Custom CSS classes are used to create custom components and custom utility
-                      classes.</p>
-                    <p class="mb-0">Before working with this theme, you should become familiar with the Bootstrap
-                      framework, especially the utility classes.</p>
-                  </div>
-                </div>
-
+              <div class="col-lg-6 mb-4">      
+                <h1>Dyk ned i dit forbrug</h1>
+                <daily-grid></daily-grid>
               </div>
+
+               
             </div>
+
+            <!-- <h1>Dyk ned i dit forbrug</h1>
+            <daily-grid></daily-grid> -->
 
           </div>
           <!-- /.container-fluid -->
@@ -298,13 +282,15 @@ import '../assets/vendor/chart.js/Chart.min.js'
 import '../assets/vendor/chart.js/Chart.min.js'
 import LineChart from './LineChart'
 import axios from 'axios'
+import DailyGrid from './DailyGrid'
 // import '../assets/js/demo/chart-pie-demo.js';
 export default {
   name: 'Dashboard',
   components: {
     LineChart,
     BarChart,
-    BarChartInDkk
+    BarChartInDkk,
+    DailyGrid
   },
   data () {
     return {
@@ -314,10 +300,17 @@ export default {
       coldDatacollection: null,
       measurements: [],
       coldMeasurements: [],
+      monthMeasurements: [],
+      monthTimeOfReader: [],
       timeOfReader: [],
       coldTimeOfReader: [],
       reader: null,
       coldReader: null,
+      monthReader: null,
+      averageHot: null,
+      averageCold: null,
+      averageHotArr: [],
+      averageColdArr: [],
       chartOptions: {
         scales: {
           yAxes: [{
@@ -330,7 +323,7 @@ export default {
           }],
           xAxes: [ {
             gridLines: {
-              display: false
+              display: true
             }
           }]
         },
@@ -379,24 +372,58 @@ export default {
     axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('access_token')
   },
   methods: {
+    fillTest(chosenMonth){
+      var monthName = chosenMonth.substring(0, chosenMonth.length - 4);
+      var year = "20" + chosenMonth.substring(chosenMonth.length - 2, chosenMonth.length);
+
+      this.apiCall(year, monthName); // call for data
+
+      // fill the graph
+      this.datacollection = {
+        labels: this.monthTimeOfReader,
+        datasets: [
+          {
+            label: monthName + " " + year,
+            backgroundColor: '#c94040',
+            data: this.monthMeasurements,
+            fill: true,
+            borderWidth: 1,
+            borderColor: '#f87979',
+          }
+        ]
+      }
+    },
     fillWithHot () {
+      this.apiCallAverage();
+
       this.datacollection = {
         labels: this.timeOfReader, // ['13-05-2019', '14-05-2019', '15-05-2019', '16-05-2019', '17-05-2019'], // Time of read
         datasets: [
           {
             label: 'Varmt vand',
-            backgroundColor: '#f87979',
+            backgroundColor: '#c94040',
             data: this.measurements,
-            fill: false,
+            fill: true,
             borderWidth: 1,
             borderColor: '#f87979',
-            backgroundColor: '#f87979'
+          },
+          { // linje med gennemsnit
+            label: 'Gennemsnit',
+            data: this.averageHotArr,
+            type: 'line',
+            fill: false,
+            borderColor: '#40c940',
+            borderWidth: 3,
+            pointRadius: 0, // fjerner punkterne
           }
         ]
       }
+
       this.ready = true
     },
     fillWithCold () {
+      this.apiCallAverage();
+
       this.datacollection = {
         labels: this.coldTimeOfReader, // ['13-05-2019', '14-05-2019', '15-05-2019', '16-05-2019', '17-05-2019'], // Time of read
         datasets: [
@@ -404,14 +431,32 @@ export default {
             label: 'Koldt vand',
             backgroundColor: '#0a5493',
             data: this.coldMeasurements,
-            fill: false,
+            fill: true,
             borderWidth: 1,
             borderColor: '#0a5493',
-            backgroundColor: '#0a5493'
+          },
+          { // linje med gennemsnit
+            label: 'Gennemsnit',
+            data: this.averageHotArr,
+            type: 'line',
+            fill: false,
+            borderColor: '#40c940',
+            borderWidth: 3,
+            pointRadius: 0, // fjerner punkterne
           }
         ]
       }
       this.coldReady = true
+    },
+    fillAverageLines () {
+      this.averageHotArr = []
+      this.averageColdArr = []
+
+      let length = this.measurements.length
+      for(var i = 0; i < length; i++){
+        this.averageHotArr[i] = this.averageHot;
+        this.averageColdArr[i] = this.averageCold;
+      }
     },
     getDataFromReader () {
       let keys = Object.keys(this.reader)
@@ -424,7 +469,7 @@ export default {
         year = year.toString().slice(-2) // "19"
         this.timeOfReader.push(this.monthNames[dateTime.getMonth()] + ' \'' + year)
       })
-      this.measurements.shift(); // fjerner første element af array da data altid vil være 0
+      this.measurements.shift(); // fjerner første element af array da data altid vil være 0s
       this.timeOfReader.shift(); // fjerner tilsvarende label
     },
     getColdDataFromReader () {
@@ -439,6 +484,37 @@ export default {
       })
       this.coldMeasurements.shift(); // fjerner første element af array da data altid vil være 0
       this.coldTimeOfReader.shift(); // fjerner tilsvarende label
+    },
+    getMonthDataFromReader() {
+      this.monthTimeOfReader = []
+      this.monthMeasurements = []
+      let keys = Object.keys(this.monthReader)
+      keys.forEach(key => {
+        this.monthMeasurements.push(this.monthReader[key].value)
+        // this.monthTimeOfReader.push(this.monthReader[key].date.date)
+        let dateString = this.monthReader[key].date.date
+        let dateTime = new Date(dateString) // konverter til date objekt
+        // let year = dateTime.getFullYear() // "2019"
+        // year = year.toString().slice(-2) // "19"
+        this.monthTimeOfReader.push("d. " + dateTime.getDate())
+
+        // this.monthTimeOfReader.push(dateString)
+      })
+    },
+    apiCall(year, monthName){
+       axios
+        .get('http://backend.test/api/data/dailyMeasurements/' + year + "/" + monthName)
+        .then(response => (this.monthReader = response.data))
+        .then(response => (this.getMonthDataFromReader()))
+    },
+    apiCallAverage(){   
+      axios
+        .get('http://backend.test/api/data/average/hot')
+        .then(response => (this.averageHot = response.data)),
+      axios
+        .get('http://backend.test/api/data/average/cold')
+        .then(response => (this.averageCold = response.data))
+        .then(this.fillAverageLines)
     },
     apiCalls () {
       axios

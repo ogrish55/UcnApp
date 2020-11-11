@@ -25,7 +25,7 @@ class DataController extends Controller
      */
     public function GetMonthlyMeasurements(Request $request, $type)
     {
-        $values = null;
+        // $values = null;
 
 
         if ($type == 'all') {
@@ -255,11 +255,165 @@ class DataController extends Controller
         return response()->json([
             $UsageInDkkList]);
     }
+
+    public function GetDailyMeasurements(Request $request, $year, $month){
+        $values = $this->GetDataDB->GetDataUser($request, 'hot');
+
+        $filteredArray = [];
+
+        // find månedens nummer (Januar = 01, December = 12)
+        $monthNumber = HelperMethods::GetMonthNumber($month);
+
+        // filtrer efter år
+        foreach ($values as $v){
+            if(date_format($v->date, 'Y') == $year && date_format($v->date, 'm') == $monthNumber){
+                array_push($filteredArray, $v);
+            }
+        }
+
+        // only get the latest measurement pr day
+        $onePerDay = [];
+        $currentDay = date_format($filteredArray[0]->date, 'd');
+
+        foreach ($filteredArray as $i => $m){
+            if(date_format($m->date, 'd') != $currentDay){
+                array_push($onePerDay, $filteredArray[$i - 1]);
+                $currentDay = date_format($m->date, 'd');
+            }
+        }
+
+        // Get actual consumption instead of measurements
+        $startValue = $onePerDay[0]->value - (rand(300,1000)/10000); // giver et tal mellem 0,03 og 0,1 som første dags forbrug
+        $actualConsumption = [];
+
+        foreach ($onePerDay as $v){
+            $newObject = new DataStore; // SKAL LAVES OM NÅR JEG FÅR KRIS' ÆNDRINGER
+            $newObject->date = $v->date;
+            $newObject->value = $v->value - $startValue;
+            $newObject->type = $v->type;
+            $startValue = $v->value; // sætter startValue til at være dette måneds værdi så den kan bruges i næste iteration
+
+            $actualConsumption[] = $newObject;
+        }
+
+        return $actualConsumption;
+    }
+
+    public function GetDailyMeasurementsAll(Request $request){
+        $values = $this->GetDataDB->GetDataUser($request, 'hot');
+
+        // only get the latest measurement pr day
+        $onePerDay = [];
+        $currentDay = date_format($values[0]->date, 'd');
+
+        foreach ($values as $i => $m){
+            if(date_format($m->date, 'd') != $currentDay){
+                array_push($onePerDay, $values[$i - 1]);
+                $currentDay = date_format($m->date, 'd');
+            }
+        }
+
+        // konverter til objekter af typen DailyMeasurements
+        // find frem til værdierne til de forskellige attributter
+        $convertedArray = [];
+        foreach ($onePerDay as $i => $val){
+            $measurement = new DailyMeasurement;
+            $measurement->year = date_format($val->date, 'Y');
+            $measurement->month = HelperMethods::GetMonthName(date_format($val->date, 'm'));
+            $measurement->day = date_format($val->date, 'd');
+            $measurement->value = $val->value;
+
+            array_push($convertedArray, $measurement);
+        }
+        
+        // flip the array so the newest measurements are lowest elements (for frontend purposes)
+        $reversedArray = array_reverse($convertedArray);
+
+        // done
+        return $reversedArray;
+    }
 }
 
 class UsageInDkk
 {
     public $price;
     public $date;
+}
+
+class DailyMeasurement
+{
+    public $year;
+    public $month;
+    public $day;
+    public $value;
+}
+
+class HelperMethods {
+    
+    public static function GetMonthNumber($month){
+        $monthNumber = 0;
+
+        switch($month){
+            case "Januar":
+                $monthNumber = 1; break;
+            case "Februar":
+                $monthNumber = 2; break;
+            case "Marts":
+                $monthNumber = 3; break;
+            case "April":
+                $monthNumber = 4; break;  
+            case "Maj":
+                $monthNumber = 5; break;
+            case "Juni":
+                $monthNumber = 6; break;
+            case "Juli":
+                $monthNumber = 7; break;
+            case "August":
+                $monthNumber = 8; break;
+            case "September":
+                $monthNumber = 9; break;
+            case "Oktober":
+                $monthNumber = 10; break;
+            case "November":
+                $monthNumber = 11; break;
+            case "December":
+                $monthNumber = 12; break;    
+        }
+
+        return $monthNumber;
+    }
+
+    public static function GetMonthName($monthNumber){
+        $monthName = "Undefined";
+
+        switch($monthNumber){
+            case 1:
+                $monthName = "Januar"; break;
+            case 2:
+                $monthName = "Februar"; break;
+            case 3:
+                $monthName = "Marts"; break;
+            case 4:
+                $monthName = "April"; break;  
+            case 5:
+                $monthName = "Maj"; break;
+            case 6:
+                $monthName = "Juni"; break;
+            case 7:
+                $monthName = "Juli"; break;
+            case 8:
+                $monthName = "August"; break;
+            case 9:
+                $monthName = "September"; break;
+            case 10:
+                $monthName = "Oktober"; break;
+            case 11:
+                $monthName = "November"; break;
+            case 12:
+                $monthName = "December"; break;    
+        }
+
+        return $monthName;
+    }
 }
 

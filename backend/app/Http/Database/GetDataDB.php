@@ -87,9 +87,9 @@ class GetDataDB
 
         // SQL query til at få fat på alle målinger for en bruger
         $result = DB::select('SELECT measurement, value, meterType FROM measurements
-    WHERE meterType = ? AND deviceID IN (
-        SELECT deviceID FROM devices
-        WHERE householdID = (
+            WHERE meterType = ? AND deviceID IN (
+            SELECT deviceID FROM devices
+            WHERE householdID = (
             SELECT householdID FROM households
             WHERE userID = ?
         )
