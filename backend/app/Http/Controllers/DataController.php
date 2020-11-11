@@ -278,11 +278,12 @@ class DataController extends Controller
         // find frem til værdierne til de forskellige attributter
         $convertedArray = [];
         foreach ($onePerDay as $i => $val){
-            $measurement = new DailyMeasurement;
-            $measurement->year = date_format($val->date, 'Y');
-            $measurement->month = HelperMethods::GetMonthName(date_format($val->date, 'm'));
-            $measurement->day = date_format($val->date, 'd');
-            $measurement->value = $val->value;
+            $year = date_format($val->date, 'Y');
+            $month = HelperMethods::GetMonthName(date_format($val->date, 'm'));
+            $day = date_format($val->date, 'd');
+            $value = $val->value;
+
+            $measurement = new DailyMeasurement($year, $month, $day, $value);
 
             array_push($convertedArray, $measurement);
         }
@@ -307,6 +308,14 @@ class DailyMeasurement
     public $month;
     public $day;
     public $value;
+
+    public function __construct($year, $month, $day, $value)
+    {
+        $this->year = $year;
+        $this->month = $month;
+        $this->day = $day;
+        $this->value = $value;
+    }
 }
 
 class HelperMethods {
