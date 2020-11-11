@@ -16,7 +16,7 @@ class User extends Authenticatable
 
     public function household()
     {
-        return $this->hasOne('App\Models\Household');
+        return $this->hasOne('App\Models\Household', 'userID');
     }
 
 

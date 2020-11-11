@@ -60,6 +60,13 @@ module.exports = {
                 options: {
                     cacheName: 'api-cache'
                 }
+            },
+            {
+                urlPattern: new RegExp('^http://backend.test/api/data/monthlyUsageInDkk'),
+                handler: 'CacheFirst',
+                options: {
+                    cacheName: 'api-cache'
+                }
             }
         ]
       }
