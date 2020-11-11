@@ -1,4 +1,4 @@
-<template>
+<template> 
     <ag-grid-vue style="width: 75%; height: 100%;"
         class="ag-theme-alpine"
         :columnDefs="columns"
