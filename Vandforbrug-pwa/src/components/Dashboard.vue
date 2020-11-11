@@ -407,7 +407,6 @@ export default {
             fill: false,
             borderWidth: 1,
             borderColor: '#0a5493',
-            backgroundColor: '#0a5493'
           }
         ]
       }

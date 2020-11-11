@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Database\DataStore;
 use App\Http\Database\GetDataDB;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class DataController extends Controller
@@ -15,72 +16,50 @@ class DataController extends Controller
         $this->GetDataDB = new GetDataDB();
     }
 
-
     /**
      * Get the monthly measurements for a user
      *
-     * @param \Illuminate\Http\Request $request
-     * @param int $id
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param $type
+     * @return array
      */
     public function GetMonthlyMeasurements(Request $request, $type)
     {
-        $values = null;
+        $values = $this->GetDataDB->GetMeasurementsBasedOnType($request, $type);
 
-
-        if ($type == 'all') {
-            $values = $this->GetDataDB->GetAllData($request);
-        } else if ($type == 'hot' || $type == 'cold') {
-            $values = $this->GetDataDB->GetDataUser($request, $type);
-        }
-
-        // find frem til sidste dato i måneden og vælg den seneste værdi og smid over i nyt array
         $onePerMonth = [];
-
-        foreach ($values as $i => $v) {
-            array_push($onePerMonth, $v->date->format('Y-m-t')); // finder sidste dag i måneden for en given dato
+        foreach ($values as $v) {
+            $onePerMonth[] = $v->date->format('Y-m-t');     // Iterer igennem hver date objekt i kollektionen, og ændrer den til den sidste på måneden: f.eks. 2020-09-18 -> 2020-09-30
         }
-
-        // fjern alle duplikater så der kun eksisterer de datoer der er nødvendige
-        $onePerMonthStriped = array_unique($onePerMonth);
-
+        $onePerMonthUnique = array_unique($onePerMonth);   // fjern alle duplikater så det kun er den seneste dato for hver måned der eksister: f.eks, 2019-01-31, 2019-02-28 ...
         $monthlyMeasurements = [];
-        foreach ($onePerMonthStriped as $i => $o) { // for hver dato
-            foreach ($values as $v) { // for hver datasæt
-                // hvis datoen passer overens tilføjes dataen til arrayet
-                // den overrider samme plads indtil der ikke er flere ved samme dato (aka den får den sidste måling for den data)
-                if ($o == $v->date->format('Y-m-d')) {
-                    $monthlyMeasurements[$i] = $v;
+        foreach ($onePerMonthUnique as $i => $o) {
+            foreach ($values as $v) {
+                if ($o == $v->date->format('Y-m-d')) {      // hvis datoen passer overens tilføjes dataen til arrayet
+                    $monthlyMeasurements[$i] = $v;          // den overrider samme plads indtil der ikke er flere ved samme dato (aka den får den sidste måling for den data)
                 }
             }
         }
-
-
         return $monthlyMeasurements;
     }
 
     /**
      * Get the actual consumption per month for a user
      *
-     * @param \Illuminate\Http\Request $request
-     * @param int $id
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param $type
+     * @param $returnType
+     * @return array|JsonResponse
      */
     public function GetMonthlyConsumption(Request $request, $type, $returnType)
     {
         $monthlyMeasurements = $this->GetMonthlyMeasurements($request, $type);
-        // lav nyt array som tager differencen
         $actualConsumption = [];
-        $startValue = $monthlyMeasurements[0]->value; // gemmer den værdi måleren stod på efter første måling ..
-
-        foreach ($monthlyMeasurements as $i => $data) {
-            $newObject = new DataStore;
-            $newObject->date = $data->date;
-            $newObject->value = $data->value - $startValue; // tager målingen og minusser med sidste måneds måling for at få det faktiske forbrug
-            $newObject->type = $data->type;
-            $startValue = $data->value; // sætter startValue til at være dette måneds værdi så den kan bruges i næste iteration
-
-            $actualConsumption[$i] = $newObject;
+        $startValue = 0;
+        foreach ($monthlyMeasurements as $data) {
+            $newObject = new DataStore($data->date, $data->value - $startValue, $data->type); // Opret DataStore objekt med Dato, måling, og målingsType.
+            $startValue = $data->value;                                                             // sætter startValue til at være dette måneds værdi så den kan bruges i næste iteration
+            $actualConsumption[] = $newObject;
         }
         if ($returnType == 'list') {
             return $actualConsumption;
@@ -88,29 +67,25 @@ class DataController extends Controller
             return response()->json([
                 $actualConsumption]);
         }
-
     }
 
     /**
      * Get the average consumption of a user
      *
-     * @param \Illuminate\Http\Request $request
-     * @param int $id
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param $type
+     * @return float|int
      */
     public function GetMonthlyAverage(Request $request, $type)
     {
-        $returnType = 'list';
-        $actualConsumption = $this->GetMonthlyConsumption($request, $type, $returnType);
+        $actualConsumption = $this->GetMonthlyConsumption($request, $type, 'list');
 
-        // find gennemsnit af forbrug
         $average = 0.0;
-
         foreach ($actualConsumption as $data) {
             $average += $data->value; // lægger alle tal sammen
         }
 
-        $average = $average / (count($actualConsumption) - 1); // dividerer så vi får gennemsnit. -1 pga første datasæt altid er 0
+        $average = $average / (count($actualConsumption)); // dividerer så vi får gennemsnit.
 
         return $average;
     }
@@ -124,7 +99,7 @@ class DataController extends Controller
     public function GetLatestMonth(Request $request, $type)
     {
         // Får enten alle varmt eller koldt vands målinger for en bruger
-        $result = $this->GetDataDB->GetDataUser($request, $type);
+        $result = $this->GetDataDB->GetMeasurementsBasedOnType($request, $type);
 
         // Får fat i seneste måling
         $latestMeasurement = array_pop($result);
@@ -170,7 +145,7 @@ class DataController extends Controller
     public function GetLatestYear(Request $request, $type)
     {
         // Får enten alle varmt eller koldt vands målinger for en bruger
-        $result = $this->GetDataDB->GetDataUser($request, $type);
+        $result = $this->GetDataDB->GetMeasurementsBasedOnType($request, $type);
 
         // Får fat i seneste måling
         $latestMeasurement = array_pop($result);
@@ -216,7 +191,7 @@ class DataController extends Controller
     public function GetMonthNumber(Request $request)
     {
         // Henter målinger for både koldt og varmt vand
-        $result = $this->GetDataDB->GetAllData($request);
+        $result = $this->GetDataDB->GetMeasurementsBasedOnType($request, null);
 
         // Får fat i den sidste måling
         $latestMeasurement = array_pop($result);
@@ -230,20 +205,18 @@ class DataController extends Controller
 
     public function MonthlyUsageInDkk(Request $request)
     {
-        $monthlyMeasurements = $this->GetMonthlyConsumption($request, $type = 'all', $returnType= 'list');
-        $regionStore = $this->GetDataDB->GetPricePrCubic($request);
-        $UsageInDkkList = [];
-
+        $monthlyMeasurements = $this->GetMonthlyConsumption($request, 'all', 'list');
+        $region = $this->GetDataDB->GetRegion($request);
+        $usageInDkkList = [];
 
         foreach ($monthlyMeasurements as $m) {
             $usageInDkk = new UsageInDkk();
-            $usageInDkk->price = substr($m->value * $regionStore->pricePrCubic, 0, -2);
+            $usageInDkk->price = substr($m->value * $region->pricePrCubic, 0, -2);
             $usageInDkk->date = $m->date;
-
-            array_push($UsageInDkkList, $usageInDkk);
+            $usageInDkkList[] = $usageInDkk;
         }
         return response()->json([
-            $UsageInDkkList]);
+            $usageInDkkList]);
     }
 }
 
@@ -252,4 +225,3 @@ class UsageInDkk
     public $price;
     public $date;
 }
-
