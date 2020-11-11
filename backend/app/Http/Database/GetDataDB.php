@@ -3,15 +3,15 @@
 
 namespace App\Http\Database;
 
+use App\Models\Region;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class GetDataDB
 {
-    public function ConvertToObjects($result)
+    private function ConvertToObjects($result)
     {
-        // Oprettelse af tomt array, der skal holde de konverterede objekter.
         $objectCollection = [];
 
         // Iterer igennem hver objekt i $result kollektionen.
@@ -57,31 +57,10 @@ class GetDataDB
         }
     }
 
-    public function GetPricePrCubic(Request $request)
+    public function GetRegion(Request $request)
     {
-        // Får fat i regionID fra en bruger
-        $regionID = $request->User()->regionID;
-
-        // Indhenter region oplysninger ud fra regionID
-        $result = DB::select('SELECT regionID, region, pricePrCubic FROM regions WHERE regionID = ?', [$regionID]);
-
-        // Kalder ConvertToRegionObjects funktionen, der returner et regionStore objekt
-        $regionStore = $this->ConvertToRegionObject($result);
-
-        return $regionStore;
-    }
-
-    public function ConvertToRegionObject($result)
-    {
-        $regionStore = new RegionStore();
-
-        foreach ($result as $i => $r) {
-            $regionStore->regionID = $r->regionID;
-            $regionStore->region = $r->region;
-            $regionStore->pricePrCubic = $r->pricePrCubic;
-        }
-
-        return $regionStore;
+        $region = json_decode(Region::find($request->User()->regionID));  // Eloquent metode bliver brugt her. Find metoden finder et enkelt objekt ud fra PrimaryKey. PrimaryKey findes ud fra den bruger der søger.
+        return $region;
     }
 }
 
@@ -97,12 +76,4 @@ class DataStore
         $this->date = $date;
         $this->value = $value;
     }
-
-}
-
-class RegionStore
-{
-    public $regionID;
-    public $region;
-    public $pricePrCubic;
 }

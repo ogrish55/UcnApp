@@ -205,20 +205,18 @@ class DataController extends Controller
 
     public function MonthlyUsageInDkk(Request $request)
     {
-        $monthlyMeasurements = $this->GetMonthlyConsumption($request, $type = 'all', $returnType= 'list');
-        $regionStore = $this->GetDataDB->GetPricePrCubic($request);
-        $UsageInDkkList = [];
-
+        $monthlyMeasurements = $this->GetMonthlyConsumption($request, 'all', 'list');
+        $region = $this->GetDataDB->GetRegion($request);
+        $usageInDkkList = [];
 
         foreach ($monthlyMeasurements as $m) {
             $usageInDkk = new UsageInDkk();
-            $usageInDkk->price = substr($m->value * $regionStore->pricePrCubic, 0, -2);
+            $usageInDkk->price = substr($m->value * $region->pricePrCubic, 0, -2);
             $usageInDkk->date = $m->date;
-
-            array_push($UsageInDkkList, $usageInDkk);
+            $usageInDkkList[] = $usageInDkk;
         }
         return response()->json([
-            $UsageInDkkList]);
+            $usageInDkkList]);
     }
 }
 
