@@ -7,7 +7,6 @@ axios.defaults.baseURL = 'http://backend.test/api'
 
 export const store = new Vuex.Store({
   state: {
-    someboolean: true,
     token: localStorage.getItem('access_token') || null,
     user: {
       firstName: '',
@@ -17,30 +16,30 @@ export const store = new Vuex.Store({
     }
   },
   getters: {
-    loggedIn (state) {
+    loggedIn(state) {
       return state.token !== null
     }
   },
   mutations: {
-    storeToken (state, token) {
+    storeToken(state, token) {
       state.token = token
     },
-    destroyToken (state) {
+    destroyToken(state) {
       state.token = null
     },
-    storeUser (state, user) {
+    storeUser(state, user) {
       state.user.firstName = user.firstName
       state.user.lastName = user.lastName
       state.user.email = user.email
       state.user.phoneNumber = user.phoneNumber
 
     },
-    clearUserDetails (state) {
+    clearUserDetails(state) {
       state.user = null
     }
   },
   actions: {
-    register (context, data) {
+    register(context, data) {
       return new Promise((resolve, reject) => {
         axios
           .post('/register', {
@@ -56,7 +55,7 @@ export const store = new Vuex.Store({
           })
       })
     },
-    destroyToken (context) {
+    destroyToken(context) {
       axios.defaults.headers.common['Authorization'] = 'Bearer ' + context.state.token
 
       if (context.getters.loggedIn) {
@@ -75,7 +74,7 @@ export const store = new Vuex.Store({
         })
       }
     },
-    async retrieveToken (context, credentials) {
+    async retrieveToken(context, credentials) {
       try {
         const response = await axios.post('/login', {
           username: credentials.username,
@@ -98,7 +97,7 @@ export const store = new Vuex.Store({
           console.log(error)
         })
     },
-    clearUserDetails(context){
+    clearUserDetails(context) {
       context.commit('clearUserDetails')
     }
   }

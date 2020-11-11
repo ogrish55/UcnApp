@@ -61,7 +61,8 @@
                   <div class="card-body">
                     <div class="row no-gutters align-items-center">
                       <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Forbrug i m<sup>3</sup></div>
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Forbrug i m<sup>3</sup>
+                        </div>
                         <div class="h5 mb-0 font-weight-bold text-gray-800">{{ usageInM3 }} M<sup>3</sup></div>
                       </div>
                       <div class="col-auto">
@@ -147,16 +148,19 @@
                       </a>
                       <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                            aria-labelledby="dropdownMenuLink">
-                        <a class="dropdown-item" v-on:click="setToTrue"><strong>Varmt vand</strong></a>
+                        <a class="dropdown-item" v-on:click="fillHot"><strong>Varmt vand</strong></a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" v-on:click="setToFalse"><strong>Koldt vand</strong></a>
+                        <a class="dropdown-item" v-on:click="fillCold"><strong>Koldt vand</strong></a>
                       </div>
                     </div>
                   </div>
                   <!-- Card Body -->
                   <div class="card-body">
-                    <div class="chart-area w-100 h-25">
-                      <line-chart></line-chart>
+                    <div class="chart-area w-100 h-25" v-if="someBoolean === true">
+                      <line-chart v-bind:someBoolean="true"></line-chart>
+                    </div>
+                    <div class="chart-area w-100 h-25" v-if="someBoolean === false">
+                      <line-chart v-bind:someBoolean="false"></line-chart>
                     </div>
                   </div>
                 </div>
@@ -301,7 +305,7 @@ export default {
     BarChartInDkk,
     LineChart
   },
-  data () {
+  data() {
     return {
       showHot: true,
       showCold: false,
@@ -310,38 +314,39 @@ export default {
       aconto: null,
       difference: null,
       monthNumber: null,
+      someBoolean: false
     }
   },
   computed: {
-    calculateUsageInDkk () {
+    calculateUsageInDkk() {
       this.usageInDkk = (this.usageInM3 * 54.84).toFixed(2)
     },
-    calculateAconto () {
+    calculateAconto() {
       this.aconto = (this.monthNumber * 400).toFixed(2)
     },
-    calculateDiff () {
+    calculateDiff() {
       this.difference = (this.aconto - this.usageInDkk).toFixed(2)
     }
   },
-  mounted () {
+  mounted() {
     this.apiCalls()
   },
-  created () {
+  created() {
     axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('access_token')
   },
   methods: {
-    setToTrue(){
-      this.$store.state.someboolean = true
-      console.log(this.$store.state.someboolean)
+    fillHot() {
+      this.someBoolean = true
+      console.log(this.someBoolean)
     },
-    setToFalse(){
-      this.$store.state.someboolean = false
-      console.log(this.$store.state.someboolean)
+    fillCold() {
+      this.someBoolean = false
+      console.log(this.someBoolean)
     },
-    apiCalls () {
-        axios
-          .get('http://backend.test/api/data/currentYearUsage/total')
-          .then(response => (this.usageInM3 = response.data)),
+    apiCalls() {
+      axios
+        .get('http://backend.test/api/data/currentYearUsage/total')
+        .then(response => (this.usageInM3 = response.data)),
         axios
           .get('http://backend.test/api/data/currentYearUsage/total/monthNumber')
           .then(response => (this.monthNumber = response.data))
@@ -353,10 +358,12 @@ export default {
 <style scoped>
 @import '../assets/styles/sb-admin-2.min.css';
 @import '../assets/styles/all.min.css';
+
 #wrapper {
   position: relative;
   bottom: 34px;
 }
+
 #cardrow {
   margin-top: 15px;
 }
