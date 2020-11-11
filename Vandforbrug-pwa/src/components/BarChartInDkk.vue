@@ -58,8 +58,7 @@ export default {
         datasets: [{
           label: 'Forbrug',
           borderWidth: 1,
-          backgroundColor: 'rgba(75, 192, 192, 0.2)'
-          ,
+          backgroundColor: 'rgba(75, 192, 192, 0.2)',
           borderColor: 'rgba(75, 192, 192, 0.2)',
           pointBorderColor: '#2554FF',
           data: this.data

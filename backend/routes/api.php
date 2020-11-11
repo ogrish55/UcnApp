@@ -30,6 +30,7 @@ Route::middleware('auth:api')->group(function () {
     Route::get('data/currentMonthUsage/{type}', 'App\Http\Controllers\DataController@GetLatestMonth');
     Route::get('data/average/{type}', 'App\Http\Controllers\DataController@GetMonthlyAverage');
     Route::get('data/monthlyUsageInDkk/', 'App\Http\Controllers\DataController@MonthlyUsageInDkk');
+    Route::get('data/useraconto/', 'App\Http\Controllers\DataController@UserAconto');
 
 });
 

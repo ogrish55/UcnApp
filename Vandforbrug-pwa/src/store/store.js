@@ -7,6 +7,7 @@ axios.defaults.baseURL = 'http://backend.test/api'
 
 export const store = new Vuex.Store({
   state: {
+    someboolean: true,
     token: localStorage.getItem('access_token') || null,
     user: {
       firstName: '',

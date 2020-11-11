@@ -112,6 +112,14 @@ class GetDataDB
         return $regionStore;
     }
 
+    public function GetAconto(Request $request){
+        $userID = $request->User()->userID;
+
+        $result = DB::select('SELECT aconto from users WHERE userID = ?', [$userID]);
+
+        return $result;
+    }
+
     public function ConvertToRegionObject($result)
     {
         $regionStore = new RegionStore();

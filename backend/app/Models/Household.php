@@ -27,7 +27,7 @@ class Household extends Model
      * @var array
      */
     protected $fillable = [
-        'householdId',
-        'userId',
+        'householdID',
+        'userID',
     ];
 }

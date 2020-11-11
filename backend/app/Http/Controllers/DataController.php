@@ -102,7 +102,7 @@ class DataController extends Controller
     {
         $returnType = 'list';
         $actualConsumption = $this->GetMonthlyConsumption($request, $type, $returnType);
-        
+
         // find gennemsnit af forbrug
         $average = 0.0;
 
@@ -254,6 +254,13 @@ class DataController extends Controller
         }
         return response()->json([
             $UsageInDkkList]);
+    }
+
+    public function UserAconto(Request $request){
+        $result = $this->GetDataDB->GetAconto($request);
+
+        dd($result);
+        return $result;
     }
 }
 

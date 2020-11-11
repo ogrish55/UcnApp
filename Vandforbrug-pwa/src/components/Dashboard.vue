@@ -147,17 +147,16 @@
                       </a>
                       <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                            aria-labelledby="dropdownMenuLink">
-                        <a class="dropdown-item" v-on:click="fillWithHot"><strong>Varmt vand</strong></a>
+                        <a class="dropdown-item" v-on:click="setToTrue"><strong>Varmt vand</strong></a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" v-on:click="fillWithCold"><strong>Koldt vand</strong></a>
+                        <a class="dropdown-item" v-on:click="setToFalse"><strong>Koldt vand</strong></a>
                       </div>
                     </div>
                   </div>
                   <!-- Card Body -->
                   <div class="card-body">
-                    <div class="chart-area">
-                      <line-chart :width="300" :height="70" v-if="ready" :chart-data="datacollection"
-                                  :options="chartOptions"></line-chart>
+                    <div class="chart-area w-100 h-25">
+                      <line-chart></line-chart>
                     </div>
                   </div>
                 </div>
@@ -288,77 +287,29 @@
 </template>
 
 <script>
-import BarChart from './BarChart'
 import BarChartInDkk from './BarChartInDkk'
+import LineChart from "@/components/LineChart";
 import '../assets/vendor/jquery/jquery.min'
-// import '../assets/vendor/bootstrap/js/bootstrap.bundle.min.js';
 import '../assets/vendor/jquery-easing/jquery.easing.min.js'
-// import '../assets/js/sb-admin-2.min.js'
 import '../assets/vendor/chart.js/Chart.min.js'
 import '../assets/vendor/chart.js/Chart.min.js'
-import LineChart from './LineChart'
 import axios from 'axios'
-// import '../assets/js/demo/chart-pie-demo.js';
+
 export default {
   name: 'Dashboard',
   components: {
-    LineChart,
-    BarChart,
-    BarChartInDkk
+    BarChartInDkk,
+    LineChart
   },
   data () {
     return {
-      ready: false,
-      coldReady: false,
-      datacollection: null,
-      coldDatacollection: null,
-      measurements: [],
-      coldMeasurements: [],
-      timeOfReader: [],
-      coldTimeOfReader: [],
-      reader: null,
-      coldReader: null,
-      chartOptions: {
-        scales: {
-          yAxes: [{
-            ticks: {
-              beginAtZero: true
-            },
-            gridLines: {
-              display: true
-            }
-          }],
-          xAxes: [ {
-            gridLines: {
-              display: false
-            }
-          }]
-        },
-        legend: {
-          display: true
-        },
-        responsive: true,
-        maintainAspectRatio: true
-      },
+      showHot: true,
+      showCold: false,
       usageInDkk: null,
       usageInM3: null,
       aconto: null,
       difference: null,
       monthNumber: null,
-      monthNames: [
-        'Januar',
-        'Februar',
-        'Marts',
-        'April',
-        'Maj',
-        'Juni',
-        'Juli',
-        'August',
-        'September',
-        'Oktober',
-        'November',
-        'December'
-      ]
     }
   },
   computed: {
@@ -379,78 +330,15 @@ export default {
     axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('access_token')
   },
   methods: {
-    fillWithHot () {
-      this.datacollection = {
-        labels: this.timeOfReader, // ['13-05-2019', '14-05-2019', '15-05-2019', '16-05-2019', '17-05-2019'], // Time of read
-        datasets: [
-          {
-            label: 'Varmt vand',
-            backgroundColor: '#f87979',
-            data: this.measurements,
-            fill: false,
-            borderWidth: 1,
-            borderColor: '#f87979',
-            backgroundColor: '#f87979'
-          }
-        ]
-      }
-      this.ready = true
+    setToTrue(){
+      this.$store.state.someboolean = true
+      console.log(this.$store.state.someboolean)
     },
-    fillWithCold () {
-      this.datacollection = {
-        labels: this.coldTimeOfReader, // ['13-05-2019', '14-05-2019', '15-05-2019', '16-05-2019', '17-05-2019'], // Time of read
-        datasets: [
-          {
-            label: 'Koldt vand',
-            backgroundColor: '#0a5493',
-            data: this.coldMeasurements,
-            fill: false,
-            borderWidth: 1,
-            borderColor: '#0a5493',
-            backgroundColor: '#0a5493'
-          }
-        ]
-      }
-      this.coldReady = true
-    },
-    getDataFromReader () {
-      let keys = Object.keys(this.reader)
-      keys.forEach(key => {
-        this.measurements.push(this.reader[key].value)
-        // this.timeOfReader.push(this.reader[key].date.date)
-        let dateString = this.reader[key].date.date
-        let dateTime = new Date(dateString)
-        let year = dateTime.getFullYear() // "2019"
-        year = year.toString().slice(-2) // "19"
-        this.timeOfReader.push(this.monthNames[dateTime.getMonth()] + ' \'' + year)
-      })
-      this.measurements.shift(); // fjerner første element af array da data altid vil være 0
-      this.timeOfReader.shift(); // fjerner tilsvarende label
-    },
-    getColdDataFromReader () {
-      let keys = Object.keys(this.coldReader)
-      keys.forEach(key => {
-        this.coldMeasurements.push(this.coldReader[key].value)
-        let dateString = this.coldReader[key].date.date
-        let dateTime = new Date(dateString) // konverter til date objekt
-        let year = dateTime.getFullYear() // "2019"
-        year = year.toString().slice(-2) // "19"
-        this.coldTimeOfReader.push(this.monthNames[dateTime.getMonth()] + " '" + year)
-      })
-      this.coldMeasurements.shift(); // fjerner første element af array da data altid vil være 0
-      this.coldTimeOfReader.shift(); // fjerner tilsvarende label
+    setToFalse(){
+      this.$store.state.someboolean = false
+      console.log(this.$store.state.someboolean)
     },
     apiCalls () {
-      axios
-        .get('http://backend.test/api/data/consumption/cold/json')
-        .then(response => (this.coldReader = response.data[0]))
-        .then(response => (this.getColdDataFromReader()))
-        .then(this.fillWithCold),
-        axios
-          .get('http://backend.test/api/data/consumption/hot/json')
-          .then(response => (this.reader = response.data[0]))
-          .then(response => (this.getDataFromReader()))
-          .then(this.fillWithHot),
         axios
           .get('http://backend.test/api/data/currentYearUsage/total')
           .then(response => (this.usageInM3 = response.data)),

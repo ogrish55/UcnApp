@@ -1,16 +1,13 @@
 <template>
   <div class="chart-container" id="chart" v-if="reader">
-    <line-chart v-if="ready" :chart-data="datacollection" :options="chartOptions"></line-chart>
   </div>
 </template>
 
 <script>
-import LineChart from './LineChart'
 import axios from 'axios'
 
 export default {
   name: 'Consumption',
-  components: {LineChart},
 
   data () {
     return {
