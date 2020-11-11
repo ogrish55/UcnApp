@@ -220,7 +220,7 @@ class DataController extends Controller
     }
 
     public function GetDailyMeasurements(Request $request, $year, $month){
-        $values = $this->GetDataDB->GetDataUser($request, 'hot');
+        $values = $this->GetDataDB->GetMeasurementsBasedOnType($request, 'hot');
 
         $filteredArray = [];
 
@@ -250,7 +250,7 @@ class DataController extends Controller
         $actualConsumption = [];
 
         foreach ($onePerDay as $v){
-            $newObject = new DataStore; // SKAL LAVES OM NÅR JEG FÅR KRIS' ÆNDRINGER
+            $newObject = new DataStore($v->date, $v->value, $v->type); // SKAL LAVES OM NÅR JEG FÅR KRIS' ÆNDRINGER
             $newObject->date = $v->date;
             $newObject->value = $v->value - $startValue;
             $newObject->type = $v->type;
@@ -263,7 +263,7 @@ class DataController extends Controller
     }
 
     public function GetDailyMeasurementsAll(Request $request){
-        $values = $this->GetDataDB->GetDataUser($request, 'hot');
+        $values = $this->GetDataDB->GetMeasurementsBasedOnType($request, 'hot');
 
         // only get the latest measurement pr day
         $onePerDay = [];
