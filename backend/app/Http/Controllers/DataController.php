@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Database\DataStore;
 use App\Http\Database\GetDataDB;
+use DateTime;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -250,10 +251,7 @@ class DataController extends Controller
         $actualConsumption = [];
 
         foreach ($onePerDay as $v){
-            $newObject = new DataStore($v->date, $v->value, $v->type); // SKAL LAVES OM NÅR JEG FÅR KRIS' ÆNDRINGER
-            $newObject->date = $v->date;
-            $newObject->value = $v->value - $startValue;
-            $newObject->type = $v->type;
+            $newObject = new DataStore($v->date, $v->value - $startValue, $v->type);
             $startValue = $v->value; // sætter startValue til at være dette måneds værdi så den kan bruges i næste iteration
 
             $actualConsumption[] = $newObject;
