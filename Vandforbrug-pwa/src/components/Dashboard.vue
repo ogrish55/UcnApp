@@ -64,7 +64,7 @@
                         <div class="h5 mb-0 font-weight-bold text-gray-800">{{ usageInM3 }} M<sup>3</sup></div> 
                       </div>
                       <div class="col-auto">
-                        <i class="fas fa-home fa-2x text-gray-300"></i>
+                        <i class="fas fa-tint fa-2x text-gray-300"></i>
                       </div>
                     </div>
                   </div>
@@ -101,7 +101,7 @@
                         </div>
                       </div>
                       <div class="col-auto">
-                        <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                        <i class="fas fa-piggy-bank fa-2x text-gray-300"></i>
                       </div>
                     </div>
                   </div>
