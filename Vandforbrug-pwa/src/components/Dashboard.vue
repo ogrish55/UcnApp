@@ -148,18 +148,22 @@
                       </a>
                       <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                            aria-labelledby="dropdownMenuLink">
-                        <a class="dropdown-item" v-on:click="fillHot"><strong>Varmt vand</strong></a>
+                        <button @click="setToHot()" type="button">Varmt vand</button>
+                        <!--                        <a class="dropdown-item" @click="fillHot" type="button"><strong>Varmt vand</strong></a>-->
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" v-on:click="fillCold"><strong>Koldt vand</strong></a>
+                        <button @click="setToCold()" type="button">Koldt vand</button>
+                        <!--                        <a class="dropdown-item" @click="fillCold" type="button"><strong>Koldt vand</strong></a>-->
                       </div>
                     </div>
                   </div>
                   <!-- Card Body -->
-                  <div class="card-body">
-                    <div class="chart-area w-100 h-25" v-if="someBoolean === true">
+                  <div class="card-body" v-if="booleanHot">
+                    <div class="chart-area w-100 h-25">
                       <line-chart v-bind:someBoolean="true"></line-chart>
                     </div>
-                    <div class="chart-area w-100 h-25" v-if="someBoolean === false">
+                  </div>
+                  <div class="card-body" v-if="booleanCold">
+                    <div class="chart-area w-100 h-25">
                       <line-chart v-bind:someBoolean="false"></line-chart>
                     </div>
                   </div>
@@ -307,14 +311,13 @@ export default {
   },
   data() {
     return {
-      showHot: true,
-      showCold: false,
+      booleanHot: true,
+      booleanCold: false,
       usageInDkk: null,
       usageInM3: null,
       aconto: null,
       difference: null,
       monthNumber: null,
-      someBoolean: false
     }
   },
   computed: {
@@ -335,23 +338,37 @@ export default {
     axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('access_token')
   },
   methods: {
-    fillHot() {
-      this.someBoolean = true
-      console.log(this.someBoolean)
+    setToHot() {
+      if (this.booleanCold) {
+        this.booleanCold = false
+      } else {
+        this.booleanHot = true
+        this.booleanCold = false
+      }
+      console.log("HELLO from setToHot()")
+      console.log("HOT: " + this.booleanHot)
+      console.log("COLD: " + this.booleanCold)
     },
-    fillCold() {
-      this.someBoolean = false
-      console.log(this.someBoolean)
+    setToCold() {
+      if (this.booleanHot) {
+        this.booleanHot = false
+      } else {
+        this.booleanCold = true
+        this.booleanHot = false
+      }
+      console.log("HELLO from setToCold()")
+      console.log("COLD: " + this.booleanCold)
+      console.log("HOT: " + this.booleanHot)
     },
-    apiCalls() {
+  apiCalls() {
+    axios
+      .get('http://backend.test/api/data/currentYearUsage/total')
+      .then(response => (this.usageInM3 = response.data)),
       axios
-        .get('http://backend.test/api/data/currentYearUsage/total')
-        .then(response => (this.usageInM3 = response.data)),
-        axios
-          .get('http://backend.test/api/data/currentYearUsage/total/monthNumber')
-          .then(response => (this.monthNumber = response.data))
-    }
+        .get('http://backend.test/api/data/currentYearUsage/total/monthNumber')
+        .then(response => (this.monthNumber = response.data))
   }
+}
 }
 </script>
 

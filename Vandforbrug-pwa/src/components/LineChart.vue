@@ -56,12 +56,13 @@ export default {
     }
   },
   mounted() {
-    this.apiCalls()
     if(this.someBoolean === true)
     {
-      this.fillWithHot()
-    } else if (this.someBoolean === false){
-      this.fillWithCold()
+      this.apiCallHot()
+      console.log(this.someBoolean)
+    } if(this.someBoolean === false){
+      console.log(this.someBoolean)
+      this.apiCallCold()
     }
   },
   created() {
@@ -124,20 +125,21 @@ export default {
       this.labelsCold.shift(); // fjerner første element af array da data altid vil være 0
       this.dataCold.shift(); // fjerner tilsvarende label
     },
-    apiCalls() {
-      let urlForCold = 'http://backend.test/api/data/consumption/cold/json'
+    apiCallHot() {
       let urlForHot = 'http://backend.test/api/data/consumption/hot/json'
-
+      axios
+        .get(urlForHot)
+        .then(response => (this.readerHot = response.data[0]))
+        .then(response => (this.getHotDataFromReader()))
+        .then(this.fillWithHot)
+    },
+    apiCallCold(){
+      let urlForCold = 'http://backend.test/api/data/consumption/cold/json'
       axios
         .get(urlForCold)
         .then(response => (this.readerCold = response.data[0]))
         .then(response => (this.getColdDataFromReader()))
-        .then(this.fillWithCold),
-        axios
-          .get(urlForHot)
-          .then(response => (this.readerHot = response.data[0]))
-          .then(response => (this.getHotDataFromReader()))
-          .then(this.fillWithHot)
+        .then(this.fillWithCold)
     }
   }
 }
