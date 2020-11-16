@@ -2,49 +2,8 @@
   <div>
     <!-- Page Wrapper -->
     <div id="wrapper">
-
-      <!-- Sidebar -->
-      <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-
-        <!-- Nav Item - Dashboard -->
-        <li class="nav-item active">
-          <a class="nav-link" href="index.html">
-            <i class="fas fa-fw fa-tachometer-alt"></i>
-            <span>Kontrolpanel</span></a>
-        </li>
-
-        <!-- Divider -->
-        <hr class="sidebar-divider">
-
-        <!-- Heading -->
-        <div class="sidebar-heading">
-          Bruger
-        </div>
-
-        <!-- Nav Item - Pages Collapse Menu -->
-        <li class="nav-item">
-          <a class="nav-link" href="index.html">
-            <i class="fas fa-fw fa-cog"></i>
-            <span>Oplysninger</span></a>
-        </li>
-
-        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Custom Components:</h6>
-            <a class="collapse-item" href="buttons.html">Buttons</a>
-            <a class="collapse-item" href="cards.html">Cards</a>
-          </div>
-        </div>
-
-        <!-- Divider -->
-        <hr class="sidebar-divider">
-
-
-      </ul>
-      <!-- End of Sidebar -->
-
       <!-- Content Wrapper -->
-      <div id="content-wrapper" class="d-flex flex-column">
+      <div id="content-wrapper" class="d-flex flex-column"> <!-- bg-gradient-primary-to-secondary */ -->
 
         <!-- Main Content -->
         <div id="content">
@@ -139,6 +98,8 @@
               </div>
             </div>
 
+            <hr>
+
             <!-- Content Row -->
             <div class="row">
 
@@ -154,11 +115,11 @@
                     <bar-chart-in-dkk></bar-chart-in-dkk>
                   </div>
                 </div>
-
               </div>
 
-              <div class="col-lg-6 mb-4">
-                <h1>Dyk ned i dit forbrug</h1>
+              <!-- <div class="" -->
+              <div class="col-lg-6 mb-4"> 
+                <!-- <h1>Dyk ned i dit forbrug</h1> -->
                 <daily-grid></daily-grid>
               </div>
 
@@ -457,11 +418,21 @@ export default {
 <style scoped>
 @import '../assets/styles/sb-admin-2.min.css';
 @import '../assets/styles/all.min.css';
+
 #wrapper {
   position: relative;
   bottom: 34px;
 }
 #cardrow {
   margin-top: 15px;
+}
+/* #content{
+  background: rgb(34,193,195);
+  background: linear-gradient(193deg, rgba(34,193,195,0.3841911764705882) 0%, rgba(253,187,45,0.3253676470588235) 100%);
+} */
+.sticky-footer{
+  /* gradient baggrund */
+  background: rgb(2,0,36);
+  background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(73,87,255,0.4150035014005602) 0%, rgba(255,0,0,0.2553396358543417) 100%);
 }
 </style>
