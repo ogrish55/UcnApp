@@ -117,14 +117,9 @@
                 </div>
               </div>
 
-<<<<<<< HEAD
               <!-- <div class="" -->
               <div class="col-lg-6 mb-4"> 
                 <!-- <h1>Dyk ned i dit forbrug</h1> -->
-=======
-              <div class="col-lg-6 mb-4">
-                <h1>Dyk ned i dit forbrug</h1>
->>>>>>> master
                 <daily-grid></daily-grid>
               </div>
 
