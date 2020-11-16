@@ -52,83 +52,7 @@
           <!-- Begin Page Content -->
           <div class="container-fluid">
             <!-- Content Row -->
-            <div class="row" id="cardrow">
-
-              <!-- Forbrug i M3 -->
-              <div class="col-xl-3 col-md-6 mb-4">
-                <div class="card border-left-primary shadow h-100 py-2">
-                  <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                      <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Forbrug i m<sup>3</sup></div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ usageInM3 }} M<sup>3</sup></div> 
-                      </div>
-                      <div class="col-auto">
-                        <i class="fas fa-tint fa-2x text-gray-300"></i>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Forbrug i DKK -->
-              <div class="col-xl-3 col-md-6 mb-4">
-                <div class="card border-left-danger shadow h-100 py-2">
-                  <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                      <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Forbrug i DKK</div>
-                        <div v-bind="calculateUsageInDkk" class="h5 mb-0 font-weight-bold text-gray-800">
-                          {{ this.usageInDkk }} DKK
-                        </div>
-                      </div>
-                      <div class="col-auto">
-                        <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Betalt aconto -->
-              <div class="col-xl-3 col-md-6 mb-4">
-                <div class="card border-left-warning shadow h-100 py-2">
-                  <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                      <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Betalt aconto</div>
-                        <div v-bind="calculateAconto" class="h5 mb-0 font-weight-bold text-gray-800">{{ aconto }} DKK
-                        </div>
-                      </div>
-                      <div class="col-auto">
-                        <i class="fas fa-piggy-bank fa-2x text-gray-300"></i>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Difference i DKK -->
-              <div class="col-xl-3 col-md-6 mb-4">
-                <div class="card border-left-success shadow h-100 py-2">
-                  <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                      <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Difference i DKK</div>
-                        <div v-bind="calculateDiff" class="h5 mb-0 font-weight-bold text-gray-800">{{ difference }}
-                          DKK
-                        </div>
-                      </div>
-                      <div class="col-auto">
-                        <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-
+            <forbrugsoversigt></forbrugsoversigt>
             <!-- Content Row -->
 
             <div class="row">
@@ -180,7 +104,7 @@
                   <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                     <h6 class="m-0 font-weight-bold text-primary">Dyk ned i dit forbrug</h6>
                     <div class="dropdown no-arrow">
-                      <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
+                      <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown"
                          aria-haspopup="true" aria-expanded="false">
                         <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
                       </a>
@@ -232,13 +156,13 @@
                 </div>
 
               </div>
-              
-              <div class="col-lg-6 mb-4">      
+
+              <div class="col-lg-6 mb-4">
                 <h1>Dyk ned i dit forbrug</h1>
                 <daily-grid></daily-grid>
               </div>
 
-               
+
             </div>
 
             <!-- <h1>Dyk ned i dit forbrug</h1>
@@ -273,6 +197,7 @@
 <script>
 import BarChart from './BarChart'
 import BarChartInDkk from './BarChartInDkk'
+import Forbrugsoversigt from "@/components/Forbrugsoversigt";
 import '../assets/vendor/jquery/jquery.min'
 // import '../assets/vendor/bootstrap/js/bootstrap.bundle.min.js';
 import '../assets/vendor/jquery-easing/jquery.easing.min.js'
@@ -289,7 +214,8 @@ export default {
     LineChart,
     BarChart,
     BarChartInDkk,
-    DailyGrid
+    DailyGrid,
+    Forbrugsoversigt
   },
   data () {
     return {
@@ -332,11 +258,6 @@ export default {
         responsive: true,
         maintainAspectRatio: true
       },
-      usageInDkk: null,
-      usageInM3: null,
-      aconto: null,
-      difference: null,
-      monthNumber: null,
       monthNames: [
         'Januar',
         'Februar',
@@ -508,7 +429,7 @@ export default {
         .then(response => (this.monthReader = response.data))
         .then(response => (this.getMonthDataFromReader()))
     },
-    apiCallAverage(){   
+    apiCallAverage(){
       axios
         .get('http://backend.test/api/data/average/hot')
         .then(response => (this.averageHot = response.data)),
@@ -527,13 +448,7 @@ export default {
           .get('http://backend.test/api/data/consumption/hot/json')
           .then(response => (this.reader = response.data[0]))
           .then(response => (this.getDataFromReader()))
-          .then(this.fillWithHot),
-        axios
-          .get('http://backend.test/api/data/currentYearUsage/total')
-          .then(response => (this.usageInM3 = response.data)),
-        axios
-          .get('http://backend.test/api/data/currentYearUsage/total/monthNumber')
-          .then(response => (this.monthNumber = response.data))
+          .then(this.fillWithHot)
     }
   }
 }
