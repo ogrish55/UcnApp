@@ -69,7 +69,7 @@ export default {
   height: 60px;
   /* gradient baggrund */
   background: rgb(34,193,195);
-  background: linear-gradient(90deg, rgba(34,193,195,0.3841911764705882) 0%, rgba(253,187,45,0.3253676470588235) 100%);
+  background: linear-gradient(90deg, rgba(253,187,45,0.3253676470588235) 0%, rgba(34,193,195,0.3841911764705882) 100%);
 }
 .navbar-brand {
   color: #0269A4;
