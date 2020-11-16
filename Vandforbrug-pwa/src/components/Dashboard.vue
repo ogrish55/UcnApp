@@ -158,11 +158,13 @@
                   </div>
                   <!-- Card Body -->
                   <div class="card-body" v-if="booleanHot">
+                    <p>hello</p>
                     <div class="chart-area w-100 h-25">
                       <line-chart v-bind:someBoolean="true"></line-chart>
                     </div>
                   </div>
                   <div class="card-body" v-if="booleanCold">
+                    <p>farvel</p>
                     <div class="chart-area w-100 h-25">
                       <line-chart v-bind:someBoolean="false"></line-chart>
                     </div>
@@ -339,26 +341,20 @@ export default {
   },
   methods: {
     setToHot() {
-      if (this.booleanCold) {
-        this.booleanCold = false
+      if (this.booleanHot == false) {
+        this.booleanHot = true
       } else {
         this.booleanHot = true
         this.booleanCold = false
       }
-      console.log("HELLO from setToHot()")
-      console.log("HOT: " + this.booleanHot)
-      console.log("COLD: " + this.booleanCold)
     },
     setToCold() {
-      if (this.booleanHot) {
-        this.booleanHot = false
+      if (this.booleanCold == false) {
+        this.booleanCold = true
       } else {
         this.booleanCold = true
         this.booleanHot = false
       }
-      console.log("HELLO from setToCold()")
-      console.log("COLD: " + this.booleanCold)
-      console.log("HOT: " + this.booleanHot)
     },
   apiCalls() {
     axios

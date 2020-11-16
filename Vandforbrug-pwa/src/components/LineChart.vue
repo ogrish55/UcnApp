@@ -59,11 +59,12 @@ export default {
     if(this.someBoolean === true)
     {
       this.apiCallHot()
-      console.log(this.someBoolean)
-    } if(this.someBoolean === false){
-      console.log(this.someBoolean)
+      console.log("apicallHot " + this.someBoolean)
+    } else if(this.someBoolean == false){
       this.apiCallCold()
+      console.log("apiCallCold: " + this.someBoolean)
     }
+    console.log(this.someBoolean)
   },
   created() {
     axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('access_token')
