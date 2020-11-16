@@ -277,15 +277,20 @@ class DataController extends Controller
         // konverter til objekter af typen DailyMeasurements
         // find frem til værdierne til de forskellige attributter
         $convertedArray = [];
+        $startValue = $onePerDay[0]->value;
+
         foreach ($onePerDay as $i => $val){
             $year = date_format($val->date, 'Y');
             $month = HelperMethods::GetMonthName(date_format($val->date, 'm'));
             $day = date_format($val->date, 'd');
             $value = $val->value;
-
-            $measurement = new DailyMeasurement($year, $month, $day, $value);
+            $usage = round(($val->value - $startValue) * 100, 2); // for at værdien er i cm3 og formateret til 1 decimaler
+   
+            $measurement = new DailyMeasurement($year, $month, $day, $value, $usage);
 
             array_push($convertedArray, $measurement);
+
+            $startValue = $val->value; // sætter en ny startværdi
         }
         
         // flip the array so the newest measurements are lowest elements (for frontend purposes)
@@ -308,13 +313,16 @@ class DailyMeasurement
     public $month;
     public $day;
     public $value;
+    public $usage;
 
-    public function __construct($year, $month, $day, $value)
+    public function __construct($year, $month, $day, $value, $usage)
     {
         $this->year = $year;
         $this->month = $month;
         $this->day = $day;
         $this->value = $value;
+        $this->usage = $usage;
+
     }
 }
 
