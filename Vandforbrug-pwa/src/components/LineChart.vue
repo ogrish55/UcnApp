@@ -55,16 +55,21 @@ export default {
       },
     }
   },
-  mounted() {
-    if(this.someBoolean === true)
-    {
-      this.apiCallHot()
-      console.log("apicallHot " + this.someBoolean)
-    } else if(this.someBoolean == false){
-      this.apiCallCold()
-      console.log("apiCallCold: " + this.someBoolean)
+
+  watch: {
+    someBoolean: function () {
+      if (this.someBoolean) {
+        console.log(this.someBoolean);
+        this.fillWithHot()
+      } else {
+        console.log(this.someBoolean);
+        this.fillWithCold()
+      }
     }
-    console.log(this.someBoolean)
+  },
+  mounted(){
+    this.apiCallHot()
+    this.apiCallCold()
   },
   created() {
     axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('access_token')
@@ -134,7 +139,7 @@ export default {
         .then(response => (this.getHotDataFromReader()))
         .then(this.fillWithHot)
     },
-    apiCallCold(){
+    apiCallCold() {
       let urlForCold = 'http://backend.test/api/data/consumption/cold/json'
       axios
         .get(urlForCold)

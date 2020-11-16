@@ -148,27 +148,16 @@
                       </a>
                       <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                            aria-labelledby="dropdownMenuLink">
-                        <button @click="setToHot()" type="button">Varmt vand</button>
+                        <button @click="setBoolean()" type="button">Varmt vand</button>
                         <!--                        <a class="dropdown-item" @click="fillHot" type="button"><strong>Varmt vand</strong></a>-->
                         <div class="dropdown-divider"></div>
-                        <button @click="setToCold()" type="button">Koldt vand</button>
+                        <button @click="setBoolean()" type="button">Koldt vand</button>
                         <!--                        <a class="dropdown-item" @click="fillCold" type="button"><strong>Koldt vand</strong></a>-->
                       </div>
                     </div>
                   </div>
                   <!-- Card Body -->
-                  <div class="card-body" v-if="booleanHot">
-                    <p>hello</p>
-                    <div class="chart-area w-100 h-25">
-                      <line-chart v-bind:someBoolean="true"></line-chart>
-                    </div>
-                  </div>
-                  <div class="card-body" v-if="booleanCold">
-                    <p>farvel</p>
-                    <div class="chart-area w-100 h-25">
-                      <line-chart v-bind:someBoolean="false"></line-chart>
-                    </div>
-                  </div>
+                  <line-chart v-bind:someBoolean="myTestBoolean"></line-chart>
                 </div>
               </div>
 
@@ -313,8 +302,7 @@ export default {
   },
   data() {
     return {
-      booleanHot: true,
-      booleanCold: false,
+      myTestBoolean: true,
       usageInDkk: null,
       usageInM3: null,
       aconto: null,
@@ -340,31 +328,22 @@ export default {
     axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('access_token')
   },
   methods: {
-    setToHot() {
-      if (this.booleanHot == false) {
-        this.booleanHot = true
+    setBoolean() {
+      if (this.myTestBoolean) {
+        this.myTestBoolean = false;
       } else {
-        this.booleanHot = true
-        this.booleanCold = false
+        this.myTestBoolean = true;
       }
     },
-    setToCold() {
-      if (this.booleanCold == false) {
-        this.booleanCold = true
-      } else {
-        this.booleanCold = true
-        this.booleanHot = false
-      }
-    },
-  apiCalls() {
-    axios
-      .get('http://backend.test/api/data/currentYearUsage/total')
-      .then(response => (this.usageInM3 = response.data)),
+    apiCalls() {
       axios
-        .get('http://backend.test/api/data/currentYearUsage/total/monthNumber')
-        .then(response => (this.monthNumber = response.data))
+        .get('http://backend.test/api/data/currentYearUsage/total')
+        .then(response => (this.usageInM3 = response.data)),
+        axios
+          .get('http://backend.test/api/data/currentYearUsage/total/monthNumber')
+          .then(response => (this.monthNumber = response.data))
+    }
   }
-}
 }
 </script>
 
