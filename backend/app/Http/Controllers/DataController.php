@@ -247,7 +247,7 @@ class DataController extends Controller
         }
 
         // Get actual consumption instead of measurements
-        $startValue = $onePerDay[0]->value - (rand(300,1000)/10000); // giver et tal mellem 0,03 og 0,1 som første dags forbrug
+        $startValue = $onePerDay[0]->value; // - (rand(300,1000)/10000); // giver et tal mellem 0,03 og 0,1 som første dags forbrug
         $actualConsumption = [];
 
         foreach ($onePerDay as $v){

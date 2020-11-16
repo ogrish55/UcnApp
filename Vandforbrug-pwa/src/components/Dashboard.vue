@@ -77,6 +77,7 @@
                       </div>
                     </div>
                   </div>
+                  
                   <!-- Card Body -->
                   <div class="card-body">
                     <div class="chart-pie pt-4 pb-2">
@@ -120,9 +121,8 @@
               <!-- <div class="" -->
               <div class="col-lg-6 mb-4"> 
                 <!-- <h1>Dyk ned i dit forbrug</h1> -->
-                <daily-grid></daily-grid>
+                  <daily-grid></daily-grid>
               </div>
-
 
             </div>
 
@@ -176,7 +176,8 @@ export default {
     BarChart,
     BarChartInDkk,
     DailyGrid,
-    Forbrugsoversigt
+    Forbrugsoversigt,
+    DailyGrid
   },
   data () {
     return {
