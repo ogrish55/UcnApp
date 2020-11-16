@@ -123,4 +123,8 @@ export default {
 
 <style scoped>
 
+#cardrow {
+  margin-top: 15px;
+}
+
 </style>

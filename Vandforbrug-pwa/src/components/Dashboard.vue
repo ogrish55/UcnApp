@@ -199,15 +199,12 @@ import BarChart from './BarChart'
 import BarChartInDkk from './BarChartInDkk'
 import Forbrugsoversigt from "@/components/Forbrugsoversigt";
 import '../assets/vendor/jquery/jquery.min'
-// import '../assets/vendor/bootstrap/js/bootstrap.bundle.min.js';
 import '../assets/vendor/jquery-easing/jquery.easing.min.js'
-// import '../assets/js/sb-admin-2.min.js'
 import '../assets/vendor/chart.js/Chart.min.js'
 import '../assets/vendor/chart.js/Chart.min.js'
 import LineChart from './LineChart'
 import axios from 'axios'
 import DailyGrid from './DailyGrid'
-// import '../assets/js/demo/chart-pie-demo.js';
 export default {
   name: 'Dashboard',
   components: {
@@ -460,8 +457,5 @@ export default {
 #wrapper {
   position: relative;
   bottom: 34px;
-}
-#cardrow {
-  margin-top: 15px;
 }
 </style>
