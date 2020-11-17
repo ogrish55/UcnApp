@@ -42,7 +42,7 @@
         <div class="card-body">
           <div class="row no-gutters align-items-center">
             <div class="col mr-2">
-              <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Betalt aconto</div>
+              <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Betalt acconto</div>
               <div v-bind="calculateAconto" class="h5 mb-0 font-weight-bold text-gray-800">{{ aconto }} DKK
               </div>
             </div>
@@ -122,5 +122,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>

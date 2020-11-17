@@ -30,7 +30,7 @@ export default {
             {headerName: 'Måned', field: 'month', sortable: true, filter: true},
             {headerName: 'Dag', field: 'day', sortable: true, filter: true},
             {headerName: 'Måling i m3', field: 'value', sortable: true, filter: true},
-            {headerName: 'Forbrug i cm3', field: 'usage', sortable: true, filter: true}
+            {headerName: 'Forbrug i liter', field: 'usage', sortable: true, filter: true}
         ];
 
         axios

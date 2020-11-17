@@ -284,7 +284,7 @@ class DataController extends Controller
             $month = HelperMethods::GetMonthName(date_format($val->date, 'm'));
             $day = date_format($val->date, 'd');
             $value = $val->value;
-            $usage = round(($val->value - $startValue) * 100, 2); // for at værdien er i cm3 og formateret til 1 decimaler
+            $usage = round(($val->value - $startValue) * 1000, 2); // for at værdien er i cm3 og formateret til 1 decimaler
    
             $measurement = new DailyMeasurement($year, $month, $day, $value, $usage);
 
