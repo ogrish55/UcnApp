@@ -1,5 +1,5 @@
 <template>
-    <div class="test">
+    <div>
         <h1>
             Hvordan sparer jeg på vandet?
         </h1>
@@ -15,12 +15,7 @@
             <li class="list-group-item">Køl dit vand i køleskabet i stedet for at lade vandhanen løbe, indtil vandet bliver koldt.</li>
             <li class="list-group-item">Køb vaskemaskiner og opvaskemaskiner med lavt vandforbrug.</li>
         </ul>
-
-        
-
     </div>
-
-    
 </template>
 
 <script>
