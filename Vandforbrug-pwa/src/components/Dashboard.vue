@@ -96,7 +96,7 @@
       <!-- End of Content Wrapper -->
 
     </div>
-    <div id="habibi" v-else style="display: flex; justify-content: center; margin-top: 450px">
+    <div id="habibi" v-else style="display: flex; justify-content: center; position: absolute; top: 42%; left: 42%">
       <div class="loader">
 
       </div>
