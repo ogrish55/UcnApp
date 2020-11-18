@@ -29,7 +29,7 @@ export default {
             {headerName: 'År', field: 'year', sortable: true, filter: true},
             {headerName: 'Måned', field: 'month', sortable: true, filter: true},
             {headerName: 'Dag', field: 'day', sortable: true, filter: true},
-            {headerName: 'Måling i m3', field: 'value', sortable: true, filter: true},
+            {headerName: 'Måling i M3', field: 'value', sortable: true, filter: true},
             {headerName: 'Forbrug i liter', field: 'usage', sortable: true, filter: true}
         ];
 

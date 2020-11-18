@@ -10,7 +10,7 @@
               <div class="h5 mb-0 font-weight-bold text-gray-800">{{ usageInM3 }} M<sup>3</sup></div>
             </div>
             <div class="col-auto">
-              <i class="fas fa-tint fa-2x text-gray-300"></i>
+              <i class="fas fa-tint fa-2x color-waterDroplet"></i>
             </div>
           </div>
         </div>
@@ -29,7 +29,7 @@
               </div>
             </div>
             <div class="col-auto">
-              <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+              <i class="fas fa-dollar-sign fa-2x color-DollarSign"></i>
             </div>
           </div>
         </div>
@@ -47,7 +47,7 @@
               </div>
             </div>
             <div class="col-auto">
-              <i class="fas fa-piggy-bank fa-2x text-gray-300"></i>
+              <i class="fas fa-piggy-bank fa-2x color-PiggyBank"></i>
             </div>
           </div>
         </div>
@@ -66,7 +66,7 @@
               </div>
             </div>
             <div class="col-auto">
-              <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+              <i class="fas fa-dollar-sign fa-2x color-DollarSign"></i>
             </div>
           </div>
         </div>
@@ -122,4 +122,13 @@ export default {
 </script>
 
 <style scoped>
+  .color-waterDroplet{
+    color: #2483d1 !important;
+  }
+  .color-DollarSign{
+    color: #039218bb !important;
+  }
+  .color-PiggyBank{
+    color: #f8ba0f !important;
+  }
 </style>
