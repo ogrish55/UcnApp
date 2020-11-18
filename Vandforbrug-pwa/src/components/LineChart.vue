@@ -1,15 +1,57 @@
+<template>
+  <!-- Area Chart -->
+  <div class="col-xl-8 col-lg-7">
+    <div class="card shadow mb-4">
+      <!-- Card Header - Dropdown -->
+      <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+        <h6 class="m-0 font-weight-bold text-primary">Vandforbrug</h6>
+        <div class="dropdown">
+          <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton"
+                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Vælg vandtype
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" v-on:click="fillGraph('all')">Alle</a>
+            <a class="dropdown-item" v-on:click="fillGraph('cold')">Koldt</a>
+            <a class="dropdown-item" v-on:click="fillGraph('hot')">Varmt</a>
+          </div>
+        </div>
+        <div class="dropdown">
+          <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton"
+                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Vælg måned
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" v-on:click="fillGraph('all')">Alle</a>
+            <a class="dropdown-item" v-for="month in labelsCold" :key="month"
+               v-on:click="fillGraph(month)">
+              {{ month }}
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card Body -->
+      <div class="card-body">
+        <line-chart-j-s v-if="isReady" :chart-data="chartData" :options="options"></line-chart-j-s>
+      </div>
+    </div>
+  </div>
+</template>
 <script>
-import {Line} from 'vue-chartjs/es/BaseCharts.js'
+import LineChartJS from './LineChartJS'
 import axios from 'axios'
 
 export default {
-  extends: Line,
   name: 'LineChart',
-  props: {
-    action: null,
+  components: {
+    LineChartJS
   },
   data() {
     return {
+      isReady: false,
+      isReadyPrMonth: false,
+      action: 'all',
       monthReader: null,
       someBoolean: false,
       monthMeasurements: [],
@@ -61,38 +103,34 @@ export default {
       },
     }
   },
-  watch: {
-    action: function () {
-      switch (this.action) {
-        case 'all':
-          this.fillWithAll();
-          break;
-        case 'hot':
-          this.fillWithHot();
-          break;
-        case 'cold':
-          this.fillWithCold();
-          break;
-        default:
-          this.fillPrMonth(this.action)
-          break;
-      }
-    },
-  },
   mounted() {
     this.apiCallHot()
     this.apiCallCold()
     this.apiCallAverage();
-
   },
   created() {
     axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('access_token')
   },
   methods: {
+    fillGraph(parameter) {
+      switch (parameter) {
+        case 'all':
+          this.fillWithAll()
+          break;
+        case 'hot':
+          this.fillWithHot()
+          break;
+        case 'cold':
+          this.fillWithCold()
+          break;
+        default:
+          this.fillPrMonth(parameter)
+          break;
+      }
+    },
     fillAverageLines() {
       this.averageHotArr = []
       this.averageColdArr = []
-
       let length = this.dataCold.length
       for (var i = 0; i < length; i++) {
         this.averageHotArr[i] = this.averageHot;
@@ -118,9 +156,9 @@ export default {
             borderColor: '#40c940',
             borderWidth: 3,
             pointRadius: 0, // fjerner punkterne
-          }]
+          }
+        ]
       }
-      this.renderChart(this.chartData, this.options)
     },
     fillWithCold() {
       this.chartData = {
@@ -144,7 +182,6 @@ export default {
           }
         ]
       }
-      this.renderChart(this.chartData, this.options)
     },
     fillWithAll() {
       this.chartData = {
@@ -167,14 +204,12 @@ export default {
           }
         ]
       }
-      this.renderChart(this.chartData, this.options)
+      this.isReady = true
     },
     fillPrMonth(chosenMonth) {
       var monthName = chosenMonth.substring(0, chosenMonth.length - 4);
       var year = "20" + chosenMonth.substring(chosenMonth.length - 2, chosenMonth.length);
-
       this.apiCall(year, monthName); // call for data
-
       // fill the graph
       this.chartData = {
         labels: this.monthTimeOfReader, // ['13-05-2019', '14-05-2019', '15-05-2019', '16-05-2019', '17-05-2019'], // Time of read
@@ -188,7 +223,7 @@ export default {
         }
         ]
       }
-      this.renderChart(this.chartData, this.options)
+
     },
     getHotDataFromReader() {
       let keys = Object.keys(this.readerHot)
@@ -240,7 +275,7 @@ export default {
         .get(urlForHot)
         .then(response => (this.readerHot = response.data[0]))
         .then(response => (this.getHotDataFromReader()))
-        .then(this.fillWithAll)
+        .then(this.fillWithHot)
     },
     apiCallCold() {
       let urlForCold = 'http://backend.test/api/data/consumption/cold/json'
