@@ -2,134 +2,16 @@
   <div>
     <!-- Page Wrapper -->
     <div id="wrapper">
-
-      <!-- Sidebar -->
-      <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-
-        <!-- Nav Item - Dashboard -->
-        <li class="nav-item active">
-          <a class="nav-link" href="index.html">
-            <i class="fas fa-fw fa-tachometer-alt"></i>
-            <span>Kontrolpanel</span></a>
-        </li>
-
-        <!-- Divider -->
-        <hr class="sidebar-divider">
-
-        <!-- Heading -->
-        <div class="sidebar-heading">
-          Bruger
-        </div>
-
-        <!-- Nav Item - Pages Collapse Menu -->
-        <li class="nav-item">
-          <a class="nav-link" href="index.html">
-            <i class="fas fa-fw fa-cog"></i>
-            <span>Oplysninger</span></a>
-        </li>
-
-        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Custom Components:</h6>
-            <a class="collapse-item" href="buttons.html">Buttons</a>
-            <a class="collapse-item" href="cards.html">Cards</a>
-          </div>
-        </div>
-
-        <!-- Divider -->
-        <hr class="sidebar-divider">
-
-
-      </ul>
-      <!-- End of Sidebar -->
-
       <!-- Content Wrapper -->
-      <div id="content-wrapper" class="d-flex flex-column">
+      <div id="content-wrapper" class="d-flex flex-column"> <!-- bg-gradient-primary-to-secondary */ -->
 
         <!-- Main Content -->
         <div id="content">
 
           <!-- Begin Page Content -->
           <div class="container-fluid">
-
             <!-- Content Row -->
-            <div class="row" id="cardrow">
-
-              <!-- Forbrug i M3 -->
-              <div class="col-xl-3 col-md-6 mb-4">
-                <div class="card border-left-primary shadow h-100 py-2">
-                  <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                      <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Forbrug i m<sup>3</sup></div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ usageInM3 }} M<sup>3</sup></div>
-                      </div>
-                      <div class="col-auto">
-                        <i class="fas fa-home fa-2x text-gray-300"></i>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Forbrug i DKK -->
-              <div class="col-xl-3 col-md-6 mb-4">
-                <div class="card border-left-success shadow h-100 py-2">
-                  <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                      <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Forbrug i DKK</div>
-                        <div v-bind="calculateUsageInDkk" class="h5 mb-0 font-weight-bold text-gray-800">
-                          {{ this.usageInDkk }} DKK
-                        </div>
-                      </div>
-                      <div class="col-auto">
-                        <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Betalt aconto -->
-              <div class="col-xl-3 col-md-6 mb-4">
-                <div class="card border-left-success shadow h-100 py-2">
-                  <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                      <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Betalt aconto</div>
-                        <div v-bind="calculateAconto" class="h5 mb-0 font-weight-bold text-gray-800">{{ aconto }} DKK
-                        </div>
-                      </div>
-                      <div class="col-auto">
-                        <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Difference i DKK -->
-              <div class="col-xl-3 col-md-6 mb-4">
-                <div class="card border-left-success shadow h-100 py-2">
-                  <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                      <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Difference i DKK</div>
-                        <div v-bind="calculateDiff" class="h5 mb-0 font-weight-bold text-gray-800">{{ difference }}
-                          DKK
-                        </div>
-                      </div>
-                      <div class="col-auto">
-                        <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-
+            <forbrugsoversigt></forbrugsoversigt>
             <!-- Content Row -->
 
             <div class="row">
@@ -181,7 +63,7 @@
                   <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                     <h6 class="m-0 font-weight-bold text-primary">Dyk ned i dit forbrug</h6>
                     <div class="dropdown no-arrow">
-                      <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
+                      <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown"
                          aria-haspopup="true" aria-expanded="false">
                         <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
                       </a>
@@ -195,6 +77,7 @@
                       </div>
                     </div>
                   </div>
+                  
                   <!-- Card Body -->
                   <div class="card-body">
                     <div class="chart-pie pt-4 pb-2">
@@ -216,6 +99,8 @@
               </div>
             </div>
 
+            <hr>
+
             <!-- Content Row -->
             <div class="row">
 
@@ -231,15 +116,14 @@
                     <bar-chart-in-dkk></bar-chart-in-dkk>
                   </div>
                 </div>
-
-              </div>
-              
-              <div class="col-lg-6 mb-4">      
-                <h1>Dyk ned i dit forbrug</h1>
-                <daily-grid></daily-grid>
               </div>
 
-               
+              <!-- <div class="" -->
+              <div class="col-lg-6 mb-4"> 
+                <!-- <h1>Dyk ned i dit forbrug</h1> -->
+                  <daily-grid></daily-grid>
+              </div>
+
             </div>
 
             <!-- <h1>Dyk ned i dit forbrug</h1>
@@ -274,6 +158,7 @@
 <script>
 import BarChart from './BarChart'
 import BarChartInDkk from './BarChartInDkk'
+import Forbrugsoversigt from "@/components/Forbrugsoversigt";
 import '../assets/vendor/jquery/jquery.min'
 // import '../assets/vendor/bootstrap/js/bootstrap.bundle.min.js';
 import '../assets/vendor/jquery-easing/jquery.easing.min.js'
@@ -290,6 +175,8 @@ export default {
     LineChart,
     BarChart,
     BarChartInDkk,
+    DailyGrid,
+    Forbrugsoversigt,
     DailyGrid
   },
   data () {
@@ -333,11 +220,6 @@ export default {
         responsive: true,
         maintainAspectRatio: true
       },
-      usageInDkk: null,
-      usageInM3: null,
-      aconto: null,
-      difference: null,
-      monthNumber: null,
       monthNames: [
         'Januar',
         'Februar',
@@ -437,7 +319,7 @@ export default {
           },
           { // linje med gennemsnit
             label: 'Gennemsnit',
-            data: this.averageHotArr,
+            data: this.averageColdArr,
             type: 'line',
             fill: false,
             borderColor: '#40c940',
@@ -486,8 +368,10 @@ export default {
       this.coldTimeOfReader.shift(); // fjerner tilsvarende label
     },
     getMonthDataFromReader() {
+      // Clear out the arrays
       this.monthTimeOfReader = []
       this.monthMeasurements = []
+
       let keys = Object.keys(this.monthReader)
       keys.forEach(key => {
         this.monthMeasurements.push(this.monthReader[key].value)
@@ -507,7 +391,7 @@ export default {
         .then(response => (this.monthReader = response.data))
         .then(response => (this.getMonthDataFromReader()))
     },
-    apiCallAverage(){   
+    apiCallAverage(){
       axios
         .get('http://backend.test/api/data/average/hot')
         .then(response => (this.averageHot = response.data)),
@@ -526,13 +410,7 @@ export default {
           .get('http://backend.test/api/data/consumption/hot/json')
           .then(response => (this.reader = response.data[0]))
           .then(response => (this.getDataFromReader()))
-          .then(this.fillWithHot),
-        axios
-          .get('http://backend.test/api/data/currentYearUsage/total')
-          .then(response => (this.usageInM3 = response.data)),
-        axios
-          .get('http://backend.test/api/data/currentYearUsage/total/monthNumber')
-          .then(response => (this.monthNumber = response.data))
+          .then(this.fillWithHot)
     }
   }
 }
@@ -541,11 +419,21 @@ export default {
 <style scoped>
 @import '../assets/styles/sb-admin-2.min.css';
 @import '../assets/styles/all.min.css';
+
 #wrapper {
   position: relative;
   bottom: 34px;
 }
 #cardrow {
   margin-top: 15px;
+}
+/* #content{
+  background: rgb(34,193,195);
+  background: linear-gradient(193deg, rgba(34,193,195,0.3841911764705882) 0%, rgba(253,187,45,0.3253676470588235) 100%);
+} */
+.sticky-footer{
+  /* gradient baggrund */
+  background: rgb(2,0,36);
+  background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(73,87,255,0.4150035014005602) 0%, rgba(255,0,0,0.2553396358543417) 100%);
 }
 </style>

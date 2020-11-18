@@ -247,7 +247,7 @@ class DataController extends Controller
         }
 
         // Get actual consumption instead of measurements
-        $startValue = $onePerDay[0]->value - (rand(300,1000)/10000); // giver et tal mellem 0,03 og 0,1 som første dags forbrug
+        $startValue = $onePerDay[0]->value; // - (rand(300,1000)/10000); // giver et tal mellem 0,03 og 0,1 som første dags forbrug
         $actualConsumption = [];
 
         foreach ($onePerDay as $v){
@@ -277,14 +277,20 @@ class DataController extends Controller
         // konverter til objekter af typen DailyMeasurements
         // find frem til værdierne til de forskellige attributter
         $convertedArray = [];
+        $startValue = $onePerDay[0]->value;
+
         foreach ($onePerDay as $i => $val){
-            $measurement = new DailyMeasurement;
-            $measurement->year = date_format($val->date, 'Y');
-            $measurement->month = HelperMethods::GetMonthName(date_format($val->date, 'm'));
-            $measurement->day = date_format($val->date, 'd');
-            $measurement->value = $val->value;
+            $year = date_format($val->date, 'Y');
+            $month = HelperMethods::GetMonthName(date_format($val->date, 'm'));
+            $day = date_format($val->date, 'd');
+            $value = $val->value;
+            $usage = round(($val->value - $startValue) * 1000, 2); // for at værdien er i cm3 og formateret til 1 decimaler
+   
+            $measurement = new DailyMeasurement($year, $month, $day, $value, $usage);
 
             array_push($convertedArray, $measurement);
+
+            $startValue = $val->value; // sætter en ny startværdi
         }
         
         // flip the array so the newest measurements are lowest elements (for frontend purposes)
@@ -307,6 +313,17 @@ class DailyMeasurement
     public $month;
     public $day;
     public $value;
+    public $usage;
+
+    public function __construct($year, $month, $day, $value, $usage)
+    {
+        $this->year = $year;
+        $this->month = $month;
+        $this->day = $day;
+        $this->value = $value;
+        $this->usage = $usage;
+
+    }
 }
 
 class HelperMethods {
