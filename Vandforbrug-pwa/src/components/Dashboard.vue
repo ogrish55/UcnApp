@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- Page Wrapper -->
-    <div id="wrapper">
+    <div id="wrapper" v-if="!this.loading">
       <!-- Content Wrapper -->
       <div id="content-wrapper" class="d-flex flex-column"> <!-- bg-gradient-primary-to-secondary */ -->
 
@@ -110,6 +110,11 @@
       <!-- End of Content Wrapper -->
 
     </div>
+    <div id="habibi" v-else style="display: flex; justify-content: center; margin-top: 450px">
+      <div class="loader">
+
+      </div>
+    </div>
     <!-- End of Page Wrapper -->
 
 
@@ -136,6 +141,12 @@ export default {
     DailyGrid,
     ConsumptionOverview,
   },
+  data () {
+    return {
+      loading: true
+    }
+  },
+
 }
 
 </script>
@@ -161,5 +172,19 @@ export default {
   /* gradient baggrund */
   background: rgb(2, 0, 36);
   background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(73, 87, 255, 0.4150035014005602) 0%, rgba(255, 0, 0, 0.2553396358543417) 100%);
+}
+
+.loader {
+  border: 16px solid #f3f3f3; /* Light grey */
+  border-top: 16px solid #3498db; /* Blue */
+  border-radius: 50%;
+  width: 300px;
+  height: 300px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 </style>
