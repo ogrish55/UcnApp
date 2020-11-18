@@ -4,6 +4,16 @@
     <!-- <h1>{{ test }}</h1> -->
     <!-- <input type="text" placeholder="Enter your title" v-model="test"> -->
     <router-view></router-view>
+
+    <!-- Footer -->
+      <footer class="sticky-footer bg-white">
+        <div class="container my-auto">
+          <div class="copyright text-center my-auto">
+            <span>Copyright &copy; UCN gruppe 1 2020 Let's Gooo</span>
+          </div>
+        </div>
+      </footer>
+    <!-- End of Footer -->
   </div>
 </template>
 
@@ -38,5 +48,9 @@ export default {
   height: 100vh;
   overflow: auto;
 }
-
+.sticky-footer {
+  /* gradient baggrund */
+  background: rgb(2, 0, 36);
+  background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(73, 87, 255, 0.4150035014005602) 0%, rgba(255, 0, 0, 0.2553396358543417) 100%);
+}
 </style>

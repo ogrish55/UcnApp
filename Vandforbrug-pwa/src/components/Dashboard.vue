@@ -79,7 +79,6 @@
                 </div>
               </div>
 
-              <!-- <div class="" -->
               <div class="col-lg-6 mb-4">
                 <!-- <h1>Dyk ned i dit forbrug</h1> -->
                 <daily-grid></daily-grid>
@@ -87,24 +86,11 @@
 
             </div>
 
-            <!-- <h1>Dyk ned i dit forbrug</h1>
-            <daily-grid></daily-grid> -->
-
           </div>
           <!-- /.container-fluid -->
 
         </div>
         <!-- End of Main Content -->
-
-        <!-- Footer -->
-        <footer class="sticky-footer bg-white">
-          <div class="container my-auto">
-            <div class="copyright text-center my-auto">
-              <span>Copyright &copy; UCN gruppe 1 2020 Let's Gooo</span>
-            </div>
-          </div>
-        </footer>
-        <!-- End of Footer -->
 
       </div>
       <!-- End of Content Wrapper -->
@@ -157,21 +143,11 @@ export default {
 
 #wrapper {
   position: relative;
-  bottom: 34px;
+  bottom: 0px;
 }
 
 #cardrow {
   margin-top: 15px;
-}
-
-/* #content{
-  background: rgb(34,193,195);
-  background: linear-gradient(193deg, rgba(34,193,195,0.3841911764705882) 0%, rgba(253,187,45,0.3253676470588235) 100%);
-} */
-.sticky-footer {
-  /* gradient baggrund */
-  background: rgb(2, 0, 36);
-  background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(73, 87, 255, 0.4150035014005602) 0%, rgba(255, 0, 0, 0.2553396358543417) 100%);
 }
 
 .loader {
