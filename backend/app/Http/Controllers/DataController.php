@@ -286,10 +286,11 @@ class DataController extends Controller
             $day = date_format($val->date, 'd');
             $value = $val->value;
             $usage = round(($val->value - $startValue) * 1000, 2); // for at værdien er i cm3 og formateret til 1 decimaler
-   
-            $measurement = new DailyMeasurement($year, $month, $day, $value, $usage);
+            $dayOfWeek = HelperMethods::GetDayNameDanish(date('l', strtotime(date_format($onePerDay[$i]->date, 'Y-m-d')))); // får ugedagen som navn ved at bruge date 'l' og strtotime hvilket oversættes til dansk med hjælpemetode
+            
+            $measurement = new DailyMeasurement($year, $month, $day, $dayOfWeek, $value, $usage); // opretter objekt
 
-            array_push($convertedArray, $measurement);
+            array_push($convertedArray, $measurement); // pusher til arrayet
 
             $startValue = $val->value; // sætter en ny startværdi
         }
@@ -313,17 +314,18 @@ class DailyMeasurement
     public $year;
     public $month;
     public $day;
+    public $weekday;
     public $value;
     public $usage;
 
-    public function __construct($year, $month, $day, $value, $usage)
+    public function __construct($year, $month, $day, $weekday, $value, $usage)
     {
         $this->year = $year;
         $this->month = $month;
         $this->day = $day;
+        $this->weekday = $weekday;
         $this->value = $value;
         $this->usage = $usage;
-
     }
 }
 
@@ -358,7 +360,7 @@ class HelperMethods {
             case "December":
                 $monthNumber = 12; break;    
         }
-
+        
         return $monthNumber;
     }
 
@@ -393,5 +395,28 @@ class HelperMethods {
         }
 
         return $monthName;
+    }
+
+    public static function GetDayNameDanish($weekday){
+        $translated = "Undefined";
+
+        switch($weekday){
+            case "Monday":
+                $translated = "Mandag"; break;
+            case "Tuesday":
+                $translated = "Tirsdag"; break;
+            case "Wednesday":
+                $translated = "Onsdag"; break;
+            case "Thursday":
+                $translated = "Torsdag"; break;  
+            case "Friday":
+                $translated = "Fredag"; break;
+            case "Saturday":
+                $translated = "Lørdag"; break;
+            case "Sunday":
+                $translated = "Søndag"; break;  
+        }
+
+        return $translated;
     }
 }

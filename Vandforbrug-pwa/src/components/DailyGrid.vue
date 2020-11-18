@@ -1,5 +1,5 @@
 <template> 
-    <ag-grid-vue style="width: 85%; height: 95%;"
+    <ag-grid-vue style="width: 100%; height: 95%;"
         class="ag-theme-alpine"
         :columnDefs="columns"
         :rowData="rowData">
@@ -29,6 +29,7 @@ export default {
             {headerName: 'År', field: 'year', sortable: true, filter: true},
             {headerName: 'Måned', field: 'month', sortable: true, filter: true},
             {headerName: 'Dag', field: 'day', sortable: true, filter: true},
+            {headerName: 'Ugedag', field: 'weekday', sortable: true, filter: true},
             {headerName: 'Måling i M3', field: 'value', sortable: true, filter: true},
             {headerName: 'Forbrug i liter', field: 'usage', sortable: true, filter: true}
         ];
