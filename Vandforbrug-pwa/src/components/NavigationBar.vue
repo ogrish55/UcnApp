@@ -14,16 +14,12 @@
       </ul>
       <span>
         <ul class="nav">
-<<<<<<< HEAD
-          
            <li>
               <router-link :to="{ name: 'SavingTips' }">
               <button type="button" class="btn btn-outline-primary rounded-pill btn-sm">Sparetips</button>
               </router-link>
-=======
           <li>
             <button type="button" class="btn btn-primary rounded-pill btn-m">Kontakt</button>
->>>>>>> master
           </li>
 
           <li v-if="!loggedIn">
