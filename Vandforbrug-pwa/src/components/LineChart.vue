@@ -142,7 +142,7 @@ export default {
         labels: this.labelsHot, // ['13-05-2019', '14-05-2019', '15-05-2019', '16-05-2019', '17-05-2019'], // Time of read
         datasets: [{
           label: 'Varmt vand',
-          backgroundColor: '#f87979',
+          backgroundColor: '#c94040',
           fill: true,
           borderWidth: 1,
           borderColor: '#f87979',
@@ -196,10 +196,10 @@ export default {
         },
           {
             label: 'Varmt vand',
-            backgroundColor: '#f87979',
+            backgroundColor: '#c94040',
             fill: false,
             borderWidth: 1,
-            borderColor: '#f87979',
+            borderColor: '#c94040',
             data: this.dataHot
           }
         ]

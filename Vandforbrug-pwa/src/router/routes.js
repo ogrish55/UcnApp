@@ -1,6 +1,5 @@
 import FrontPage from '../components/FrontPage'
 import Users from '@/components/Users'
-import SingleUser from '../components/SingleUser'
 import Pricing from '../components/Pricing'
 import Login from '../components/auth/Login'
 import Logout from '../components/auth/Logout'
@@ -15,15 +14,6 @@ const routes = [
     path: '/',
     name: 'FrontPage',
     component: FrontPage
-  },
-  {
-    path: '/user',
-    name: 'user',
-    component: SingleUser,
-    props: true,
-    meta: {
-      requiresAuth: true
-    }
   },
   {
     path: '/users/',
