@@ -285,14 +285,14 @@ class DataController extends Controller
             $day = date_format($val->date, 'd');
             $value = $val->value;
             $usage = round(($val->value - $startValue) * 100, 2); // for at værdien er i cm3 og formateret til 1 decimaler
-   
+
             $measurement = new DailyMeasurement($year, $month, $day, $value, $usage);
 
             array_push($convertedArray, $measurement);
 
             $startValue = $val->value; // sætter en ny startværdi
         }
-        
+
         // flip the array so the newest measurements are lowest elements (for frontend purposes)
         $reversedArray = array_reverse($convertedArray);
 
@@ -327,7 +327,7 @@ class DailyMeasurement
 }
 
 class HelperMethods {
-    
+
     public static function GetMonthNumber($month){
         $monthNumber = 0;
 
@@ -339,7 +339,7 @@ class HelperMethods {
             case "Marts":
                 $monthNumber = 3; break;
             case "April":
-                $monthNumber = 4; break;  
+                $monthNumber = 4; break;
             case "Maj":
                 $monthNumber = 5; break;
             case "Juni":
@@ -355,7 +355,7 @@ class HelperMethods {
             case "November":
                 $monthNumber = 11; break;
             case "December":
-                $monthNumber = 12; break;    
+                $monthNumber = 12; break;
         }
 
         return $monthNumber;
@@ -372,7 +372,7 @@ class HelperMethods {
             case 3:
                 $monthName = "Marts"; break;
             case 4:
-                $monthName = "April"; break;  
+                $monthName = "April"; break;
             case 5:
                 $monthName = "Maj"; break;
             case 6:
@@ -388,7 +388,7 @@ class HelperMethods {
             case 11:
                 $monthName = "November"; break;
             case 12:
-                $monthName = "December"; break;    
+                $monthName = "December"; break;
         }
 
         return $monthName;
