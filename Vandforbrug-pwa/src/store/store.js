@@ -11,6 +11,7 @@ export const store = new Vuex.Store({
     user: {
       firstName: '',
       lastName: '',
+      address: '',
       email: '',
       phoneNumber: ''
     }
@@ -18,6 +19,9 @@ export const store = new Vuex.Store({
   getters: {
     loggedIn (state) {
       return state.token !== null
+    },
+    getUserDetails (state) {
+      return state.user
     }
   },
   mutations: {
@@ -30,9 +34,9 @@ export const store = new Vuex.Store({
     storeUser (state, user) {
       state.user.firstName = user.firstName
       state.user.lastName = user.lastName
+      state.user.address = user.address
       state.user.email = user.email
       state.user.phoneNumber = user.phoneNumber
-
     },
     clearUserDetails (state) {
       state.user = null
@@ -90,6 +94,20 @@ export const store = new Vuex.Store({
     retrieveUser(context) {
       axios.defaults.headers.common['Authorization'] = 'Bearer ' + context.state.token
       axios.get('/user')
+        .then(response => {
+          context.commit('storeUser', response.data)
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+    updateUser(context, user) {
+      axios.patch('/updateUser', {
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        phoneNumber: user.phoneNumber
+      })
         .then(response => {
           context.commit('storeUser', response.data)
         })

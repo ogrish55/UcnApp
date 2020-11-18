@@ -8,6 +8,8 @@ import MonthlyMeasurements from '../components/MonthlyMeasurements'
 import Dashboard from '../components/Dashboard'
 import SavingTips from '../components/SavingTips'
 
+import UserDetails from '../components/UserDetails'
+
 const routes = [
   {
     path: '/',
@@ -64,6 +66,11 @@ const routes = [
     path: '/user/:userId/monthly',
     name: 'monthly',
     component: MonthlyMeasurements
+  },
+  {
+    path: '/userdetails',
+    name: 'details',
+    component: UserDetails
   }
 ]
 

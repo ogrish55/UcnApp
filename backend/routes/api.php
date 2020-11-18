@@ -20,6 +20,7 @@ Route::middleware('auth:api')->group(function () {
     });
 
     Route::post('/logout', 'App\Http\Controllers\AuthController@logout');
+    Route::patch('/updateUser', 'App\Http\Controllers\UserController@UpdateUser');
     Route::get('data/monthlyMeasurements/{type}', 'App\Http\Controllers\DataController@GetMonthlyMeasurements');
     Route::get('data/consumption/{type}/{returnType}', 'App\Http\Controllers\DataController@GetMonthlyConsumption');
     Route::get('data/consumption/combined/', 'App\Http\Controllers\DataController@GetMonthlyConsumptionCombined');
