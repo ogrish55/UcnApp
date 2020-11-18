@@ -6,6 +6,7 @@ import Login from '../components/auth/Login'
 import Logout from '../components/auth/Logout'
 import MonthlyMeasurements from '../components/MonthlyMeasurements'
 import Dashboard from '../components/Dashboard'
+import SavingTips from '../components/SavingTips'
 
 const routes = [
   {
@@ -51,6 +52,13 @@ const routes = [
   {
     path: '/pricing',
     component: Pricing
+  },
+
+
+  {
+    path: '/SavingTips',
+    name: 'SavingTips',
+    component: SavingTips
   },
   {
     path: '/user/:userId/monthly',

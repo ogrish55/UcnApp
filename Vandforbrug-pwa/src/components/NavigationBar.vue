@@ -14,8 +14,11 @@
       </ul>
       <span>
         <ul class="nav">
-          <li>
-            <button type="button" class="btn btn-outline-primary rounded-pill btn-sm">Kontakt</button>
+          
+           <li>
+              <router-link :to="{ name: 'SavingTips' }">
+              <button type="button" class="btn btn-outline-primary rounded-pill btn-sm">Sparetips</button>
+              </router-link>
           </li>
 
           <li v-if="!loggedIn">
