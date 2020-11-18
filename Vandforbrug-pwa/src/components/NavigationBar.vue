@@ -19,7 +19,7 @@
               <button type="button" class="btn btn-primary rounded-pill btn-m">Sparetips</button>
               </router-link>
           <li>
-            <button type="button" class="btn btn-primary rounded-pill btn-m">Kontakt</button>
+            <button type="button" class="btn btn-primary rounded-pill btn-m mr-2">Kontakt</button>
           </li>
 
           <li v-if="!loggedIn">
