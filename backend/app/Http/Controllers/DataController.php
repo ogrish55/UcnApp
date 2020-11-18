@@ -58,8 +58,8 @@ class DataController extends Controller
         $actualConsumption = [];
         $startValue = 0;
         foreach ($monthlyMeasurements as $data) {
-            $newObject = new DataStore($data->date, $data->value - $startValue, $data->type); // Opret DataStore objekt med Dato, måling, og målingsType.
-            $startValue = $data->value;                                                             // sætter startValue til at være dette måneds værdi så den kan bruges i næste iteration
+            $newObject = new DataStore($data->date, round($data->value - $startValue, 3), $data->type); // Opret DataStore objekt med Dato, måling, og målingsType. // value bliver affrundet til 3 decimaler
+            $startValue = $data->value;                                                                 // sætter startValue til at være dette måneds værdi så den kan bruges i næste iteration
             $actualConsumption[] = $newObject;
         }
         if ($returnType == 'list') {
@@ -228,7 +228,7 @@ class DataController extends Controller
         // find månedens nummer (Januar = 01, December = 12)
         $monthNumber = HelperMethods::GetMonthNumber($month);
 
-        // filtrer efter år
+        // filtrere efter år og måned
         foreach ($values as $v){
             if(date_format($v->date, 'Y') == $year && date_format($v->date, 'm') == $monthNumber){
                 array_push($filteredArray, $v);
@@ -245,13 +245,14 @@ class DataController extends Controller
                 $currentDay = date_format($m->date, 'd');
             }
         }
+        array_push($onePerDay, $filteredArray[count($filteredArray) - 1]); // tilføj sidste dag da den ikke kommmer med i foreach
 
         // Get actual consumption instead of measurements
         $startValue = $onePerDay[0]->value; // - (rand(300,1000)/10000); // giver et tal mellem 0,03 og 0,1 som første dags forbrug
         $actualConsumption = [];
 
         foreach ($onePerDay as $v){
-            $newObject = new DataStore($v->date, $v->value - $startValue, $v->type);
+            $newObject = new DataStore($v->date, round($v->value - $startValue, 3), $v->type); // afrunder til 3 decimaler
             $startValue = $v->value; // sætter startValue til at være dette måneds værdi så den kan bruges i næste iteration
 
             $actualConsumption[] = $newObject;
