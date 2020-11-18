@@ -58,8 +58,8 @@ class DataController extends Controller
         $actualConsumption = [];
         $startValue = 0;
         foreach ($monthlyMeasurements as $data) {
-            $newObject = new DataStore($data->date, $data->value - $startValue, $data->type); // Opret DataStore objekt med Dato, måling, og målingsType.
-            $startValue = $data->value;                                                             // sætter startValue til at være dette måneds værdi så den kan bruges i næste iteration
+            $newObject = new DataStore($data->date, round($data->value - $startValue, 3), $data->type); // Opret DataStore objekt med Dato, måling, og målingsType. // value bliver affrundet til 3 decimaler
+            $startValue = $data->value;                                                                 // sætter startValue til at være dette måneds værdi så den kan bruges i næste iteration
             $actualConsumption[] = $newObject;
         }
         if ($returnType == 'list') {
@@ -220,7 +220,8 @@ class DataController extends Controller
             $usageInDkkList]);
     }
 
-    public function GetDailyMeasurements(Request $request, $year, $month){
+    public function GetDailyMeasurements(Request $request, $year, $month)
+    {
         $values = $this->GetDataDB->GetMeasurementsBasedOnType($request, 'hot');
 
         $filteredArray = [];
@@ -228,9 +229,9 @@ class DataController extends Controller
         // find månedens nummer (Januar = 01, December = 12)
         $monthNumber = HelperMethods::GetMonthNumber($month);
 
-        // filtrer efter år
-        foreach ($values as $v){
-            if(date_format($v->date, 'Y') == $year && date_format($v->date, 'm') == $monthNumber){
+        // filtrere efter år og måned
+        foreach ($values as $v) {
+            if (date_format($v->date, 'Y') == $year && date_format($v->date, 'm') == $monthNumber) {
                 array_push($filteredArray, $v);
             }
         }
@@ -239,19 +240,20 @@ class DataController extends Controller
         $onePerDay = [];
         $currentDay = date_format($filteredArray[0]->date, 'd');
 
-        foreach ($filteredArray as $i => $m){
-            if(date_format($m->date, 'd') != $currentDay){
+        foreach ($filteredArray as $i => $m) {
+            if (date_format($m->date, 'd') != $currentDay) {
                 array_push($onePerDay, $filteredArray[$i - 1]);
                 $currentDay = date_format($m->date, 'd');
             }
         }
+        array_push($onePerDay, $filteredArray[count($filteredArray) - 1]); // tilføj sidste dag da den ikke kommmer med i foreach
 
         // Get actual consumption instead of measurements
         $startValue = $onePerDay[0]->value; // - (rand(300,1000)/10000); // giver et tal mellem 0,03 og 0,1 som første dags forbrug
         $actualConsumption = [];
 
-        foreach ($onePerDay as $v){
-            $newObject = new DataStore($v->date, $v->value - $startValue, $v->type);
+        foreach ($onePerDay as $v) {
+            $newObject = new DataStore($v->date, round($v->value - $startValue, 3), $v->type); // afrunder til 3 decimaler
             $startValue = $v->value; // sætter startValue til at være dette måneds værdi så den kan bruges i næste iteration
 
             $actualConsumption[] = $newObject;
@@ -260,15 +262,16 @@ class DataController extends Controller
         return $actualConsumption;
     }
 
-    public function GetDailyMeasurementsAll(Request $request){
+    public function GetDailyMeasurementsAll(Request $request)
+    {
         $values = $this->GetDataDB->GetMeasurementsBasedOnType($request, 'hot');
 
         // only get the latest measurement pr day
         $onePerDay = [];
         $currentDay = date_format($values[0]->date, 'd');
 
-        foreach ($values as $i => $m){
-            if(date_format($m->date, 'd') != $currentDay){
+        foreach ($values as $i => $m) {
+            if (date_format($m->date, 'd') != $currentDay) {
                 array_push($onePerDay, $values[$i - 1]);
                 $currentDay = date_format($m->date, 'd');
             }
@@ -279,16 +282,17 @@ class DataController extends Controller
         $convertedArray = [];
         $startValue = $onePerDay[0]->value;
 
-        foreach ($onePerDay as $i => $val){
+        foreach ($onePerDay as $i => $val) {
             $year = date_format($val->date, 'Y');
             $month = HelperMethods::GetMonthName(date_format($val->date, 'm'));
             $day = date_format($val->date, 'd');
             $value = $val->value;
-            $usage = round(($val->value - $startValue) * 100, 2); // for at værdien er i cm3 og formateret til 1 decimaler
+            $usage = round(($val->value - $startValue) * 1000, 2); // for at værdien er i cm3 og formateret til 1 decimaler
+            $dayOfWeek = HelperMethods::GetDayNameDanish(date('l', strtotime(date_format($onePerDay[$i]->date, 'Y-m-d')))); // får ugedagen som navn ved at bruge date 'l' og strtotime hvilket oversættes til dansk med hjælpemetode
 
-            $measurement = new DailyMeasurement($year, $month, $day, $value, $usage);
+            $measurement = new DailyMeasurement($year, $month, $day, $dayOfWeek, $value, $usage); // opretter objekt
 
-            array_push($convertedArray, $measurement);
+            array_push($convertedArray, $measurement); // pusher til arrayet
 
             $startValue = $val->value; // sætter en ny startværdi
         }
@@ -312,85 +316,144 @@ class DailyMeasurement
     public $year;
     public $month;
     public $day;
+    public $weekday;
     public $value;
     public $usage;
 
-    public function __construct($year, $month, $day, $value, $usage)
+    public function __construct($year, $month, $day, $weekday, $value, $usage)
     {
         $this->year = $year;
         $this->month = $month;
         $this->day = $day;
+        $this->weekday = $weekday;
         $this->value = $value;
         $this->usage = $usage;
-
     }
 }
 
-class HelperMethods {
+class HelperMethods
+{
 
-    public static function GetMonthNumber($month){
+    public static function GetMonthNumber($month)
+    {
         $monthNumber = 0;
 
-        switch($month){
+        switch ($month) {
             case "Januar":
-                $monthNumber = 1; break;
+                $monthNumber = 1;
+                break;
             case "Februar":
-                $monthNumber = 2; break;
+                $monthNumber = 2;
+                break;
             case "Marts":
-                $monthNumber = 3; break;
+                $monthNumber = 3;
+                break;
             case "April":
-                $monthNumber = 4; break;
+                $monthNumber = 4;
+                break;
             case "Maj":
-                $monthNumber = 5; break;
+                $monthNumber = 5;
+                break;
             case "Juni":
-                $monthNumber = 6; break;
+                $monthNumber = 6;
+                break;
             case "Juli":
-                $monthNumber = 7; break;
+                $monthNumber = 7;
+                break;
             case "August":
-                $monthNumber = 8; break;
+                $monthNumber = 8;
+                break;
             case "September":
-                $monthNumber = 9; break;
+                $monthNumber = 9;
+                break;
             case "Oktober":
-                $monthNumber = 10; break;
+                $monthNumber = 10;
+                break;
             case "November":
-                $monthNumber = 11; break;
+                $monthNumber = 11;
+                break;
             case "December":
-                $monthNumber = 12; break;
+                $monthNumber = 12;
+                break;
         }
 
         return $monthNumber;
     }
 
-    public static function GetMonthName($monthNumber){
+    public static function GetMonthName($monthNumber)
+    {
         $monthName = "Undefined";
 
-        switch($monthNumber){
+        switch ($monthNumber) {
             case 1:
-                $monthName = "Januar"; break;
+                $monthName = "Januar";
+                break;
             case 2:
-                $monthName = "Februar"; break;
+                $monthName = "Februar";
+                break;
             case 3:
-                $monthName = "Marts"; break;
+                $monthName = "Marts";
+                break;
             case 4:
-                $monthName = "April"; break;
+                $monthName = "April";
+                break;
             case 5:
-                $monthName = "Maj"; break;
+                $monthName = "Maj";
+                break;
             case 6:
-                $monthName = "Juni"; break;
+                $monthName = "Juni";
+                break;
             case 7:
-                $monthName = "Juli"; break;
+                $monthName = "Juli";
+                break;
             case 8:
-                $monthName = "August"; break;
+                $monthName = "August";
+                break;
             case 9:
-                $monthName = "September"; break;
+                $monthName = "September";
+                break;
             case 10:
-                $monthName = "Oktober"; break;
+                $monthName = "Oktober";
+                break;
             case 11:
-                $monthName = "November"; break;
+                $monthName = "November";
+                break;
             case 12:
-                $monthName = "December"; break;
+                $monthName = "December";
+                break;
         }
 
         return $monthName;
+    }
+
+    public static function GetDayNameDanish($weekday)
+    {
+        $translated = "Undefined";
+
+        switch ($weekday) {
+            case "Monday":
+                $translated = "Mandag";
+                break;
+            case "Tuesday":
+                $translated = "Tirsdag";
+                break;
+            case "Wednesday":
+                $translated = "Onsdag";
+                break;
+            case "Thursday":
+                $translated = "Torsdag";
+                break;
+            case "Friday":
+                $translated = "Fredag";
+                break;
+            case "Saturday":
+                $translated = "Lørdag";
+                break;
+            case "Sunday":
+                $translated = "Søndag";
+                break;
+        }
+
+        return $translated;
     }
 }
