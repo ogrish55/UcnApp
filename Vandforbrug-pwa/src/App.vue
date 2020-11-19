@@ -50,10 +50,10 @@ export default {
 }
 .sticky-footer {
   /* gradient baggrund */
-  background: rgb(2, 0, 36);
-  background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(73, 87, 255, 0.4150035014005602) 0%, rgba(255, 0, 0, 0.2553396358543417) 100%);
-  position: fixed;
+  position: absolute;
   bottom: 0;
   width: 100%;
+  background: rgb(2, 0, 36);
+  background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(73, 87, 255, 0.4150035014005602) 0%, rgba(255, 0, 0, 0.2553396358543417) 100%);
 }
 </style>
