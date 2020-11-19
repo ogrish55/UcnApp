@@ -27,8 +27,14 @@ class GetDataDB
         $userID = $request->User()->userID;
 
         $result = DB::select('SELECT aconto from users WHERE userID = ?', [$userID]);
+        $aconto = null;
 
-        return $result;
+        foreach($result as $r)
+        {
+            $aconto = $r->aconto;
+        }
+
+        return $aconto;
     }
 
     /**
@@ -65,8 +71,13 @@ class GetDataDB
 
     public function GetRegion(Request $request)
     {
-        $region = json_decode(Region::find($request->User()->regionID));  // Eloquent metode bliver brugt her. Find metoden finder et enkelt objekt ud fra PrimaryKey. PrimaryKey findes ud fra den bruger der søger.
-        return $region;
+        return json_decode(Region::find($request->User()->regionID));  // Eloquent metode bliver brugt her. Find metoden finder et enkelt objekt ud fra PrimaryKey. PrimaryKey findes ud fra den bruger der søger.
+    }
+
+    public function GetRegionPrice(Request $request)
+    {
+        $region = Region::find(($request->User()->regionID));
+        return $region->pricePrCubic;
     }
 }
 

@@ -43,7 +43,7 @@
           <div class="row no-gutters align-items-center">
             <div class="col mr-2">
               <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Betalt acconto</div>
-              <div v-bind="calculateAconto" class="h5 mb-0 font-weight-bold text-gray-800">{{ aconto }} DKK
+              <div v-bind="calculateAconto" class="h5 mb-0 font-weight-bold text-gray-800">{{ paidAconto }} DKK
               </div>
             </div>
             <div class="col-auto">
@@ -81,29 +81,31 @@ import axios from "axios";
 export default {
   name: "Forbrugsoversigt",
 
-  data () {
+  data() {
     return {
       usageInM3: null,
       usageInDkk: null,
-      aconto: null,
+      paidAconto: null,
+      acontoPrMonth: null,
+      pricePrCubic: null,
       difference: null,
       monthNumber: null
     }
   },
 
   computed: {
-    calculateUsageInDkk () {
-      this.usageInDkk = (this.usageInM3 * 54.84).toFixed(2)
+    calculateUsageInDkk() {
+      this.usageInDkk = (this.usageInM3 * this.pricePrCubic).toFixed(2)
     },
-    calculateAconto () {
-      this.aconto = (this.monthNumber * 400).toFixed(2)
+    calculateAconto() {
+      this.paidAconto = (this.monthNumber * this.acontoPrMonth).toFixed(2)
     },
-    calculateDiff () {
-      this.difference = (this.aconto - this.usageInDkk).toFixed(2)
+    calculateDiff() {
+      this.difference = (this.paidAconto - this.usageInDkk).toFixed(2)
     }
   },
 
-  created () {
+  created() {
     axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('access_token')
   },
 
@@ -117,18 +119,30 @@ export default {
     axios
       .get('http://backend.test/api/data/currentYearUsage/total/monthNumber')
       .then(response => (this.monthNumber = response.data))
+
+    //Get aconto
+    axios
+      .get('http://backend.test/api/data/useraconto')
+      .then(response => (this.acontoPrMonth = response.data))
+
+    // Get price pr M3
+    axios
+    .get('http://backend.test/api/data/region')
+    .then(response => (this.pricePrCubic = response.data))
   }
 }
 </script>
 
 <style scoped>
-  .color-waterDroplet{
-    color: #2483d1 !important;
-  }
-  .color-DollarSign{
-    color: #039218bb !important;
-  }
-  .color-PiggyBank{
-    color: #f8ba0f !important;
-  }
+.color-waterDroplet {
+  color: #2483d1 !important;
+}
+
+.color-DollarSign {
+  color: #039218bb !important;
+}
+
+.color-PiggyBank {
+  color: #f8ba0f !important;
+}
 </style>
