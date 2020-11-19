@@ -113,6 +113,7 @@ import '../assets/vendor/chart.js/Chart.min.js'
 import LineChart from './LineChart'
 import axios from 'axios'
 import DailyGrid from './DailyGrid'
+
 export default {
   name: 'Dashboard',
   components: {
@@ -124,10 +125,9 @@ export default {
   },
   data () {
     return {
-      loading: false
+      loading: true
     }
   },
-
 }
 
 </script>
