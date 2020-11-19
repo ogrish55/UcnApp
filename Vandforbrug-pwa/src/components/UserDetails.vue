@@ -1,7 +1,7 @@
 <template>
 <div>
     <form>
-        <div class="container">
+        <div class="container" id="info">
             <div class="row">
                 <div class="col-md-6">
                     <h1>Personlige oplysninger</h1>
@@ -90,6 +90,10 @@ import { mapActions, mapGetters } from 'vuex'
 </script>
 
 <style lang="scss" scoped>
+
+#info {
+    padding: 25px 25px;
+}
 
 label {
     float: left;
