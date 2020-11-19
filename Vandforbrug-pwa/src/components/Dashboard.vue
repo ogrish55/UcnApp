@@ -123,8 +123,7 @@ export default {
     DailyGrid,
     ConsumptionOverview,
   },
-
-  data() {
+  data () {
     return {
       loading: true
     }
