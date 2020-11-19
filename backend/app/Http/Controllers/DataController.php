@@ -220,9 +220,9 @@ class DataController extends Controller
             $usageInDkkList]);
     }
 
-    public function GetDailyMeasurements(Request $request, $year, $month)
+    public function GetDailyMeasurements(Request $request, $year, $month, $type)
     {
-        $values = $this->GetDataDB->GetMeasurementsBasedOnType($request, 'hot');
+        $values = $this->GetDataDB->GetMeasurementsBasedOnType($request, $type);
 
         $filteredArray = [];
 

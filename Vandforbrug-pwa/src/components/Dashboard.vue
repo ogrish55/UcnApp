@@ -122,6 +122,12 @@ export default {
     DailyGrid,
     ConsumptionOverview,
   },
+  data () {
+    return {
+      loading: false
+    }
+  },
+
 }
 
 </script>
