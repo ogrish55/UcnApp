@@ -24,6 +24,7 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('regionID');
+            $table->string('aconto');
             $table->foreign('regionID')->references('regionID')->on('regions');
             $table->rememberToken();
             $table->timestamps();

@@ -22,6 +22,15 @@ class GetDataDB
         return $objectCollection;
     }
 
+    public function GetAconto(Request $request)
+    {
+        $userID = $request->User()->userID;
+
+        $result = DB::select('SELECT aconto from users WHERE userID = ?', [$userID]);
+
+        return $result;
+    }
+
     /**
      * @param \Illuminate\Http\Request $request
      * @param $type
@@ -39,11 +48,9 @@ class GetDataDB
                         WHERE householdID = (
                             SELECT householdID FROM households
                                 WHERE userID = ?))',
-                                    [$id]);
+                [$id]);
             return $this->ConvertToObjects($result);
-        }
-
-        // if $type is 'hot' or 'cold'
+        } // if $type is 'hot' or 'cold'
         else {
             $result = DB::select('SELECT measurement, value, meterType FROM measurements
                 WHERE meterType = ? AND deviceID IN (
@@ -51,7 +58,7 @@ class GetDataDB
                         WHERE householdID = (
                             SELECT householdID FROM households
                                 WHERE userID = ?))',
-                                    [$type . ' water', $id]);
+                [$type . ' water', $id]);
             return $this->ConvertToObjects($result);
         }
     }

@@ -33,6 +33,7 @@ Route::middleware('auth:api')->group(function () {
     Route::get('data/monthlyUsageInDkk/', 'App\Http\Controllers\DataController@MonthlyUsageInDkk');
     Route::get('data/dailyMeasurements/{year}/{month}/{type}', 'App\Http\Controllers\DataController@GetDailyMeasurements');
     Route::get('data/dailyMeasurements/all', 'App\Http\Controllers\DataController@GetDailyMeasurementsAll');
+    Route::get('data/useraconto/', 'App\Http\Controllers\DataController@UserAconto');
 
 });
 
