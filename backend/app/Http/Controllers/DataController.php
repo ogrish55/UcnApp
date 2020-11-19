@@ -262,6 +262,14 @@ class DataController extends Controller
         return $actualConsumption;
     }
 
+    public function UserAconto(Request $request)
+    {
+        $result = $this->GetDataDB->GetAconto($request);
+
+        dd($result);
+        return $result;
+    }
+
     public function GetDailyMeasurementsAll(Request $request)
     {
         $values = $this->GetDataDB->GetMeasurementsBasedOnType($request, 'hot');
@@ -276,6 +284,7 @@ class DataController extends Controller
                 $currentDay = date_format($m->date, 'd');
             }
         }
+
 
         // konverter til objekter af typen DailyMeasurements
         // find frem til værdierne til de forskellige attributter
