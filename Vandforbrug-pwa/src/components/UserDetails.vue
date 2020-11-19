@@ -1,5 +1,19 @@
 <template>
+<div>
     <form>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h1>Personlige oplysninger</h1>
+                    <hr>
+                    <p>Grundlæggende oplysninger som f.eks. det navn og email du er registreret med</p>
+                </div>
+                <div class="col-md-6">
+                    <img src="@/assets/icons8-male_user.png" class="img-fluid">
+                </div>
+            </div>
+        </div>
+        
         <div class="form-row">
 
             <div class="form-group col-md-6">
@@ -35,7 +49,7 @@
                     </div>
                 </div>
             </div>
-
+    </form>
             <div class="modal fade" id="modalSave" role="dialog">
                 <div class="modal-dialog">
                     <div class="alert alert-success alert-dismissible">
@@ -46,8 +60,7 @@
                     </div>
                 </div>
             </div>
-
-    </form>
+</div>
 </template>
 
 <script>
