@@ -7,6 +7,7 @@ use App\Http\Database\GetDataDB;
 use DateTime;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use function MongoDB\BSON\toJSON;
 
 class DataController extends Controller
 {
@@ -220,6 +221,11 @@ class DataController extends Controller
             $usageInDkkList]);
     }
 
+    public function UserRegion(Request $request)
+    {
+        return $this->GetDataDB->GetRegionPrice($request);
+    }
+
     public function GetDailyMeasurements(Request $request, $year, $month, $type)
     {
         $values = $this->GetDataDB->GetMeasurementsBasedOnType($request, $type);
@@ -265,7 +271,6 @@ class DataController extends Controller
     public function UserAconto(Request $request)
     {
         return $this->GetDataDB->GetAconto($request);
-
     }
 
     public function GetDailyMeasurementsAll(Request $request)
