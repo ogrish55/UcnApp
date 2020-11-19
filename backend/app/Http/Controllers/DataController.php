@@ -264,10 +264,8 @@ class DataController extends Controller
 
     public function UserAconto(Request $request)
     {
-        $result = $this->GetDataDB->GetAconto($request);
+        return $this->GetDataDB->GetAconto($request);
 
-        dd($result);
-        return $result;
     }
 
     public function GetDailyMeasurementsAll(Request $request)
