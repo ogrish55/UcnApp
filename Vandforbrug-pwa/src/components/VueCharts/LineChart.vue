@@ -6,7 +6,7 @@
       <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
         <h6 class="m-0 font-weight-bold text-primary">Vandforbrug</h6>
         <div class="dropdown">
-          <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton"
+          <button class="btn btn-info dropdown-toggle" type="button"
                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Vælg vandtype
           </button>
@@ -17,7 +17,7 @@
           </div>
         </div>
         <div class="dropdown">
-          <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton"
+          <button class="btn btn-info dropdown-toggle" type="button"
                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Vælg måned
           </button>
@@ -39,7 +39,7 @@
   </div>
 </template>
 <script>
-import LineChartJS from './LineChartJS'
+import LineChartJS from '../chartJS/LineChartJS'
 import axios from 'axios'
 
 export default {
