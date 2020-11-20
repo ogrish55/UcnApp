@@ -14,10 +14,11 @@
       </ul>
       <span>
         <ul class="nav">
-           <li>
+           <li class="">
               <router-link :to="{ name: 'SavingTips' }">
-              <button type="button" class="btn btn-primary rounded-pill btn-m">Sparetips</button>
+              <button type="button" class="btn btn-primary rounded-pill btn-m mr-2">Sparetips</button>
               </router-link>
+           </li>
           <li>
             <button type="button" class="btn btn-primary rounded-pill btn-m mr-2">Kontakt</button>
           </li>
