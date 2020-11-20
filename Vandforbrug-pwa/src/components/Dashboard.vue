@@ -122,6 +122,9 @@ export default {
     DailyGrid,
     ConsumptionOverview,
   },
+  created () {
+    this.$store.dispatch('retrieveUser')
+  }
 }
 
 </script>

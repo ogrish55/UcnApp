@@ -8,35 +8,31 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarText">
       <ul class="navbar-nav mr-auto">
-        <li class="nav-item">
-          <router-link to="/" class="nav-link font-weight-bold">Kontrolpanel</router-link>
-        </li>
+        
       </ul>
       <span>
-        <ul class="nav">
-           <li>
-              <router-link :to="{ name: 'SavingTips' }">
-              <button type="button" class="btn btn-primary rounded-pill btn-m">Sparetips</button>
-              </router-link>
-          <li>
-            <button type="button" class="btn btn-primary rounded-pill btn-m mr-2">Kontakt</button>
+        <ul class="navbar-nav mr-auto">
+          
+          <li v-if="!loggedIn" class="nav-item">
+            <router-link :to="{ name: 'login' }" class="nav-link font-weight-bold">Log ind</router-link>
           </li>
 
-          <li v-if="!loggedIn">
-            <router-link :to="{ name: 'login' }">
-            <button type="button" class="btn btn-success rounded-pill btn-m">
-            Log ind</button>
-            </router-link>
-          </li>
-
-          <li v-if="loggedIn">
-            <router-link :to="{ name: 'logout' }">
-            <button type="button" class="btn btn-danger rounded-pill btn-m">
-            Log ud</button>
-            </router-link>
+          <li v-if="loggedIn" class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle font-weight-bold" data-toggle="dropdown" data-target="dropdown_target">
+              Hej {{ this.$store.state.user.firstName }}
+            </a>
+            <div class="dropdown-menu" aria-labelledby="dropdown_target">
+              <router-link :to="{ name: 'details' }" class="dropdown-item">Profil</router-link>
+              <router-link :to="{ name: 'dashboard' }" class="dropdown-item">Mit forbrug</router-link>
+              <router-link :to="{ name: 'SavingTips' }" class="dropdown-item">Sparetips</router-link>
+              <a class="dropdown-item disabled" aria-disabled="true">Kontakt</a>
+              <div class="dropdown-divider"></div>
+              <router-link :to="{ name: 'logout' }" class="dropdown-item">Log ud</router-link>
+            </div>
           </li>
         </ul>
       </span>
+
     </div>
   </nav>
   </div>
