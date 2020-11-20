@@ -1,6 +1,19 @@
 <template>
-  <div class="hello">
+  <div class="hello" style="background-color: cyan">
     <h1>{{ msg }}</h1>
+    <h1> ERSTAT DENNE SIDE MED NOGET ANDET</h1>
+    <h1> ERSTAT DENNE SIDE MED NOGET ANDET</h1>
+    <h1> ERSTAT DENNE SIDE MED NOGET ANDET</h1>
+    <h1> ERSTAT DENNE SIDE MED NOGET ANDET</h1>
+    <h1> ERSTAT DENNE SIDE MED NOGET ANDET</h1>
+    <h1> ERSTAT DENNE SIDE MED NOGET ANDET</h1>
+    <h1> ERSTAT DENNE SIDE MED NOGET ANDET</h1>
+    <h1> ERSTAT DENNE SIDE MED NOGET ANDET</h1>
+    <h1> ERSTAT DENNE SIDE MED NOGET ANDET</h1>
+    <h1> ERSTAT DENNE SIDE MED NOGET ANDET</h1>
+    <h1> ERSTAT DENNE SIDE MED NOGET ANDET</h1>
+    <h1> ERSTAT DENNE SIDE MED NOGET ANDET</h1>
+    <h1> ERSTAT DENNE SIDE MED NOGET ANDET</h1>
     <router-link to="/users/">Users</router-link>
     <h1 class="myHeader">{{ test }}</h1>
     <div>Find for user with ID<input type="number" style="margin-left: 5px" v-model="number"></div>
