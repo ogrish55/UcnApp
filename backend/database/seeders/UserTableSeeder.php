@@ -27,7 +27,7 @@ class UserTableSeeder extends Seeder
             'phoneNumber' => $faker->phoneNumber,
             'password' => Hash::make('password'),
             'regionID' => '1',
-            'aconto' => '800'
+            'aconto' => '350'
         ]);
 
         DB::table('users')->insert([
@@ -39,7 +39,7 @@ class UserTableSeeder extends Seeder
             'phoneNumber' => $faker->phoneNumber,
             'password' => Hash::make('password'),
             'regionID' => '1',
-            'aconto' => '800'
+            'aconto' => '350'
         ]);
 
         DB::table('users')->insert([
@@ -51,7 +51,7 @@ class UserTableSeeder extends Seeder
             'phoneNumber' => $faker->phoneNumber,
             'password' => Hash::make('password'),
             'regionID' => '1',
-            'aconto' => '800'
+            'aconto' => '350'
         ]);
 
         DB::table('users')->insert([
@@ -63,7 +63,7 @@ class UserTableSeeder extends Seeder
             'phoneNumber' => $faker->phoneNumber,
             'password' => Hash::make('password'),
             'regionID' => '1',
-            'aconto' => '800'
+            'aconto' => '350'
         ]);
 
         DB::table('users')->insert([
@@ -75,7 +75,7 @@ class UserTableSeeder extends Seeder
             'phoneNumber' => $faker->phoneNumber,
             'password' => Hash::make('password'),
             'regionID' => '1',
-            'aconto' => '800'
+            'aconto' => '350'
         ]);
     }
 }

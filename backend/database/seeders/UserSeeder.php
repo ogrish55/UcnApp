@@ -28,7 +28,7 @@ class UserSeeder extends Seeder
                 'phoneNumber' => $faker->phoneNumber,
                 'password' => Hash::make('password'),
                 'regionID' => '2',
-                'aconto' => '800'
+                'aconto' => '350'
             ]);
         }
     }

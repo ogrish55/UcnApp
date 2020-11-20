@@ -18,7 +18,7 @@ export default {
 
 .sticky-footer {
   /* gradient baggrund */
-  position: fixed;
+  position: relative;
   bottom: 0;
   width: 100%;
   background: rgb(2, 0, 36);
