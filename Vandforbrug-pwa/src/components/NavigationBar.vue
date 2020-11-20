@@ -15,11 +15,13 @@
           
           <li v-if="!loggedIn" class="nav-item">
             <router-link :to="{ name: 'login' }" class="nav-link font-weight-bold">Log ind</router-link>
+          </li>
+
           <li v-if="loggedIn" class="nav-item dropdown">
             <a class="nav-link dropdown-toggle font-weight-bold" data-toggle="dropdown" data-target="dropdown_target">
               Hej {{ this.$store.state.user.firstName }}
             </a>
-            <div class="dropdown-menu" aria-labelledby="dropdown_target">
+            <div class="dropdown-menu" aria-labelledby="dropdown_target" id="menu">
               <router-link :to="{ name: 'details' }" class="dropdown-item">Profil</router-link>
               <router-link :to="{ name: 'dashboard' }" class="dropdown-item">Mit forbrug</router-link>
               <router-link :to="{ name: 'SavingTips' }" class="dropdown-item">Sparetips</router-link>
@@ -48,6 +50,16 @@ export default {
 </script>
 
 <style>
+
+#menu {
+  background: white;
+  position: absolute;
+  top: 52px;
+  padding: 12px 0px 8px;
+  box-shadow: rgba(0, 0, 0, 0.5) 0px 2px 4px;
+  left: -65px;
+}
+
 #logo {
     width: 35px;
     height: 35px;

@@ -13,7 +13,8 @@ export const store = new Vuex.Store({
       lastName: '',
       address: '',
       email: '',
-      phoneNumber: ''
+      phoneNumber: '',
+      aconto: ''
     }
   },
   getters: {
@@ -37,13 +38,15 @@ export const store = new Vuex.Store({
       state.user.address = user.address
       state.user.email = user.email
       state.user.phoneNumber = user.phoneNumber
+      state.user.aconto = user.aconto
     },
     clearUserDetails (state) {
-      state.user.firstName = "";
-      state.user.lastName = "";
-      state.user.phoneNumber = "";
-      state.user.email = "";
-      state.user.address = "";
+      state.user.firstName = ''
+      state.user.lastName = ''
+      state.user.phoneNumber = ''
+      state.user.email = ''
+      state.user.address = ''
+      state.user.aconto = ''
     }
   },
   actions: {

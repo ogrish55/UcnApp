@@ -34,6 +34,11 @@
             </div>
 
             <div class="form-group">
+                <label for="inputAconto">Nuværende aconto beløb</label>
+                <input type="text" class="form-control" id="inputAconto" readonly v-model="user.aconto">
+            </div>
+
+            <div class="form-group">
                 <label for="inputEmail">Email</label>
                 <input type="text" class="form-control" id="inputEmail" v-model="user.email">
             </div>
