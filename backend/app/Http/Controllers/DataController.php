@@ -207,16 +207,23 @@ class DataController extends Controller
 
     public function MonthlyUsageInDkk(Request $request)
     {
-        $monthlyMeasurements = $this->GetMonthlyConsumption($request, 'all', 'list');
+        $coldMeasurements = $this->GetMonthlyConsumption($request, 'cold', 'list');
+        $hotMeasurements = $this->GetMonthlyConsumption($request, 'hot', 'list');
+
         $region = $this->GetDataDB->GetRegion($request);
         $usageInDkkList = [];
 
-        foreach ($monthlyMeasurements as $m) {
-            $usageInDkk = new UsageInDkk();
-            $usageInDkk->price = substr($m->value * $region->pricePrCubic, 0, -2);
-            $usageInDkk->date = $m->date;
-            $usageInDkkList[] = $usageInDkk;
+        foreach ($hotMeasurements as $h) { 
+            foreach($coldMeasurements as $c){ // sætter de to arrays sammen ved at sammenligne år og måned og lægge forbruget sammen
+                if(date_format($h->date, 'Y-m') == (date_format($c->date, 'Y-m'))){
+                    $usageInDkk = new UsageInDkk();
+                    $usageInDkk->price = substr(($h->value + $c->value) * $region->pricePrCubic, 0, -2);
+                    $usageInDkk->date = $h->date;
+                    $usageInDkkList[] = $usageInDkk;
+                }
+            }
         }
+
         return response()->json([
             $usageInDkkList]);
     }
