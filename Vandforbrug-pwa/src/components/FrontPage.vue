@@ -1,38 +1,33 @@
 <template>
-  <div class="hello" style="background-color: cyan">
-    <h1>{{ msg }}</h1>
-    <h1> ERSTAT DENNE SIDE MED NOGET ANDET</h1>
-    <h1> ERSTAT DENNE SIDE MED NOGET ANDET</h1>
-    <h1> ERSTAT DENNE SIDE MED NOGET ANDET</h1>
-    <h1> ERSTAT DENNE SIDE MED NOGET ANDET</h1>
-    <h1> ERSTAT DENNE SIDE MED NOGET ANDET</h1>
-    <h1> ERSTAT DENNE SIDE MED NOGET ANDET</h1>
-    <h1> ERSTAT DENNE SIDE MED NOGET ANDET</h1>
-    <h1> ERSTAT DENNE SIDE MED NOGET ANDET</h1>
-    <h1> ERSTAT DENNE SIDE MED NOGET ANDET</h1>
-    <h1> ERSTAT DENNE SIDE MED NOGET ANDET</h1>
-    <h1> ERSTAT DENNE SIDE MED NOGET ANDET</h1>
-    <h1> ERSTAT DENNE SIDE MED NOGET ANDET</h1>
-    <h1> ERSTAT DENNE SIDE MED NOGET ANDET</h1>
-    <router-link to="/users/">Users</router-link>
-    <h1 class="myHeader">{{ test }}</h1>
-    <div>Find for user with ID<input type="number" style="margin-left: 5px" v-model="number"></div>
-    <button style="width: 150px; margin-top: 10px" @click="submit()" type="button" class="btn-primary btn">Find user</button>
+  <div>
+    <Login v-if="someBoolean ===! true"></Login>
+    <!--  v-if="someBoolean === false"-->
+    <dashboard v-if="someBoolean"></dashboard>
   </div>
 </template>
 
 <script>
+import Login from './auth/Login'
+import {store} from '@/store/store'
+import Dashboard from './Dashboard'
+
 export default {
   name: 'FrontPage',
-  data () {
+  components: {
+    Login,
+    store,
+    Dashboard
+  },
+  data() {
     return {
       msg: 'FRONTPAGE',
       test: '',
-      number: null
+      number: null,
+      someBoolean: false,
     }
   },
   methods: {
-    submit () {
+    submit() {
       if (this.number != null) {
         console.log(this.number)
         const userId = this.number
@@ -41,6 +36,9 @@ export default {
         alert('Hey! Enter a number')
       }
     }
+  },
+  created() {
+    this.someBoolean = store.getters.loggedIn
   }
 }
 </script>
