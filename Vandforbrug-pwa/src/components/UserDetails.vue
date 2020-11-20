@@ -13,7 +13,8 @@
                 </div>
             </div>
         </div>
-        
+
+      <div class="container user-info">
         <div class="form-row">
 
             <div class="form-group col-md-6">
@@ -49,7 +50,9 @@
                     </div>
                 </div>
             </div>
+      </div>
     </form>
+
             <div class="modal fade" id="modalSave" role="dialog">
                 <div class="modal-dialog">
                     <div class="alert alert-success alert-dismissible">
@@ -103,6 +106,10 @@ label {
     float: left;
     padding-left: 4px;
     margin: 2px;
+}
+
+.user-info {
+  margin-bottom: 50px;
 }
 
 form {
