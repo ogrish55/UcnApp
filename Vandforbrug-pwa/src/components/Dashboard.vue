@@ -103,16 +103,16 @@
 </template>
 
 <script>
-import BarChart from './BarChart'
-import BarChartInDkk from './BarChartInDkk'
+import BarChart from './chartJS/BarChart'
+import BarChartInDkk from './VueCharts/BarChartInDkk'
 import ConsumptionOverview from "@/components/ConsumptionOverview";
 import '../assets/vendor/jquery/jquery.min'
 import '../assets/vendor/jquery-easing/jquery.easing.min.js'
 import '../assets/vendor/chart.js/Chart.min.js'
 import '../assets/vendor/chart.js/Chart.min.js'
-import LineChart from './LineChart'
-import axios from 'axios'
+import LineChart from './VueCharts/LineChart'
 import DailyGrid from './DailyGrid'
+
 export default {
   name: 'Dashboard',
   components: {

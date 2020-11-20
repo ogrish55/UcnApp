@@ -7,6 +7,7 @@ use App\Http\Database\GetDataDB;
 use DateTime;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use function MongoDB\BSON\toJSON;
 
 class DataController extends Controller
 {
@@ -220,9 +221,14 @@ class DataController extends Controller
             $usageInDkkList]);
     }
 
-    public function GetDailyMeasurements(Request $request, $year, $month)
+    public function UserRegion(Request $request)
     {
-        $values = $this->GetDataDB->GetMeasurementsBasedOnType($request, 'hot');
+        return $this->GetDataDB->GetRegionPrice($request);
+    }
+
+    public function GetDailyMeasurements(Request $request, $year, $month, $type)
+    {
+        $values = $this->GetDataDB->GetMeasurementsBasedOnType($request, $type);
 
         $filteredArray = [];
 
@@ -262,6 +268,11 @@ class DataController extends Controller
         return $actualConsumption;
     }
 
+    public function UserAconto(Request $request)
+    {
+        return $this->GetDataDB->GetAconto($request);
+    }
+
     public function GetDailyMeasurementsAll(Request $request)
     {
         $values = $this->GetDataDB->GetMeasurementsBasedOnType($request, 'hot');
@@ -276,6 +287,7 @@ class DataController extends Controller
                 $currentDay = date_format($m->date, 'd');
             }
         }
+
 
         // konverter til objekter af typen DailyMeasurements
         // find frem til værdierne til de forskellige attributter

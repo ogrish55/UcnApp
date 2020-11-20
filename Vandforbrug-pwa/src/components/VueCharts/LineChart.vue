@@ -6,7 +6,7 @@
       <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
         <h6 class="m-0 font-weight-bold text-primary">Vandforbrug</h6>
         <div class="dropdown">
-          <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton"
+          <button class="btn btn-info dropdown-toggle" type="button"
                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Vælg vandtype
           </button>
@@ -17,7 +17,7 @@
           </div>
         </div>
         <div class="dropdown">
-          <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton"
+          <button class="btn btn-info dropdown-toggle" type="button"
                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Vælg måned
           </button>
@@ -39,7 +39,7 @@
   </div>
 </template>
 <script>
-import LineChartJS from './LineChartJS'
+import LineChartJS from '../chartJS/LineChartJS'
 import axios from 'axios'
 
 export default {
@@ -50,10 +50,10 @@ export default {
   data() {
     return {
       isReady: false,
-      isReadyPrMonth: false,
+      showHot: false,
+      showCold: true,
       action: 'all',
       monthReader: null,
-      someBoolean: false,
       monthMeasurements: [],
       monthTimeOfReader: [],
       readerHot: null,
@@ -159,6 +159,8 @@ export default {
           }
         ]
       }
+      this.showHot = true
+      this.showCold = false
     },
     fillWithCold() {
       this.chartData = {
@@ -182,6 +184,8 @@ export default {
           }
         ]
       }
+      this.showCold = true
+      this.showHot = false
     },
     fillWithAll() {
       this.chartData = {
@@ -205,25 +209,44 @@ export default {
         ]
       }
       this.isReady = true
+      this.showCold = false
+      this.showHot = true
     },
     fillPrMonth(chosenMonth) {
       var monthName = chosenMonth.substring(0, chosenMonth.length - 4);
       var year = "20" + chosenMonth.substring(chosenMonth.length - 2, chosenMonth.length);
       this.apiCall(year, monthName); // call for data
-      // fill the graph
-      this.chartData = {
-        labels: this.monthTimeOfReader, // ['13-05-2019', '14-05-2019', '15-05-2019', '16-05-2019', '17-05-2019'], // Time of read
-        datasets: [{
-          label: 'Varmt vand',
-          backgroundColor: '#f87979',
-          borderColor: '#f87979',
-          fill: true,
-          borderWidth: 1,
-          data: this.monthMeasurements
-        }
-        ]
-      }
 
+
+      // fill the graph
+
+      if (this.showHot) {
+        this.chartData = {
+          labels: this.monthTimeOfReader, // ['13-05-2019', '14-05-2019', '15-05-2019', '16-05-2019', '17-05-2019'], // Time of read
+          datasets: [{
+            label: 'Varmt vand',
+            backgroundColor: '#c94040',
+            borderColor: '#f87979',
+            fill: true,
+            borderWidth: 1,
+            data: this.monthMeasurements
+          }
+          ]
+        }
+      } else if (this.showCold) {
+        this.chartData = {
+          labels: this.monthTimeOfReader, // ['13-05-2019', '14-05-2019', '15-05-2019', '16-05-2019', '17-05-2019'], // Time of read
+          datasets: [{
+            label: 'Kolt vand',
+            backgroundColor: '#0a5493',
+            borderColor: '#0a5493',
+            fill: true,
+            borderWidth: 1,
+            data: this.monthMeasurements
+          }
+          ]
+        }
+      }
     },
     getHotDataFromReader() {
       let keys = Object.keys(this.readerHot)
@@ -275,7 +298,7 @@ export default {
         .get(urlForHot)
         .then(response => (this.readerHot = response.data[0]))
         .then(response => (this.getHotDataFromReader()))
-        .then(this.fillWithHot)
+        .then(this.fillWithAll)
     },
     apiCallCold() {
       let urlForCold = 'http://backend.test/api/data/consumption/cold/json'
@@ -286,8 +309,14 @@ export default {
         .then(this.fillWithAll)
     },
     apiCall(year, monthName) {
+      let type
+      if (this.showHot) {
+        type = 'hot'
+      } else if (this.showCold) {
+        type = 'cold'
+      }
       axios
-        .get('http://backend.test/api/data/dailyMeasurements/' + year + "/" + monthName)
+        .get('http://backend.test/api/data/dailyMeasurements/' + year + "/" + monthName + "/" + type)
         .then(response => (this.monthReader = response.data))
         .then(this.getMonthDataFromReader)
     },

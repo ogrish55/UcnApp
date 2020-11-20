@@ -15,8 +15,6 @@
           
           <li v-if="!loggedIn" class="nav-item">
             <router-link :to="{ name: 'login' }" class="nav-link font-weight-bold">Log ind</router-link>
-          </li>
-
           <li v-if="loggedIn" class="nav-item dropdown">
             <a class="nav-link dropdown-toggle font-weight-bold" data-toggle="dropdown" data-target="dropdown_target">
               Hej {{ this.$store.state.user.firstName }}

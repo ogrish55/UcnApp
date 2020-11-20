@@ -1,9 +1,7 @@
 import FrontPage from '../components/FrontPage'
-import Users from '@/components/Users'
-import Pricing from '../components/Pricing'
 import Login from '../components/auth/Login'
 import Logout from '../components/auth/Logout'
-import MonthlyMeasurements from '../components/MonthlyMeasurements'
+import MonthlyMeasurements from '../components/VueCharts/MonthlyMeasurements'
 import Dashboard from '../components/Dashboard'
 import SavingTips from '../components/SavingTips'
 
@@ -14,10 +12,6 @@ const routes = [
     path: '/',
     name: 'FrontPage',
     component: FrontPage
-  },
-  {
-    path: '/users/',
-    component: Users
   },
   {
     path: '/login',
@@ -41,12 +35,6 @@ const routes = [
     name: 'logout',
     component: Logout
   },
-  {
-    path: '/pricing',
-    component: Pricing
-  },
-
-
   {
     path: '/SavingTips',
     name: 'SavingTips',

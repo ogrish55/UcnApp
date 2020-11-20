@@ -31,9 +31,11 @@ Route::middleware('auth:api')->group(function () {
     Route::get('data/currentMonthUsage/{type}', 'App\Http\Controllers\DataController@GetLatestMonth');
     Route::get('data/average/{type}', 'App\Http\Controllers\DataController@GetMonthlyAverage');
     Route::get('data/monthlyUsageInDkk/', 'App\Http\Controllers\DataController@MonthlyUsageInDkk');
-    Route::get('data/dailyMeasurements/{year}/{month}', 'App\Http\Controllers\DataController@GetDailyMeasurements');
+    Route::get('data/dailyMeasurements/{year}/{month}/{type}', 'App\Http\Controllers\DataController@GetDailyMeasurements');
     Route::get('data/dailyMeasurements/all', 'App\Http\Controllers\DataController@GetDailyMeasurementsAll');
-    
+    Route::get('data/useraconto/', 'App\Http\Controllers\DataController@UserAconto');
+    Route::get('data/region/', 'App\Http\Controllers\DataController@UserRegion');
+
 });
 
 Route::post('/login', 'App\Http\Controllers\AuthController@login');

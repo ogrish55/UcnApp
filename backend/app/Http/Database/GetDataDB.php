@@ -22,6 +22,21 @@ class GetDataDB
         return $objectCollection;
     }
 
+    public function GetAconto(Request $request)
+    {
+        $userID = $request->User()->userID;
+
+        $result = DB::select('SELECT aconto from users WHERE userID = ?', [$userID]);
+        $aconto = null;
+
+        foreach($result as $r)
+        {
+            $aconto = $r->aconto;
+        }
+
+        return $aconto;
+    }
+
     /**
      * @param \Illuminate\Http\Request $request
      * @param $type
@@ -39,11 +54,9 @@ class GetDataDB
                         WHERE householdID = (
                             SELECT householdID FROM households
                                 WHERE userID = ?))',
-                                    [$id]);
+                [$id]);
             return $this->ConvertToObjects($result);
-        }
-
-        // if $type is 'hot' or 'cold'
+        } // if $type is 'hot' or 'cold'
         else {
             $result = DB::select('SELECT measurement, value, meterType FROM measurements
                 WHERE meterType = ? AND deviceID IN (
@@ -51,15 +64,20 @@ class GetDataDB
                         WHERE householdID = (
                             SELECT householdID FROM households
                                 WHERE userID = ?))',
-                                    [$type . ' water', $id]);
+                [$type . ' water', $id]);
             return $this->ConvertToObjects($result);
         }
     }
 
     public function GetRegion(Request $request)
     {
-        $region = json_decode(Region::find($request->User()->regionID));  // Eloquent metode bliver brugt her. Find metoden finder et enkelt objekt ud fra PrimaryKey. PrimaryKey findes ud fra den bruger der søger.
-        return $region;
+        return json_decode(Region::find($request->User()->regionID));  // Eloquent metode bliver brugt her. Find metoden finder et enkelt objekt ud fra PrimaryKey. PrimaryKey findes ud fra den bruger der søger.
+    }
+
+    public function GetRegionPrice(Request $request)
+    {
+        $region = Region::find(($request->User()->regionID));
+        return $region->pricePrCubic;
     }
 }
 
