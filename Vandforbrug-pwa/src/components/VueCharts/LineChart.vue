@@ -225,7 +225,7 @@ export default {
           labels: this.monthTimeOfReader, // ['13-05-2019', '14-05-2019', '15-05-2019', '16-05-2019', '17-05-2019'], // Time of read
           datasets: [{
             label: 'Varmt vand',
-            backgroundColor: '#f87979',
+            backgroundColor: '#c94040',
             borderColor: '#f87979',
             fill: true,
             borderWidth: 1,
