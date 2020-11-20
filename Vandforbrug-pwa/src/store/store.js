@@ -39,7 +39,11 @@ export const store = new Vuex.Store({
       state.user.phoneNumber = user.phoneNumber
     },
     clearUserDetails (state) {
-      state.user = null
+      state.user.firstName = "";
+      state.user.lastName = "";
+      state.user.phoneNumber = "";
+      state.user.email = "";
+      state.user.address = "";
     }
   },
   actions: {
