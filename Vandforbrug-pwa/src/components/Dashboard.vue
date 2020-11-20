@@ -122,11 +122,9 @@ export default {
     DailyGrid,
     ConsumptionOverview,
   },
-  data () {
-    return {
-      loading: true
-    }
-  },
+  created () {
+    this.$store.dispatch('retrieveUser')
+  }
 }
 
 </script>

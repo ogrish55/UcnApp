@@ -8,7 +8,7 @@
                     <hr>
                     <p>Grundlæggende oplysninger som f.eks. det navn og email du er registreret med</p>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-6" id="userimg">
                     <img src="@/assets/icons8-male_user.png" class="img-fluid">
                 </div>
             </div>
@@ -92,7 +92,11 @@ import { mapActions, mapGetters } from 'vuex'
 <style lang="scss" scoped>
 
 #info {
-    padding: 25px 25px;
+    padding: 40px 25px;
+}
+
+#userimg {
+    padding: 50px 0px;
 }
 
 label {
