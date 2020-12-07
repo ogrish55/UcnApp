@@ -17,15 +17,15 @@
             <hr>
             
             <!-- Content Row -->
-            <h2 class="text-center display-4 standard-heading">En anden overskrift</h2>
-            <p class="text-center lead second-heading">Brug dropdown menuerne til at indskrænke din søgningg</p>
+            <h2 class="text-center display-4 standard-heading">Få et overblik</h2>
+            <p class="text-center lead second-heading">Brug dropdown menuerne til at indskrænke din søgning</p>
             <div class="row">
               <line-chart></line-chart>
             </div> 
             <hr>
 
             <!-- Content Row -->
-            <h2 class="text-center display-4 standard-heading">En trejde overskrift</h2>
+            <h2 class="text-center display-4 standard-heading">Dyk ned i dit forbrug</h2>
             <div class="row">
               <!-- Content Column -->
               <div class="col-lg-6 mb-4">
