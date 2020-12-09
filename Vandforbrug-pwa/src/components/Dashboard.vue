@@ -25,7 +25,8 @@
             <hr>
 
             <!-- Content Row -->
-            <h2 class="text-center display-4 standard-heading">Dyk ned i dit forbrug</h2>
+            <h2 class="text-center display-4 standard-heading">Din økonomiske oversigt</h2>
+            <p class="text-center lead second-heading">Samlet månedlige forbrug i kroner</p>
             <div class="row">
               <!-- Content Column -->
               <div class="col-lg-6 mb-4">
@@ -38,15 +39,14 @@
                     <bar-chart-in-dkk></bar-chart-in-dkk>
                   </div>
                 </div>
-              </div>
-
-<!--               <hr>-->
-
+                  <hr>
+                <h2 class="text-center display-4 standard-heading">Dyk ned i dit forbrug</h2>
+            </div>
+    
               <div class="col-lg-6 mb-4" id="dailyGrid">
                 <daily-grid></daily-grid>
               </div>
             </div>
-
           </div>
           <!-- /.container-fluid -->
 
