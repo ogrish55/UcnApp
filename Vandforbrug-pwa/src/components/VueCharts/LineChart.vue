@@ -174,7 +174,7 @@ export default {
           fill: true,
           borderWidth: 1,
           borderColor: '#0a5493',
-          pointRadius: 6,
+          pointRadius: 5,
           pointBackgroundColor: '#57bceb',
           data: this.dataCold
         },
