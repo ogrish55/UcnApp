@@ -224,9 +224,12 @@ export default {
       var year = "20" + chosenMonth.substring(chosenMonth.length - 2, chosenMonth.length);
       this.apiCall(year, monthName); // call for data
 
-
+      // console.log(this.monthTimeOfReader);
       // fill the graph
 
+
+    },
+    populateGraph(){
       if (this.showHot) {
         this.chartData = {
           labels: this.monthTimeOfReader, // ['13-05-2019', '14-05-2019', '15-05-2019', '16-05-2019', '17-05-2019'], // Time of read
@@ -302,6 +305,7 @@ export default {
         this.monthTimeOfReader.push("d. " + dateTime.getDate())
         // this.monthTimeOfReader.push(dateString)
       })
+      this.populateGraph();
     },
     apiCallHot() {
       let urlForHot = 'http://backend.test/api/data/consumption/hot/json'
