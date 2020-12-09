@@ -146,6 +146,8 @@ export default {
           fill: true,
           borderWidth: 1,
           borderColor: '#f87979',
+          pointRadius: 6,
+          pointBackgroundColor: '#ffbad8',
           data: this.dataHot
         },
           { // linje med gennemsnit
@@ -155,6 +157,7 @@ export default {
             fill: false,
             borderColor: '#40c940',
             borderWidth: 3,
+            pointRadius: 5,
             pointRadius: 0, // fjerner punkterne
           }
         ]
@@ -171,6 +174,8 @@ export default {
           fill: true,
           borderWidth: 1,
           borderColor: '#0a5493',
+          pointRadius: 6,
+          pointBackgroundColor: '#57bceb',
           data: this.dataCold
         },
           { // linje med gennemsnit
@@ -194,7 +199,8 @@ export default {
           label: 'Koldt vand',
           backgroundColor: '#0a5493',
           fill: false,
-          borderWidth: 1,
+          borderWidth: 2,
+          pointRadius: 5,
           borderColor: '#0a5493',
           data: this.dataCold
         },
@@ -202,8 +208,9 @@ export default {
             label: 'Varmt vand',
             backgroundColor: '#c94040',
             fill: false,
-            borderWidth: 1,
+            borderWidth: 2,
             borderColor: '#c94040',
+            pointRadius: 5,
             data: this.dataHot
           }
         ]
@@ -229,6 +236,8 @@ export default {
             borderColor: '#f87979',
             fill: true,
             borderWidth: 1,
+            pointRadius: 5,
+            pointBackgroundColor: '#ffbad8',
             data: this.monthMeasurements
           }
           ]
@@ -242,6 +251,8 @@ export default {
             borderColor: '#0a5493',
             fill: true,
             borderWidth: 1,
+            pointRadius: 5,
+            pointBackgroundColor: '#57bceb',
             data: this.monthMeasurements
           }
           ]
