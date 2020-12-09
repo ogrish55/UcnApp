@@ -3,19 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Http\Database\DataStore;
-use App\Http\Database\GetDataDB;
-use DateTime;
+use App\Http\Database\iDatabase;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use function MongoDB\BSON\toJSON;
 
 class DataController extends Controller
 {
-    public $GetDataDB;
+    private $GetDataDB;
 
-    public function __construct()
+    public function __construct(iDatabase $database)
     {
-        $this->GetDataDB = new GetDataDB();
+        $this->GetDataDB = $database;
     }
 
     /**
@@ -213,7 +211,7 @@ class DataController extends Controller
         $region = $this->GetDataDB->GetRegion($request);
         $usageInDkkList = [];
 
-        foreach ($hotMeasurements as $h) { 
+        foreach ($hotMeasurements as $h) {
             foreach($coldMeasurements as $c){ // sætter de to arrays sammen ved at sammenligne år og måned og lægge forbruget sammen
                 if(date_format($h->date, 'Y-m') == (date_format($c->date, 'Y-m'))){
                     $usageInDkk = new UsageInDkk();
