@@ -109,7 +109,7 @@ export const store = new Vuex.Store({
         })
     },
     updateUser(context, user) {
-      axios.patch('/updateUser', {
+      axios.patch('/user', {
         firstName: user.firstName,
         lastName: user.lastName,
         email: user.email,
