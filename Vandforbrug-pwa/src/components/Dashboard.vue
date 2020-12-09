@@ -15,13 +15,13 @@
             <!-- Cards row-->
             <Consumption-Overview></Consumption-Overview>
             <hr>
-            
+
             <!-- Content Row -->
             <h2 class="text-center display-4 standard-heading">Få et overblik</h2>
             <p class="text-center lead second-heading">Brug dropdown menuerne til at indskrænke din søgning</p>
             <div class="row">
               <line-chart></line-chart>
-            </div> 
+            </div>
             <hr>
 
             <!-- Content Row -->
@@ -40,9 +40,9 @@
                 </div>
               </div>
 
-              <!-- <hr> -->
-              
-              <div class="col-lg-6 mb-4">
+<!--               <hr>-->
+
+              <div class="col-lg-6 mb-4" id="dailyGrid">
                 <daily-grid></daily-grid>
               </div>
             </div>
@@ -114,4 +114,15 @@ export default {
   font-size: 14px;
 }
 
+.col-lg-6 {
+  min-width: 100%;
+  height: 550px;
+}
+#dailyGrid {
+  min-width: 53%;
+}
+
+.row {
+  justify-content: center;
+}
 </style>
