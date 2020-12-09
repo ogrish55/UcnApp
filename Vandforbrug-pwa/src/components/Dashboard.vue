@@ -39,8 +39,10 @@
                   </div>
                 </div>
               </div>
+
+              <!-- <hr> -->
+              
               <div class="col-lg-6 mb-4">
-                <!-- <h1>Dyk ned i dit forbrug</h1> -->
                 <daily-grid></daily-grid>
               </div>
             </div>

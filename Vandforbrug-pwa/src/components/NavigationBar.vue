@@ -2,11 +2,7 @@
   <div>
   <nav class="navbar navbar-expand-lg navbar-light">
     <router-link class="nav-link" to="/dashboard"><a class="navbar-brand ">Water<img src="@/assets/icons8-water_filled.png" id="logo">Usage</a></router-link>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText"
-            aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarText">
+    <div class="collapse" id="navbarText">
       <ul class="navbar-nav mr-auto">
         
       </ul>
@@ -84,4 +80,13 @@ export default {
 .navbar-brand {
   color: #0269A4;
 }
+
+#navbarText {
+  display: flex !important;
+}
+
+.navbar {
+  justify-content: space-between !important;
+}
+
 </style>
