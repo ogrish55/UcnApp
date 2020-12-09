@@ -8,7 +8,7 @@ use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class GetDataDB
+class GetDataDB implements iDatabase
 {
     private function ConvertToObjects($result)
     {
