@@ -26,7 +26,7 @@
 
             <!-- Content Row -->
             <h2 class="text-center display-4 standard-heading">Din økonomiske oversigt</h2>
-            <p class="text-center lead second-heading">Månedligt forbrug i DKK for begge vandtyper</p>
+            <p class="text-center lead second-heading">Samlet månedlige forbrug i kroner</p>
             <div class="row">
               <!-- Content Column -->
               <div class="col-lg-6 mb-4">
