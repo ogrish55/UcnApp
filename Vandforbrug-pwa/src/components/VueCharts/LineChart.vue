@@ -78,6 +78,8 @@ export default {
         'November',
         'December'
       ],
+      monthName: null,
+      year: null,
       chartData: null,
       options: {
         scales: {
@@ -220,9 +222,9 @@ export default {
       this.showHot = true
     },
     fillPrMonth(chosenMonth) {
-      var monthName = chosenMonth.substring(0, chosenMonth.length - 4);
-      var year = "20" + chosenMonth.substring(chosenMonth.length - 2, chosenMonth.length);
-      this.apiCall(year, monthName); // call for data
+      this.monthName = chosenMonth.substring(0, chosenMonth.length - 4);
+      this.year = "20" + chosenMonth.substring(chosenMonth.length - 2, chosenMonth.length);
+      this.apiCall(this.year, this.monthName); // call for data
 
       // console.log(this.monthTimeOfReader);
       // fill the graph
@@ -234,7 +236,7 @@ export default {
         this.chartData = {
           labels: this.monthTimeOfReader, // ['13-05-2019', '14-05-2019', '15-05-2019', '16-05-2019', '17-05-2019'], // Time of read
           datasets: [{
-            label: 'Varmt vand',
+            label: 'Varmt vand - ' + this.monthName  + " " + this.year,
             backgroundColor: '#c94040',
             borderColor: '#f87979',
             fill: true,
@@ -249,7 +251,7 @@ export default {
         this.chartData = {
           labels: this.monthTimeOfReader, // ['13-05-2019', '14-05-2019', '15-05-2019', '16-05-2019', '17-05-2019'], // Time of read
           datasets: [{
-            label: 'Kolt vand',
+            label: 'Koldt vand - ' + this.monthName  + " " + this.year,
             backgroundColor: '#0a5493',
             borderColor: '#0a5493',
             fill: true,
