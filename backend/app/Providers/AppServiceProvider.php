@@ -26,9 +26,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-//        $this->app->bind(iDatabase::class, GetDataDB::class);  -- If a class needs iDatabase, give GetDataDB.
+    //    $this->app->bind(iDatabase::class, GetDataDB::class);  -- If a class needs iDatabase, give GetDataDB.
         $this->app->when(DataController::class)->needs(iDatabase::class)->give(GetDataDB::class); // When DataController needs iDatabase, give GetDataDB.
         // Above is usefull if you hvae multiple classes using the same interface, but needs a different implementaion. Example could be one class using mongoDB implementaion, and other class
         // Using mySql implementation.
     }
+
 }

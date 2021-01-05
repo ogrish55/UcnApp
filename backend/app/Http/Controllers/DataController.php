@@ -278,7 +278,7 @@ class DataController extends Controller
         return $this->GetDataDB->GetAconto($request);
     }
 
-    public function GetDailyMeasurementsAll(Request $request)
+    public function GetDailyMeasurementsAll(Request $request) // Til DailyGrid - pt kun for varmt vand
     {
         $values = $this->GetDataDB->GetMeasurementsBasedOnType($request, 'hot');
 
