@@ -1,7 +1,6 @@
 <template>
   <div>
     <Login v-if="someBoolean ===! true"></Login>
-    <!--  v-if="someBoolean === false"-->
     <dashboard v-if="someBoolean"></dashboard>
   </div>
 </template>
@@ -20,21 +19,7 @@ export default {
   },
   data() {
     return {
-      msg: 'FRONTPAGE',
-      test: '',
-      number: null,
       someBoolean: false,
-    }
-  },
-  methods: {
-    submit() {
-      if (this.number != null) {
-        console.log(this.number)
-        const userId = this.number
-        this.$router.push({name: 'user', params: {userId}})
-      } else {
-        alert('Hey! Enter a number')
-      }
     }
   },
   created() {
